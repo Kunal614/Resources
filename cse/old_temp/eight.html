@@ -1,0 +1,254 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>CSE Resources</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        /* The Modal (background) */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 0px;
+            height: 0px;
+            overflow: hidden;
+            background-color: transparent;
+        }
+        /* Modal Content */
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 0%;
+        }
+        /* The Close Button */
+        
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="{%static '/css/sb-admin-2.min.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light  bg-white  shadow">
+
+                    <a href="#"><strong>CSE RESOURCES</strong></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/dashboard">Home <span class="sr-only">(current)</span></a>
+                            </li>
+
+
+                        </ul>
+
+
+                    </div>
+                    <div class="topbar-divider d-none d-sm-block"> </div>
+
+
+                </nav>
+
+
+
+
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-success card">Send Query</button></div>
+
+                    </div>
+
+
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal" style=" width: 40%;
+                        height: 100%;
+                        left: 50%;
+                        top: 20%; 
+                        margin-left: -150px;
+                        margin-top: -150px;">
+
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <form method="POST" action="" enctype="multipart/form-data">
+                                {%csrf_token%}
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Name" name="Name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="value">Email</label>
+                                        <input type="number" class="form-control" id="value" placeholder="Value" name="Value">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc">Description</label>
+                                    <input type="text" class="form-control" id="desc" name='description'>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="container-fluid" style="width:200%;">
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-6">
+                            <div class="card border-left-success shadow h-100 py-2" style="width: 40%;">
+                                <div class="card-body shadow">
+                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size: 20px;">
+                                                1st Sem</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="#">Resoruces </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <span><br>
+    <br></span>
+                        <div class="col-xl-3 col-md-6 mb-6">
+                            <div class="card border-left-warning shadow h-100 py-2" style="width: 40%; ">
+                                <div class="card-body shadow">
+                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 20px;">
+                                                2nd Sem</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="#">Resources</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <span>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                        </span>
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-6">
+                            <div class="card border-left-primary shadow h-100 py-2" style="width: 40%;">
+                                <div class="card-body shadow">
+                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size: 20px;">
+                                                Cp In 1st and 2nd Sem</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="#">Resources</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <span><br>
+                                <br></span>
+
+
+                    </div>
+
+
+
+                </div>
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+
+                        </div>
+                    </div>
+                </footer>
+
+
+            </div>
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <script>
+                var modal = document.getElementById("myModal");
+                var btn = document.getElementById("myBtn");
+                var span = document.getElementsByClassName("close")[0];
+                btn.onclick = function() {
+                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                    modal.style.display = "block";
+                }
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            </script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+
+</body>
+
+</html>
