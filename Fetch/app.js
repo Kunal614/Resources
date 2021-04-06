@@ -1,5 +1,13 @@
 require("dotenv").config();
+const redis = require("redis");
+const { promisify } = require("util");
 
+let client = redis.createClient({
+  port: 17051,
+  host: "redis-17051.c257.us-east-1-3.ec2.cloud.redislabs.com",
+  password: "muLLtWnltn4sfwIEZLJJqoQkHv3x4PFL",
+});
+const getAsync = promisify(client.get).bind(client);
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -21,9 +29,19 @@ const drive = google.drive({
   auth: oacth2client,
 });
 
-app.post("/getfiles", async (req, res) => {
+app.get("/getfiles/:id", async (req, res) => {
+  console.log("kunal");
   try {
-    var fileId = req.body.id;
+    var fileId = req.params.id;
+
+    const info = await getAsync(fileId);
+
+    if (info) {
+      res.send(JSON.parse(info));
+      return;
+    }
+
+    console.log("here");
     const response = await drive.files.list({
       includeRemoved: false,
       spaces: "drive",
@@ -55,10 +73,17 @@ app.post("/getfiles", async (req, res) => {
         });
       }
     }
+    client.set(fileId, JSON.stringify(data));
     res.send(data);
   } catch (error) {
     res.send(error.message);
   }
+});
+
+app.post("/updatecache", (req, res) => {
+  var fileId = req.body.id;
+  client.del(fileId);
+  res.send({ success: true });
 });
 
 app.listen("3000", () => {
