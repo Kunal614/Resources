@@ -80,8 +80,8 @@ app.get("/getfiles/:id", async (req, res) => {
   }
 });
 
-app.post("/updatecache", (req, res) => {
-  var fileId = req.body.id;
+app.get("/updatecache/:id", (req, res) => {
+  var fileId = req.params.id;
   client.del(fileId);
   res.send({ success: true });
 });
