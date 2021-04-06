@@ -63,6 +63,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{%static '/css/sb-admin-2.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 </head>
 
@@ -101,6 +103,13 @@
 
 
                 <div class="container-fluid">
+                    {%if msg != ''%}
+                    <script>
+                        console.log("Scx")
+                        var msg = '{{msg}}'
+                        swal(msg);
+                    </script>
+                    {%endif%}
 
                     <!-- Page Heading -->
 
@@ -108,30 +117,32 @@
 
                     <!-- The Modal -->
                     <div id="myModal" class="modal" style=" width: 40%;
-                        height: 100%;
-                        left: 30%;
-                        top: 5%; 
-                        width:350px;
-                        border-radius:30px;
-                        ">
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
 
                         <!-- Modal content -->
                         <div class="modal-content">
                             <span class="close">&times;</span>
                             <form method="POST" action="" enctype="multipart/form-data">
                                 {%csrf_token%}
+
+                                <input type="hidden" value="query" name="type">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Name" name="Name">
+                                        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="value">Email</label>
-                                        <input type="number" class="form-control" id="value" placeholder="Value" name="Value">
+                                        <input type="email" class="form-control" id="value" placeholder="Email" name="email">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="desc">Description</label>
+                                    <label for="desc">Details</label>
                                     <input type="text" class="form-control" id="desc" name='description'>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Send</button>
@@ -142,17 +153,34 @@
 
 
                 </div>
+
                 <div class="container-fluid" style="width:200%;">
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-6">
-                            <h1>Books</h1>
-                            <div class="row">
+                            <h1 class='text-center alert alert-info'>Books</h1>
+                            {% for books in book%} {% for key2 , value2 in books.items%}
+                            <div class="row" style="margin-left: 50px;">
+                                <div class='row'>
 
+                                    {% if key2 == 'downloadUrl'%}
+                                    <a href='{{value2}}'> Download</a>
+
+                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                        <a href='{{value2}}'>View</a></div>
+                                    <div class='col-md-2'> {%else%}
+                                        <img src='{{value2}}' style='width:60px;'>
+                                    </div>
+                                    {%endif%}
+
+
+                                </div>
                             </div>
+                            {%endfor%} <span> <br><br></span> {%endfor%}
                             <div class="row" style="margin-left: 10px;">
 
                                 <form method="POST" enctype="multipart/form-data">
                                     {%csrf_token%}
+                                    <input type="hidden" value="doc" name="type">
                                     <input type='file' name='name'>
                                     <input type="hidden" name='doc' value='books'>
                                     <br>
@@ -165,15 +193,32 @@
 
 
                         <div class="col-xl-3 col-md-6 mb-6">
-                            <h1>Copy Notes</h1>
-                            <div class="row">
+                            <h1 class='text-center alert alert-info'>HandWritten Notes</h1>
+                            {% for books in copy%} {% for key2 , value2 in books.items%}
+                            <div class="row" style="margin-left: 50px;">
+                                <div class='row'>
 
+                                    {% if key2 == 'downloadUrl'%}
+                                    <a href='{{value2}}'> Download</a>
+
+                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                        <a href='{{value2}}'>View</a></div>
+                                    <div class='col-md-2'> {%else%}
+
+                                        <img src='{{value2}}' style='width:60px;'>
+                                    </div>
+                                    {%endif%}
+
+
+                                </div>
                             </div>
+                            {%endfor%} <span> <br><br></span> {%endfor%}
                             <div class="row">
 
                                 <form method="POST" enctype="multipart/form-data">
                                     {%csrf_token%}
                                     <input type='file' name='name'>
+                                    <input type="hidden" value="doc" name="type">
                                     <input type="hidden" name='doc' value='copy'>
                                     <br>
                                     <input type="submit" class="btn btn-success" value="Upload">

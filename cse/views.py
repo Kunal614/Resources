@@ -131,35 +131,71 @@ def eight_sem(request):
 
 
 def ec1(request):
+    msg = ''
     if request.method == 'POST':
+
         res = request.POST
-        file = request.FILES.get('name' , False)
-        print(res , file)
-        file_name = str(file)
-        infile = request.FILES["name"].read()
+        print(res)
+        if res['type'] == 'doc':
+            file = request.FILES.get('name' , False)
+            print(res , file)
+            file_name = str(file)
+            infile = request.FILES["name"].read()
 
-        if res['doc'] == 'books':
-            para = {
-            "name": str(file_name),
-            "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+            if res['doc'] == 'books':
+                para = {
+                "name": str(file_name),
+                "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+                }
+            else: 
+                para = {
+                "name": str(file_name),
+                "parents":["10xG9XWg_HjDZj6g9_LDFAofeES9hjerp"]
+                }   
+            print(type(para))
+            files = {
+                'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
+                'file':infile
             }
-        else: 
-            para = {
-            "name": str(file_name),
-            "parents":["10xG9XWg_HjDZj6g9_LDFAofeES9hjerp"]
-            }   
-        print(type(para))
-        files = {
-            'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
-            'file':infile
-        }
-        print(type(files))
-        r = requests.post(
-            "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-            headers=headers,
-            files=files
-        )
-        print(r.text)
+            print(type(files))
+            r = requests.post(
+                "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+                headers=headers,
+                files=files
+            )
+            print(r.text)
+        else:
+            msg = "Thanks for submitting query"
 
-    return render(request , 'docs.html')
+
+    #book
+    print(msg)
+    Books = ''
+    copies = ''
+    try:
+        book = requests.get('http://73dff6ac112f.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
+    except:
+        Books = 'No data'
+    try:
+        copy = requests.get('http://73dff6ac112f.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
+    except:
+        copies = 'No data'
+    if Books == '' and copies=='':
+        context={
+            'book':book,
+            'copy':copy,
+            'msg':msg
+        }
+    elif Books == '':
+        context={
+            'book':book,
+            'msg':msg
+        }
+    else:
+        context={
+            'copy':copy,
+            'msg':msg
+        }
+
+    return render(request , 'docs.html' , context=context)
 
