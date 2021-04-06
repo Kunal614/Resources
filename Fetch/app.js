@@ -5,7 +5,7 @@ const { promisify } = require("util");
 let client = redis.createClient({
   port: 17051,
   host: "redis-17051.c257.us-east-1-3.ec2.cloud.redislabs.com",
-  password: "muLLtWnltn4sfwIEZLJJqoQkHv3x4PFL",
+  password: process.env.PASS,
 });
 const getAsync = promisify(client.get).bind(client);
 const express = require("express");
@@ -30,7 +30,6 @@ const drive = google.drive({
 });
 
 app.get("/getfiles/:id", async (req, res) => {
-  console.log("kunal");
   try {
     var fileId = req.params.id;
 
