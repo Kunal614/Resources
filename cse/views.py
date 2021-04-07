@@ -170,28 +170,26 @@ def ec1(request):
 
     #book
     print(msg)
-    Books = ''
-    copies = ''
-    try:
-        book = requests.get('http://73dff6ac112f.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
-    except:
-        Books = 'No data'
-    try:
-        copy = requests.get('http://73dff6ac112f.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
-    except:
-        copies = 'No data'
-    if Books == '' and copies=='':
+   
+    
+    book = requests.get('http://ade0db93e517.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
+    
+       
+    copy = requests.get('http://ade0db93e517.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
+    
+    
+    if len(book) > 0 and len(copy)> 0:
         context={
             'book':book,
             'copy':copy,
             'msg':msg
         }
-    elif Books == '':
+    elif len(book) > 0:
         context={
             'book':book,
             'msg':msg
         }
-    else:
+    elif len(copy)>0:
         context={
             'copy':copy,
             'msg':msg
