@@ -1,6 +1,6 @@
 
 from django.urls import path 
-from .views import home ,  first_sem , ec1 , second_sem , third_sem , fourth_sem , fifth_sem , sixth_sem , seventh_sem , eight_sem
+from .views import home ,  first_sem , ec1 , second_sem , third_sem , fourth_sem , fifth_sem , sixth_sem , seventh_sem , eight_sem , Login , Logout
 
 urlpatterns = [
     path('',home , name='home'),
@@ -8,6 +8,8 @@ urlpatterns = [
     # path('second_year' ,second_year , name='second_year' ),
     # path('third_year' ,third_year , name='third_year' ),
     # path('fourth_year' ,fourth_year , name='fourth_year' ),
+    path('login' , Login  , name='login'),
+    path('logout' , Logout , name='logout'),
     path('first_sem' ,first_sem , name='first_sem' ),
     path('second_sem' ,second_sem , name='second_sem' ),
     path('third_sem' ,third_sem , name='third_sem' ),

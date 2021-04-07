@@ -52,6 +52,107 @@
             text-decoration: none;
             cursor: pointer;
         }
+        
+        .close1 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close1:hover,
+        .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        @import url(https://fonts.googleapis.com/css?family=Roboto);
+        /****** LOGIN MODAL ******/
+        
+        .loginmodal-container {
+            padding: 30px;
+            max-width: 350px;
+            width: 100% !important;
+            background-color: #F7F7F7;
+            margin: 0 auto;
+            border-radius: 2px;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            font-family: roboto;
+        }
+        
+        .loginmodal-container h1 {
+            text-align: center;
+            font-size: 1.8em;
+            font-family: roboto;
+        }
+        
+        .loginmodal-container input[type=submit] {
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .loginmodal-container input[type=text],
+        input[type=password] {
+            height: 44px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            -webkit-appearance: none;
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-top: 1px solid #c0c0c0;
+            /* border-radius: 2px; */
+            padding: 0 8px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        
+        .loginmodal-container input[type=text]:hover,
+        input[type=password]:hover {
+            border: 1px solid #b9b9b9;
+            border-top: 1px solid #a0a0a0;
+            -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loginmodal-submit {
+            /* border: 1px solid #3079ed; */
+            border: 0px;
+            color: #fff;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+            background-color: #4d90fe;
+            padding: 17px 0px;
+            font-family: roboto;
+            font-size: 14px;
+            /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
+        }
+        
+        .loginmodal-submit:hover {
+            /* border: 1px solid #2f5bb7; */
+            border: 0px;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+            background-color: #357ae8;
+            /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
+        }
+        
+        .loginmodal-container a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 400;
+            text-align: center;
+            display: inline-block;
+            opacity: 0.6;
+            transition: opacity ease 0.5s;
+        }
+        
+        .login-help {
+            font-size: 12px;
+        }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -64,6 +165,7 @@
     <link href="{%static '/css/sb-admin-2.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
 </head>
@@ -87,8 +189,15 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
-
-
+                            {% if not request.user.is_authenticated%}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#" id="loginbtn">Login <span class="sr-only">(current)</span></a>
+                            </li>
+                            {%endif%} {% if request.user.is_authenticated%}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+                            </li>
+                            {%endif%}
                         </ul>
 
 
@@ -100,7 +209,44 @@
 
 
 
+                <div class="container-fluid">
+                    <!-- The Modal -->
+                    <div id="login" class="modal" style=" width: 40%;
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
 
+                        <!-- Modal content -->
+                        <div class="modal-content" style="background-color: grey;">
+                            <span class="close1">&times;</span>
+                            <form method="POST" action="/login" enctype="multipart/form-data">
+                                {%csrf_token%}
+
+
+                                <div class="loginmodal-container">
+                                    <h1>Login to Your Account</h1><br>
+
+                                    <input type='hidden' name='url' id='url'>
+                                    <input type="text" name="username" placeholder="Username">
+                                    <input type="password" name="pass" placeholder="Password">
+                                    <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+
+
+
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                </div>
 
                 <div class="container-fluid">
                     {%if msg != ''%}
@@ -125,27 +271,29 @@
                     ">
 
                         <!-- Modal content -->
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
+                        <div class="modal-content" style="background-color: grey;">
+                            <span class="close" id='cl'>&times;</span>
                             <form method="POST" action="" enctype="multipart/form-data">
                                 {%csrf_token%}
-
-                                <input type="hidden" value="query" name="type">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                                <div class="loginmodal-container">
+                                    <h1>Submit Query</h1><br>
+                                    <input type="hidden" value="query" name="type">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="value">Email</label>
+                                            <input type="email" class="form-control" id="value" placeholder="Email" name="email">
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="value">Email</label>
-                                        <input type="email" class="form-control" id="value" placeholder="Email" name="email">
+                                    <div class="form-group">
+                                        <label for="desc">Details</label>
+                                        <input type="text" class="form-control" id="desc" name='description'>
                                     </div>
+                                    <button type="submit" class="btn btn-primary">Send</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="desc">Details</label>
-                                    <input type="text" class="form-control" id="desc" name='description'>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Send</button>
                             </form>
                         </div>
 
@@ -157,7 +305,7 @@
                 <div class="container-fluid" style="width:200%;">
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-6">
-                            <h1 class='text-center alert alert-info'>Books</h1>
+                            <h1 style="font-style: italic;font-family:serif;">Books</h1>
                             {% for books in book%} {% for key2 , value2 in books.items%}
                             <div class="row" style="margin-left: 50px;">
                                 <div class='row'>
@@ -175,7 +323,7 @@
 
                                 </div>
                             </div>
-                            {%endfor%} <span> <br><br></span> {%endfor%}
+                            {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
                             <div class="row" style="margin-left: 10px;">
 
                                 <form method="POST" enctype="multipart/form-data">
@@ -184,16 +332,29 @@
                                     <input type='file' name='name'>
                                     <input type="hidden" name='doc' value='books'>
                                     <br>
-                                    <input type="submit" class="btn btn-success" value="upload">
+                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
                                 </form>
                             </div>
-                            <small>Please Only Upload Valuabe Things</small>
+                            <small>Please Only Upload Valuabe Things</small> {%else%}
+                            <div class="row readonly" style="margin-left: 10px;">
 
+                                <form>
+                                    {%csrf_token%}
+
+                                    <input type='file' name='name' disabled>
+
+                                    <br>
+                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                </form>
+
+                            </div>
+                            {%endif%}
                         </div>
 
 
+
                         <div class="col-xl-3 col-md-6 mb-6">
-                            <h1 class='text-center alert alert-info'>HandWritten Notes</h1>
+                            <h1 style="font-style: italic;font-family:serif;">HandWritten Notes</h1>
                             {% for books in copy%} {% for key2 , value2 in books.items%}
                             <div class="row" style="margin-left: 50px;">
                                 <div class='row'>
@@ -207,6 +368,7 @@
 
                                         <img src='{{value2}}' style='width:60px;'>
                                     </div>
+
                                     {%endif%}
 
 
@@ -214,6 +376,7 @@
                             </div>
                             {%endfor%} <span> <br><br></span> {%endfor%}
                             <div class="row">
+                                {%if request.user.is_authenticated%}
 
                                 <form method="POST" enctype="multipart/form-data">
                                     {%csrf_token%}
@@ -221,13 +384,23 @@
                                     <input type="hidden" value="doc" name="type">
                                     <input type="hidden" name='doc' value='copy'>
                                     <br>
-                                    <input type="submit" class="btn btn-success" value="Upload">
+                                    <input type="submit" class="btn btn-success" value="Upload" style="width: 80px;">
                                 </form>
                             </div>
                             <small>Please Only Upload Valuabe Things</small>
 
                         </div>
+                        {%else%}
+                        <div class="row" style="margin-left: 10px;">
 
+                            <form>
+
+                                <input type='file' name='name' disabled>
+                                <br>
+                                <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                            </form>
+                        </div>
+                        {%endif%}
 
 
 
@@ -249,10 +422,6 @@
                         </div>
 
                     </footer>
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
-
-                    </div>
 
 
                 </div>
@@ -260,23 +429,55 @@
                     <i class="fas fa-angle-up"></i>
                 </a>
 
+                <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
+
+                </div>
+
                 <script>
                     var modal = document.getElementById("myModal");
+                    var modal1 = document.getElementById("login");
                     var btn = document.getElementById("myBtn");
+                    var btn1 = document.getElementById("loginbtn");
                     var span = document.getElementsByClassName("close")[0];
+                    var span1 = document.getElementsByClassName("close1")[0];
+                    btn1.onclick = function() {
+                        console.log("cjkdfnjbd")
+                        modal1.style.display = "block";
+                        $('#page-top').css('background-color', 'transparent');
+                    }
                     btn.onclick = function() {
                         console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
                         modal.style.display = "block";
+                        $('#page-top').css('background-color', 'transparent');
                     }
+
                     span.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
                         modal.style.display = "none";
+                        modal1.style.display = "none";
+                        $('#page-top').css('background-color', 'white');
+                    }
+                    span1.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                        modal.style.display = "none";
+                        modal1.style.display = "none";
+                        $('#page-top').css('background-color', 'white');
                     }
                     window.onclick = function(event) {
                         if (event.target == modal) {
                             modal.style.display = "none";
+                            modal1.style.display = "none";
+                            $('#page-top').css('background-color', 'white');
                         }
                     }
                 </script>
+                <script>
+                    console.log(window.location.href, "dscxc dddc");
+                    var y = window.location.href;
+                    document.getElementById("url").value = y;
+                </script>
+
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
