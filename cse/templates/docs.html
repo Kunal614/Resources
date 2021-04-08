@@ -153,6 +153,23 @@
         .login-help {
             font-size: 12px;
         }
+        
+        .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+        
+        #shw:hover .tooltiptext {
+            visibility: visible;
+        }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -336,15 +353,16 @@
                                 </form>
                             </div>
                             <small>Please Only Upload Valuabe Things</small> {%else%}
-                            <div class="row readonly" style="margin-left: 10px;">
+                            <div class="row" style="margin-left: 10px;">
 
-                                <form>
+                                <form id="shw">
                                     {%csrf_token%}
 
                                     <input type='file' name='name' disabled>
 
                                     <br>
                                     <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                    <span class="tooltiptext">Log In First</span>
                                 </form>
 
                             </div>
@@ -393,11 +411,12 @@
                         {%else%}
                         <div class="row" style="margin-left: 10px;">
 
-                            <form>
+                            <form id='shw'>
 
                                 <input type='file' name='name' disabled>
                                 <br>
                                 <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                <span class="tooltiptext">Log In First</span>
                             </form>
                         </div>
                         {%endif%}
@@ -433,40 +452,48 @@
                     <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
 
                 </div>
-
                 <script>
                     var modal = document.getElementById("myModal");
-                    var modal1 = document.getElementById("login");
                     var btn = document.getElementById("myBtn");
-                    var btn1 = document.getElementById("loginbtn");
                     var span = document.getElementsByClassName("close")[0];
+                    btn.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                        modal.style.display = "block";
+
+                    }
+
+                    span.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                        modal.style.display = "none";
+                    }
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+
+                        }
+                    }
+                </script>
+                <script>
+                    var modal1 = document.getElementById("login");
+
+                    var btn1 = document.getElementById("loginbtn");
+
                     var span1 = document.getElementsByClassName("close1")[0];
                     btn1.onclick = function() {
                         console.log("cjkdfnjbd")
                         modal1.style.display = "block";
                         $('#page-top').css('background-color', 'transparent');
                     }
-                    btn.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                        modal.style.display = "block";
-                        $('#page-top').css('background-color', 'transparent');
-                    }
 
-                    span.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                        modal.style.display = "none";
-                        modal1.style.display = "none";
-                        $('#page-top').css('background-color', 'white');
-                    }
                     span1.onclick = function() {
                         console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                        modal.style.display = "none";
+
                         modal1.style.display = "none";
                         $('#page-top').css('background-color', 'white');
                     }
                     window.onclick = function(event) {
                         if (event.target == modal) {
-                            modal.style.display = "none";
+
                             modal1.style.display = "none";
                             $('#page-top').css('background-color', 'white');
                         }
@@ -475,7 +502,9 @@
                 <script>
                     console.log(window.location.href, "dscxc dddc");
                     var y = window.location.href;
-                    document.getElementById("url").value = y;
+                    console.log(y.split('/'));
+                    y = y.split('/')
+                    document.getElementById("url").value = y[3];
                 </script>
 
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>

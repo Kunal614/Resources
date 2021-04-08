@@ -23,7 +23,7 @@ def home(request):
             sem1 = 'first_sem'
             sem2 = 'second_sem'
             context ={
-                'name':'First',
+                'name':'first',
                 'msg':msg,
                 'sem':sem,
                 'sem1':sem1,
@@ -35,7 +35,7 @@ def home(request):
             sem1 = 'third_sem'
             sem2 = 'fourth_sem'
             context ={
-                'name':'Second',
+                'name':'second',
                 'msg':msg,
                 'sem':sem,
                 'sem1':sem1,
@@ -47,7 +47,7 @@ def home(request):
             sem1 = 'fifth_sem'
             sem2 = 'sixth_sem'
             context ={
-                'name':'Third',
+                'name':'third',
                 'msg':msg,
                 'sem':sem,
                 'sem1':sem1,
@@ -59,7 +59,7 @@ def home(request):
             sem2 = 'eight_sem'
             sem = ['7th' , '8th']
             context ={
-                'name':'Fourth',
+                'name':'fourth',
                 'msg':msg,
                 'sem':sem,
                 'sem1':sem1,
@@ -176,30 +176,30 @@ def ec1(request):
     print(msg)
    
     
-    # book = requests.get('http://ade0db93e517.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
+    book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
     
        
-    # copy = requests.get('http://ade0db93e517.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
+    copy = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
     
     
-    # if len(book) > 0 and len(copy)> 0:
-    #     context={
-    #         'book':book,
-    #         'copy':copy,
-    #         'msg':msg
-    #     }
-    # elif len(book) > 0:
-    #     context={
-    #         'book':book,
-    #         'msg':msg
-    #     }
-    # elif len(copy)>0:
-    #     context={
-    #         'copy':copy,
-    #         'msg':msg
-    #     }
+    if len(book) > 0 and len(copy)> 0:
+        context={
+            'book':book,
+            'copy':copy,
+            'msg':msg
+        }
+    elif len(book) > 0:
+        context={
+            'book':book,
+            'msg':msg
+        }
+    elif len(copy)>0:
+        context={
+            'copy':copy,
+            'msg':msg
+        }
 
-    return render(request , 'docs.html' , {'msg':msg})
+    return render(request , 'docs.html' , context=context)
 
 def Login(request):
     if request.method == 'POST':
@@ -213,8 +213,8 @@ def Login(request):
             login(request , user)   
         print(request.path_info) 
         send = res['url']
-        send = '/'+send
-        return HttpResponseRedirect(send)
+        send = '/'+send.split('?')[0]
+        return HttpResponseRedirect(send+"?res=fail")
 
 def Logout(request):
     logout(request)
