@@ -214,7 +214,10 @@ def Login(request):
         print(request.path_info) 
         send = res['url']
         send = '/'+send.split('?')[0]
-        return HttpResponseRedirect(send+"?res=fail")
+        if user == None:
+            return HttpResponseRedirect(send+"?res=0")
+        else: 
+            return HttpResponseRedirect(send+"?res=1")
 
 def Logout(request):
     logout(request)

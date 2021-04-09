@@ -173,6 +173,10 @@
         .login-help {
             font-size: 12px;
         }
+        
+        #loginbtn:hover {
+            cursor: pointer;
+        }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -197,7 +201,7 @@
             <div id="content">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light  bg-white  shadow">
 
-                    <a href="#"><strong>CSE RESOURCES</strong></a>
+                    <a href="/"><strong>CSE RESOURCES</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -207,8 +211,8 @@
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
                             {% if not request.user.is_authenticated%}
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#" id="loginbtn">Login <span class="sr-only">(current)</span></a>
+                            <li class="nav-item active" style="margin-top: 10px;">
+                                <p class="nav-link" id="loginbtn">Login <span class="sr-only">(current)</span></p>
                             </li>
                             {%endif%} {% if request.user.is_authenticated%}
                             <li class="nav-item active">
@@ -221,7 +225,11 @@
 
 
                     </div>
-                    <div class="topbar-divider d-none d-sm-block"> </div>
+                    <div class="topbar-divider d-none d-sm-block">
+                        {% if request.user.is_authenticated%}
+                        <p>{{request.user.username}}</p>
+                        {%endif%}
+                    </div>
 
 
                 </nav>
@@ -554,26 +562,32 @@
                     console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
 
                     modal1.style.display = "none";
-                    $('#page-top').css('background-color', 'white');
+
                 }
                 window.onclick = function(event) {
                     if (event.target == modal) {
 
                         modal1.style.display = "none";
-                        $('#page-top').css('background-color', 'white');
+
                     }
                 }
             </script>
             <script>
                 console.log(window.location.href, "dscxc dddc");
-                var y = window.location.href;
-                console.log(y.split('/'));
-                y = y.split('/')
+                var ur = window.location.href;
+                console.log(ur.split('/'));
+                y = ur.split('/')
                 document.getElementById("url").value = y[3];
                 const urlParams = new URLSearchParams(window.location.search);
                 const myParam = urlParams.get('res');
                 console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
-                swal(myParam)
+                if (myParam == '1') {
+                    swal('You are Logged in');
+                    history.pushState({}, null, ur.split('?')[0]);
+                } else if (myParam == '0') {
+                    swal('Wrong Id Or Password');
+                    history.pushState({}, null, ur.split('?')[0]);
+                }
             </script>
 
             <script>
