@@ -5,7 +5,7 @@ import requests
 from django.contrib.auth.models import User 
 from django.contrib.auth import login , authenticate , logout
 from django.http import HttpResponseRedirect
-
+from .models import *
 
 headers = {"Authorization": "Bearer ya29.a0AfH6SMDocF56q1ihTzPj98e2gezJ8Gp0pS1CrxkgQGMv6ZJlq7gd9_ypLYutSOvnhuRp7A3eXfDhCtOZFbsC0QwOW1myw2PJdsGa6UhZ5RR-1ONxGCCSQBASuqVX5kIxOsKRh-ZsOalcg4pPNGFUGnTjbcy7"}
 def home(request):
@@ -176,30 +176,30 @@ def ec1(request):
     print(msg)
    
     
-    book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
+    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
     
        
-    copy = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
+    # copy = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
     
     
-    if len(book) > 0 and len(copy)> 0:
-        context={
-            'book':book,
-            'copy':copy,
-            'msg':msg
-        }
-    elif len(book) > 0:
-        context={
-            'book':book,
-            'msg':msg
-        }
-    elif len(copy)>0:
-        context={
-            'copy':copy,
-            'msg':msg
-        }
+    # if len(book) > 0 and len(copy)> 0:
+    #     context={
+    #         'book':book,
+    #         'copy':copy,
+    #         'msg':msg
+    #     }
+    # elif len(book) > 0:
+    #     context={
+    #         'book':book,
+    #         'msg':msg
+    #     }
+    # elif len(copy)>0:
+    #     context={
+    #         'copy':copy,
+    #         'msg':msg
+    #     }
 
-    return render(request , 'docs.html' , context=context)
+    return render(request , 'docs.html')
 
 def Login(request):
     if request.method == 'POST':
@@ -222,3 +222,41 @@ def Login(request):
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+
+def cP(request):
+    msg= ''
+    if request.method == 'POST':
+
+        res = request.POST
+        if res['type'] == 'data':
+            obj = cp(title=res['title'] , data=res['data'] , question=res['question'])
+            obj.save()
+        else:
+            msg = 'Thanks For submitting Query'
+    obj = cp.objects.all()
+    title = []
+    data = []
+    question = []
+    for objects in obj:
+        title.append(objects.title)
+        data.append(objects.data.split(','))
+        question.append(objects.question.split(','))
+    
+    return render(request , 'cp.html' , {'alldata':zip(title , data , question , obj) , 'msg':msg})
+
+
+def edit(request , id):
+    obj = cp.objects.get(id=id)
+    if request.method == 'POST':
+        res = request.POST
+        
+        obj.title = res['title']
+        obj.data=res['data']
+        obj.question=res['question']
+        obj.save()
+        return HttpResponseRedirect('/cp')
+    
+    return render(request , 'edit_cp.html' , {'obj':obj})
+    

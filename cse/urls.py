@@ -1,7 +1,7 @@
 
 from django.urls import path 
-from .views import home ,  first_sem , ec1 , second_sem , third_sem , fourth_sem , fifth_sem , sixth_sem , seventh_sem , eight_sem , Login , Logout
-
+# from .views import home ,  first_sem , ec1 , second_sem , third_sem , fourth_sem , fifth_sem , sixth_sem , seventh_sem , eight_sem , Login , Logout , cP
+from .views import *
 urlpatterns = [
     path('',home , name='home'),
     # path('first_year' ,first_year , name='first_year' ),
@@ -19,4 +19,6 @@ urlpatterns = [
     path('seventh_sem' ,seventh_sem , name='seventh_sem' ),
     path('eight_sem' ,eight_sem , name='eight_sem' ),
     path('ec1' ,ec1 , name='ec1' ),
+    path('cp' ,cP, name='cp' ),
+    path('edit/<int:id>' ,edit, name='edit' ),
 ]
