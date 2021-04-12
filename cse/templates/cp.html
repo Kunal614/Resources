@@ -440,14 +440,6 @@
                         </div>
 
 
-
-
-
-
-
-
-
-
                     </div>
 
 
@@ -475,7 +467,7 @@
                 <div>
                     <p id="cpdata">More in Cp <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
                 </div>
-                <div class="main-content bg-dark shadow" id="datas" style="display: none;">
+                <div class="main-content" id="datas" style="display: none;">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
 
@@ -512,15 +504,15 @@
                                                     {%endif%}
                                                 </tr>
                                             </thead>
-                                            <tbody id="tabletoshow" style="color: black;">
+                                            <tbody id="tabletoshow">
                                                 {%for title , data , question , obj in alldata%}
-                                                <tr class="tr-shadow">
+                                                <tr class="tr-shadow bg-dark shadow">
 
-                                                    <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></td>
-                                                    <td>{{title}}</td>
+                                                    <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
+                                                    <td style="color: white;">{{title}}</td>
 
-                                                    <td class="desc"> {%for val in data%}<a href='{{val}}'>Link{{forloop.counter }}</a> {%endfor%}</td>
-                                                    <td class="desc">{%for val in question%}<a href='{{val}}'>Ques{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;">Link{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;"> Ques{{forloop.counter }}</a> {%endfor%}</td>
                                                     <!-- <td class="desc">{{ camp.shorturl }}</td> -->
 
 
@@ -528,12 +520,14 @@
 
                                                     {% if request.user.is_authenticated%}
                                                     <td>
-                                                        <a href='edit/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></a>
+                                                        <a href='edit/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
                                                     </td>
                                                     {%endif%}
 
                                                 </tr>
-                                                <tr class="spacer"></tr>
+
+                                                <tr class="spacer shadow"></tr>
+
                                                 {%endfor%}
 
                                             </tbody>
