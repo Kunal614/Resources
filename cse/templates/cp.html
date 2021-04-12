@@ -185,8 +185,17 @@
             visibility: visible;
         }
         
-        #loginbtn:hover {
+        #loginbtn:hover,
+        #cpdata:hover {
             cursor: pointer;
+        }
+        
+        #cpdata {
+            color: #111;
+            margin-left: 20px;
+            font-style: italic;
+            font-family: serif;
+            font-weight: bold;
         }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -205,7 +214,7 @@
 
 </head>
 
-<body id="page-top" class="bg-dark  shadow">
+<body id="page-top">
     <!-- #2B2D30 -->
     <div id="wrapper">
 
@@ -463,8 +472,10 @@
                     {%endif%}
 
                 </div>
-
-                <div class="main-content bg-dark shadow">
+                <div>
+                    <p id="cpdata">More in Cp <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
+                </div>
+                <div class="main-content bg-dark shadow" id="datas" style="display: none;">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
 
@@ -550,6 +561,22 @@
 
                 </div>
                 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        var flag = 0;
+                        $('#cpdata').click(function() {
+                            if (flag == 0) {
+                                $('#datas').slideDown("slow");
+                                flag = 1;
+                            } else {
+                                $('#datas').slideUp("slow");
+                                flag = 0;
+                            }
+
+
+                        });
+                    });
+                </script>
                 <script>
                     var modal = document.getElementById("myModal");
                     var btn = document.getElementById("myBtn");
