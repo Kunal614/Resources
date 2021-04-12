@@ -228,11 +228,30 @@ def Logout(request):
 def cP(request):
     msg= ''
     if request.method == 'POST':
-
         res = request.POST
         if res['type'] == 'data':
             obj = cp(title=res['title'] , data=res['data'] , question=res['question'])
             obj.save()
+        elif res['type'] == 'doc':
+            file = request.FILES.get('name' , False)
+            print(res , file)
+            file_name = str(file)
+            infile = request.FILES["name"].read()
+            para = {
+            "name": str(file_name),
+            "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+            }
+            files = {
+                'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
+                'file':infile
+            }
+            print(type(files))
+            r = requests.post(
+                "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+                headers=headers,
+                files=files
+            )
+            print(r.text)
         else:
             msg = 'Thanks For submitting Query'
     obj = cp.objects.all()
@@ -244,6 +263,14 @@ def cP(request):
         data.append(objects.data.split(','))
         question.append(objects.question.split(','))
     
+    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
+    # if len(book) > 0:
+    #    context={
+    # #         'book':book,
+    # #         'msg':msg,
+    #           'alldata':zip(title , data , question , obj),
+    # #     }
+
     return render(request , 'cp.html' , {'alldata':zip(title , data , question , obj) , 'msg':msg})
 
 
@@ -260,3 +287,39 @@ def edit(request , id):
     
     return render(request , 'edit_cp.html' , {'obj':obj})
     
+
+
+def dev(request):
+    msg =''
+    if request.method == 'POST':
+        res= request.POST
+        if res['type'] == 'doc':
+            file = request.FILES.get('name' , False)
+            print(res , file)
+            file_name = str(file)
+            infile = request.FILES["name"].read()
+            para = {
+            "name": str(file_name),
+            "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+            }
+            files = {
+                'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
+                'file':infile
+            }
+            print(type(files))
+            r = requests.post(
+                "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+                headers=headers,
+                files=files
+            )
+            print(r.text)
+        else:
+            msg='Thanks for Submitting Query'
+    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1si7zP4RQa5Lhy0JbEZkgP6ubjGOTrRlK').json()
+    # if len(book) > 0:
+    #    context={
+    # #         'book':book,
+    # #         'msg':msg
+    # #     }
+
+    return render(request , 'dev.html' , {'msg':msg})

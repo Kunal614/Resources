@@ -205,7 +205,7 @@
 
 </head>
 
-<body id="page-top" style="background-color: #2B2D30;">
+<body id="page-top" class="bg-dark  shadow">
     <!-- #2B2D30 -->
     <div id="wrapper">
 
@@ -213,7 +213,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <div id="content">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark  bg-dark  shadow">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
 
                     <a href="/"><strong>CSE RESOURCES</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -233,6 +233,16 @@
                                 <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
                             </li>
                             {%endif%}
+                            <li>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Resources
+                                  </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/cp">CP</a>
+                                    <a class="dropdown-item" href="/dev">DEV</a>
+
+                                </div>
+                            </li>
                         </ul>
 
 
@@ -412,7 +422,7 @@
                                     {%csrf_token%}
                                     <input type="hidden" value="doc" name="type">
                                     <input type='file' name='name'>
-                                    <input type="hidden" name='doc' value='books'>
+
                                     <br>
                                     <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
                                 </form>
@@ -454,7 +464,7 @@
 
                 </div>
 
-                <div class="main-content" style="background-color: #2B2D30;">
+                <div class="main-content bg-dark shadow">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
 
@@ -478,7 +488,7 @@
                                     <div class="table-responsive table-responsive-data2">
                                         <table class="table table-data2">
                                             <thead>
-                                                <tr>
+                                                <tr style="color: black;">
 
 
                                                     <th></th>
@@ -491,7 +501,7 @@
                                                     {%endif%}
                                                 </tr>
                                             </thead>
-                                            <tbody id="tabletoshow">
+                                            <tbody id="tabletoshow" style="color: black;">
                                                 {%for title , data , question , obj in alldata%}
                                                 <tr class="tr-shadow">
 

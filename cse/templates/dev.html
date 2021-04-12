@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{name|title}} Year</title>
+    <title>CSE Resources</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -62,6 +62,20 @@
         
         .close1:hover,
         .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .close2 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close2:hover,
+        .close2:focus {
             color: #000;
             text-decoration: none;
             cursor: pointer;
@@ -154,6 +168,23 @@
             font-size: 12px;
         }
         
+        .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+        
+        #shw:hover .tooltiptext {
+            visibility: visible;
+        }
+        
         #loginbtn:hover {
             cursor: pointer;
         }
@@ -161,25 +192,28 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{%static '/css/sb-admin-2.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
 
 </head>
 
 <body id="page-top">
-
+    <!-- #2B2D30 -->
     <div id="wrapper">
 
 
         <div id="content-wrapper" class="d-flex flex-column">
 
             <div id="content">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light  bg-white  shadow">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
 
                     <a href="/"><strong>CSE RESOURCES</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -209,19 +243,17 @@
 
                                 </div>
                             </li>
-
                         </ul>
 
 
                     </div>
-                    <div class="topbar-divider d-none d-sm-block"> </div>
-                    {% if request.user.is_authenticated%}
-                    <p>{{request.user.username}}</p>
-                    {%endif%}
+                    <div class="topbar-divider d-none d-sm-block">
+                        {% if request.user.is_authenticated%}
+                        <p>{{request.user.username}}</p>
+                        {%endif%} </div>
+
 
                 </nav>
-
-
 
 
 
@@ -294,7 +326,6 @@
                                 <div class="loginmodal-container">
                                     <h1>Submit Query</h1><br>
                                     <input type="hidden" value="query" name="type">
-                                    <input type="hidden" value="{{name}}" name="year">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="name">Name</label>
@@ -319,137 +350,150 @@
 
                 </div>
 
-
-
-
                 <div class="container-fluid" style="width:200%;">
                     <div class="row">
-                        {%for semester in sem%}
-                        <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-danger shadow h-100 py-2" style="width: 40%;">
-                                <div class="card-body shadow">
-                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 20px;">
-                                                {{semester}} Sem</div>
-                                            {% if forloop.counter == 1%}
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="/{{sem1}}">Resoruces </a></div>
-                                            {%else%}
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="/{{sem2}}">Resoruces </a></div>
-                                            {%endif%}
+                        <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
+                            <h1 style="font-style: italic;font-family:serif; ">Books</h1>
+                            {% for books in book%} {% for key2 , value2 in books.items%}
+                            <div class="row" style="margin-left: 50px;">
+                                <div class='row'>
 
-                                        </div>
+                                    {% if key2 == 'downloadUrl'%}
+                                    <a href='{{value2}}'> Download</a>
+
+                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                        <a href='{{value2}}'>View</a></div>
+                                    <div class='col-md-2'> {%else%}
+                                        <img src='{{value2}}' style='width:60px;'>
                                     </div>
+                                    {%endif%}
+
+
                                 </div>
                             </div>
+                            {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+                            <div class="row" style="margin-left: 10px;">
 
+                                <form method="POST" enctype="multipart/form-data">
+                                    {%csrf_token%}
+                                    <input type="hidden" value="doc" name="type">
+                                    <input type='file' name='name'>
+                                    <input type="hidden" name='doc' value='books'>
+                                    <br>
+                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
+                                </form>
+                            </div>
+                            <small>Please Only Upload Valuabe Things</small> {%endif%}
                         </div>
-                        <span><br>
-    <br></span> {%endfor%}
-                        <!-- <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-warning shadow h-100 py-2" style="width: 40%; ">
-                                <div class="card-body shadow">
-                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 20px;">
-                                                2nd Sem</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="#">Resources</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                        </div> -->
+
+
+
+
+
+
+
+
 
                     </div>
+
+
+
+
+
+                    <!-- Footer -->
+
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+
+                            </div>
+                        </div>
+
+                    </footer>
+
+
                 </div>
 
-                <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
 
-                        </div>
-                    </div>
 
-                </footer>
+
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fas fa-angle-up"></i>
+                </a>
+
                 <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
                     <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
 
                 </div>
-
-
-            </div>
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fas fa-angle-up"></i>
-            </a>
-
-            <script>
-                var modal = document.getElementById("myModal");
-                var btn = document.getElementById("myBtn");
-                var span = document.getElementsByClassName("close")[0];
-                btn.onclick = function() {
-                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                    modal.style.display = "block";
-
-                }
-
-                span.onclick = function() {
-                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                    modal.style.display = "none";
-                }
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
+                <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+                <script>
+                    var modal = document.getElementById("myModal");
+                    var btn = document.getElementById("myBtn");
+                    var span = document.getElementsByClassName("close")[0];
+                    btn.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555", modal)
+                        modal.style.display = "block";
 
                     }
-                }
-            </script>
-            <script>
-                var modal1 = document.getElementById("login");
 
-                var btn1 = document.getElementById("loginbtn");
+                    span.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                        modal.style.display = "none";
+                    }
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
 
-                var span1 = document.getElementsByClassName("close1")[0];
-                btn1.onclick = function() {
-                    console.log("cjkdfnjbd")
-                    modal1.style.display = "block";
-                    $('#page-top').css('background-color', 'transparent');
-                }
+                        }
+                    }
+                </script>
 
-                span1.onclick = function() {
-                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                <script>
+                    var modal1 = document.getElementById("login");
 
-                    modal1.style.display = "none";
-                    $('#page-top').css('background-color', 'white');
-                }
-                window.onclick = function(event) {
-                    if (event.target == modal) {
+                    var btn1 = document.getElementById("loginbtn");
+
+                    var span1 = document.getElementsByClassName("close1")[0];
+                    btn1.onclick = function() {
+                        console.log("cjkdfnjbd")
+                        modal1.style.display = "block";
+
+                    }
+
+                    span1.onclick = function() {
+                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
 
                         modal1.style.display = "none";
-                        $('#page-top').css('background-color', 'white');
-                    }
-                }
-            </script>
-            <script>
-                console.log(window.location.href, "dscxc dddc");
-                var ur = window.location.href;
-                console.log(ur.split('/'));
-                y = ur.split('/')
-                document.getElementById("url").value = y[3];
-                const urlParams = new URLSearchParams(window.location.search);
-                const myParam = urlParams.get('res');
-                console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
-                if (myParam == '1') {
-                    swal('You are Logged in');
-                    history.pushState({}, null, ur.split('?')[0]);
-                } else if (myParam == '0') {
-                    swal('Wrong Id Or Password');
-                    history.pushState({}, null, ur.split('?')[0]);
-                }
-            </script>
 
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+                    }
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+
+                            modal1.style.display = "none";
+
+                        }
+                    }
+                </script>
+                <script>
+                    console.log(window.location.href, "dscxc dddc");
+                    var ur = window.location.href;
+                    console.log(ur.split('/'));
+                    y = ur.split('/')
+                    document.getElementById("url").value = y[3];
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const myParam = urlParams.get('res');
+                    console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
+                    if (myParam == '1') {
+                        swal('You are Logged in');
+                        history.pushState({}, null, ur.split('?')[0]);
+                    } else if (myParam == '0') {
+                        swal('Wrong Id Or Password');
+                        history.pushState({}, null, ur.split('?')[0]);
+                    }
+                </script>
+
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
 
