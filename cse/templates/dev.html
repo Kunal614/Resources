@@ -185,8 +185,17 @@
             visibility: visible;
         }
         
-        #loginbtn:hover {
+        #loginbtn:hover,
+        #devdata:hover {
             cursor: pointer;
+        }
+        
+        #devdata {
+            color: #111;
+            margin-left: 20px;
+            font-style: italic;
+            font-family: serif;
+            font-weight: bold;
         }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -255,7 +264,51 @@
 
                 </nav>
 
+                <div class="container-fluid">
+                    <!-- The Modal -->
+                    <div id="cp" class="modal" style=" width: 40%;
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
 
+                        <!-- Modal content -->
+                        <div class="modal-content" style="background-color: grey;">
+                            <span class="close2">&times;</span>
+                            <form method="POST" action="">
+                                {%csrf_token%}
+
+                                <div class="loginmodal-container">
+                                    <h1>Upload Data</h1><br>
+                                    <input type='hidden' name='type' id='data' value='data'>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="title">Topic</label>
+                                            <input type="text" name="topic" placeholder="Topic Name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="data">Session</label>
+                                            <input type="text" name="session" placeholder="link">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="resource">Resource</label>
+                                        <input type="text" name="resource" placeholder="link1,link2,link3">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                </div>
 
                 <div class="container-fluid">
                     <!-- The Modal -->
@@ -378,7 +431,7 @@
                                     {%csrf_token%}
                                     <input type="hidden" value="doc" name="type">
                                     <input type='file' name='name'>
-                                    <input type="hidden" name='doc' value='books'>
+
                                     <br>
                                     <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
                                 </form>
@@ -413,7 +466,98 @@
                     </footer>
 
 
+
+                    {% if request.user.is_authenticated%}
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
+
+                    </div>
+                    {%endif%}
+
                 </div>
+                <div>
+                    <p id="devdata">More in Dev <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
+                </div>
+                <div class="main-content" id="datas" style="display: none;">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- DATA TABLE -->
+
+
+                                    <div class="table-data__tool">
+                                        <div class="table-data__tool-left">
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="table-responsive table-responsive-data2">
+                                        <table class="table table-data2">
+                                            <thead>
+                                                <tr style="color: black;">
+
+
+                                                    <th></th>
+                                                    <th>Topic</th>
+
+                                                    <th>Session</th>
+                                                    <th>Resources</th>
+                                                    {% if request.user.is_authenticated%}
+                                                    <th>Edit</th>
+                                                    {%endif%}
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tabletoshow">
+                                                {%for res , obj in alldata%}
+                                                <tr class="tr-shadow bg-dark shadow" style="height:50px ;">
+
+                                                    <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
+                                                    <td style="color: white; "><strong>{{obj.topic|title}}</strong></td>
+
+                                                    <td class="desc"> <a href='{{obj.session}}' style="color: white;" class="btn btn-primary">Session</a> </td>
+
+                                                    <td class="desc">{%for val in res%}<a href='{{val}}' style="color: white;" class="btn btn-secondary"> Res{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <!-- <td class="desc">{{ camp.shorturl }}</td> -->
+
+
+                                                    <!-- <td>$679.00</td> -->
+
+                                                    {% if request.user.is_authenticated%}
+                                                    <td>
+                                                        <a href='edit_dev/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
+                                                    </td>
+                                                    {%endif%}
+
+                                                </tr>
+
+                                                <tr class="spacer shadow"></tr>
+
+                                                {%endfor%}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- END DATA TABLE -->
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
 
 
 
@@ -428,6 +572,22 @@
                 </div>
                 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
                 <script>
+                    $(document).ready(function() {
+                        var flag = 0;
+                        $('#devdata').click(function() {
+                            if (flag == 0) {
+                                $('#datas').slideDown("slow");
+                                flag = 1;
+                            } else {
+                                $('#datas').slideUp("slow");
+                                flag = 0;
+                            }
+
+
+                        });
+                    });
+                </script>
+                <script>
                     var modal = document.getElementById("myModal");
                     var btn = document.getElementById("myBtn");
                     var span = document.getElementsByClassName("close")[0];
@@ -440,6 +600,27 @@
                     span.onclick = function() {
                         console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
                         modal.style.display = "none";
+                    }
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+
+                        }
+                    }
+                </script>
+                <script>
+                    var modal2 = document.getElementById("cp");
+                    var btn2 = document.getElementById("myBtn2");
+                    var span2 = document.getElementsByClassName("close2")[0];
+                    btn2.onclick = function() {
+                        console.log("cp send")
+                        modal2.style.display = "block";
+
+                    }
+
+                    span2.onclick = function() {
+                        console.log("cp hide")
+                        modal2.style.display = "none";
                     }
                     window.onclick = function(event) {
                         if (event.target == modal) {

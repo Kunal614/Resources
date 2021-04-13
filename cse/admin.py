@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(display)
 admin.site.register(details)
 admin.site.register(cp)
+admin.site.register(dev)

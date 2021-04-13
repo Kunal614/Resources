@@ -506,13 +506,14 @@
                                             </thead>
                                             <tbody id="tabletoshow">
                                                 {%for title , data , question , obj in alldata%}
-                                                <tr class="tr-shadow bg-dark shadow">
+                                                <tr class="tr-shadow bg-dark shadow" style="height:50px ;">
 
                                                     <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
-                                                    <td style="color: white;">{{title}}</td>
+                                                    <td style="color: white; "><strong>{{title|title}}</strong></td>
 
-                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;">Link{{forloop.counter }}</a> {%endfor%}</td>
-                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;"> Ques{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;" class="btn btn-warning">Link{{forloop.counter }}</a> {%endfor%}</td>
+
+                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;" class="btn btn-primary"> Ques{{forloop.counter }}</a> {%endfor%}</td>
                                                     <!-- <td class="desc">{{ camp.shorturl }}</td> -->
 
 

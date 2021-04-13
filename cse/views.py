@@ -289,11 +289,14 @@ def edit(request , id):
     
 
 
-def dev(request):
+def deV(request):
     msg =''
     if request.method == 'POST':
         res= request.POST
-        if res['type'] == 'doc':
+        if res['type'] == 'data':
+            obj = dev(topic=res['topic'] , session=res['session'] , resource=res['resource'])
+            obj.save()
+        elif res['type'] == 'doc':
             file = request.FILES.get('name' , False)
             print(res , file)
             file_name = str(file)
@@ -321,5 +324,8 @@ def dev(request):
     # #         'book':book,
     # #         'msg':msg
     # #     }
-
-    return render(request , 'dev.html' , {'msg':msg})
+    obj = dev.objects.all()
+    resource = []
+    for objects in obj:
+        resource.append(objects.resource.split(','))
+    return render(request , 'dev.html' , {'msg':msg , 'alldata':zip(resource , obj)})

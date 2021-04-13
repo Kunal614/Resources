@@ -23,5 +23,14 @@ class cp(models.Model):
     def __str__(self):
         return self.title
 
+class dev(models.Model):
+    topic = models.TextField(null=True , blank =True)
+    session  = models.URLField(max_length = 300 , null=True , blank =True)
+    resource = models.TextField(null=True , blank =True)
+
+    def __str__(self):
+        return self.topic
+
+    
     
 # Create your models here.
