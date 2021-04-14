@@ -258,6 +258,9 @@ def cP(request):
     title = []
     data = []
     question = []
+    prblm = problemofday.objects.all()
+    prblm = prblm[0].problem_of_the_day
+
     for objects in obj:
         title.append(objects.title)
         data.append(objects.data.split(','))
@@ -269,9 +272,10 @@ def cP(request):
     # #         'book':book,
     # #         'msg':msg,
     #           'alldata':zip(title , data , question , obj),
-    # #     }
+    #           'prpblem':prblm,
+     # #     }
 
-    return render(request , 'cp.html' , {'alldata':zip(title , data , question , obj) , 'msg':msg})
+    return render(request , 'cp.html' , {'alldata':zip(title , data , question , obj) , 'msg':msg , 'problem':prblm})
 
 
 def edit(request , id):

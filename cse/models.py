@@ -18,6 +18,7 @@ class cp(models.Model):
     title = models.TextField(null=True , blank = True)
     data = models.TextField(null=True , blank = True)
     question = models.TextField(null=True , blank = True)
+    
 
 
     def __str__(self):
@@ -31,6 +32,12 @@ class dev(models.Model):
     def __str__(self):
         return self.topic
 
-    
+
+class problemofday(models.Model):
+    problem_of_the_day = models.URLField(max_length = 300 , null=True , blank =True)
+    old_questions = models.TextField(null=True , blank =True)
+    # rating = models.CharField()
+    # tag models.CharField()
+
     
 # Create your models here.
