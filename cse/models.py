@@ -19,8 +19,6 @@ class cp(models.Model):
     data = models.TextField(null=True , blank = True)
     question = models.TextField(null=True , blank = True)
     
-
-
     def __str__(self):
         return self.title
 
