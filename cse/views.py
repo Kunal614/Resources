@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login , authenticate , logout
 from django.http import HttpResponseRedirect
 from .models import *
+from django.http import HttpResponse
+from datetime import datetime
 
 headers = {"Authorization": "Bearer ya29.a0AfH6SMDocF56q1ihTzPj98e2gezJ8Gp0pS1CrxkgQGMv6ZJlq7gd9_ypLYutSOvnhuRp7A3eXfDhCtOZFbsC0QwOW1myw2PJdsGa6UhZ5RR-1ONxGCCSQBASuqVX5kIxOsKRh-ZsOalcg4pPNGFUGnTjbcy7"}
 def home(request):
@@ -333,3 +335,7 @@ def deV(request):
     for objects in obj:
         resource.append(objects.resource.split(','))
     return render(request , 'dev.html' , {'msg':msg , 'alldata':zip(resource , obj)})
+
+
+
+    
