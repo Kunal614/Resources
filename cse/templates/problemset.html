@@ -260,9 +260,6 @@
 
                                 </div>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/problemset">Problemset <span class="sr-only">(current)</span></a>
-                            </li>
                         </ul>
 
 
@@ -275,51 +272,6 @@
 
                 </nav>
 
-                <div class="container-fluid">
-                    <!-- The Modal -->
-                    <div id="cp" class="modal" style=" width: 40%;
-                    height: 100%;
-                    left: 30%;
-                    top: 5%; 
-                    width:350px;
-                    border-radius:30px;
-                    ">
-
-                        <!-- Modal content -->
-                        <div class="modal-content" style="background-color: grey;">
-                            <span class="close2">&times;</span>
-                            <form method="POST" action="">
-                                {%csrf_token%}
-
-                                <div class="loginmodal-container">
-                                    <h1>Upload Data</h1><br>
-                                    <input type='hidden' name='type' id='data' value='data'>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="title">Name</label>
-                                            <input type="text" name="title" placeholder="Topic Name">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="data">Data</label>
-                                            <input type="text" name="data" placeholder="link1,link2,link3">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="question">Questions</label>
-                                        <input type="text" name="question" placeholder="link1,link2,link3">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Add</button>
-                                </div>
-
-
-
-                            </form>
-                        </div>
-
-                    </div>
-
-
-                </div>
 
                 <div class="container-fluid">
                     <!-- The Modal -->
@@ -413,80 +365,27 @@
 
 
                 </div>
-                <h1 class="bg-light text-center shadow" style="font-family: serif;"><a href="{{problem}}" style="color:grey;">Problem of the day</a> <span id="the-final-countdown">   </span></h1>
-                <div class="container-fluid" style="width:200%;">
+                <h1 class="bg-light text-center shadow" style="font-family: serif; margin-top:-10px;"><a href="{{problem}}" style="color:grey;">Problem of the day</a> <span id="the-final-countdown">   </span></h1>
 
+                <div class="container-fluid" style="margin-left: 50px;">
                     <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
-                            <h1 style="font-style: italic;font-family:serif;">Books</h1>
-                            {% for books in book%} {% for key2 , value2 in books.items%}
-                            <div class="row" style="margin-left: 50px;">
-                                <div class='row'>
-
-                                    {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}'> Download</a>
-
-                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}'>View</a></div>
-                                    <div class='col-md-2'> {%else%}
-                                        <img src='{{value2}}' style='width:60px;'>
-                                    </div>
-                                    {%endif%}
-
-
-                                </div>
-                            </div>
-                            {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
-                            <div class="row" style="margin-left: 10px;">
-
-                                <form method="POST" enctype="multipart/form-data">
-                                    {%csrf_token%}
-                                    <input type="hidden" value="doc" name="type">
-                                    <input type='file' name='name'>
-
-                                    <br>
-                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
-                                </form>
-                            </div>
-                            <small>Please Only Upload Valuabe Things</small> {%endif%}
-                        </div>
-
-
+                        <input type='checkbox' class='tags'>
+                        <label>   Hide Tags</label>
+                    </div>
+                    <div class="row">
+                        <input type='checkbox' class='ratings'>
+                        <label>Hide Rating</label>
                     </div>
 
 
-
-
-
-                    <!-- Footer -->
-
-                    <footer class="sticky-footer bg-white">
-                        <div class="container my-auto">
-                            <div class="copyright text-center my-auto">
-
-                            </div>
-                        </div>
-
-                    </footer>
-                    {% if request.user.is_authenticated%}
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
-
-                    </div>
-                    {%endif%}
-
                 </div>
-                <div>
-                    <p id="cpdata">More in Cp <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
-                </div>
-                <div class="main-content" id="datas" style="display: none;">
+                <div class="main-content" id="datas">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
 
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <!-- DATA TABLE -->
 
 
                                     <div class="table-data__tool">
@@ -507,35 +406,31 @@
 
 
                                                     <th></th>
-                                                    <th>Title</th>
+                                                    <th>Dop</th>
 
-                                                    <th>Resources</th>
-                                                    <th>Questions</th>
-                                                    {% if request.user.is_authenticated%}
-                                                    <th>Edit</th>
-                                                    {%endif%}
+                                                    <th>Name</th>
+                                                    <th>Tags</th>
+
+                                                    <th>Rating</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody id="tabletoshow">
-                                                {%for title , data , question , obj in alldata%}
+                                                {%for data in obj%}
                                                 <tr class="tr-shadow bg-dark shadow" style="height:50px ;">
 
                                                     <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
-                                                    <td style="color: white; "><strong>{{title|title}}</strong></td>
+                                                    <td style="color: white; ">{{data.date_of_problem}}</td>
 
-                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;" class="btn btn-warning">Link{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc"> <a href='{{data.url}}' style="color: white;" class="btn btn-secondary">{{data.name }}</a> </td>
 
-                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;" class="btn btn-primary"> Ques{{forloop.counter }}</a> {%endfor%}</td>
-                                                    <!-- <td class="desc">{{ camp.shorturl }}</td> -->
-
-
-                                                    <!-- <td>$679.00</td> -->
-
-                                                    {% if request.user.is_authenticated%}
-                                                    <td>
-                                                        <a href='edit/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
+                                                    <td class="tag" style="color: white;">
+                                                        {{data.tags}}</a>
                                                     </td>
-                                                    {%endif%}
+
+                                                    <td class="rating" style="color: white;">
+                                                        {{data.ratings}}</a>
+                                                    </td>
 
                                                 </tr>
 
@@ -559,10 +454,29 @@
                 </div>
 
 
+
+
+                <!-- Footer -->
+
+
+
+
+
+
+
+
+
                 <a class="scroll-to-top rounded" href="#page-top">
                     <i class="fas fa-angle-up"></i>
                 </a>
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
 
+                        </div>
+                    </div>
+
+                </footer>
                 <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
                     <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
 
@@ -584,18 +498,44 @@
                         jQuery('#the-final-countdown').html(hours + ':' + min + ':' + sec)
                     }, 1000);
                     $(document).ready(function() {
-                        var flag = 0;
-                        $('#cpdata').click(function() {
+                        var flag = 0,
+                            fl = 0;
+                        if ($('.tags').is(":checked")) {
+                            console.log("dscjn#######33300");
+                            //$('.tags').prop('checked', false);
+                            flag = 1;
+                            $('.tag').css('visibility', 'hidden');
+                        }
+
+                        $('.tags').click(function() {
                             if (flag == 0) {
-                                $('#datas').slideDown("slow");
+                                $('.tag').css('visibility', 'hidden');
                                 flag = 1;
                             } else {
-                                $('#datas').slideUp("slow");
+                                $('.tag').css('visibility', 'visible');
                                 flag = 0;
                             }
 
+                        });
+
+                        if ($('.ratings').is(":checked")) {
+
+                            fl = 1;
+                            $('.rating').css('visibility', 'hidden');
+                        }
+
+                        $('.ratings').click(function() {
+                            if (fl == 0) {
+                                $('.rating').css('visibility', 'hidden');
+                                fl = 1;
+                            } else {
+                                $('.rating').css('visibility', 'visible');
+                                fl = 0;
+                            }
 
                         });
+
+
                     });
                 </script>
                 <script>
@@ -619,27 +559,7 @@
                         }
                     }
                 </script>
-                <script>
-                    var modal2 = document.getElementById("cp");
-                    var btn2 = document.getElementById("myBtn2");
-                    var span2 = document.getElementsByClassName("close2")[0];
-                    btn2.onclick = function() {
-                        console.log("cp send")
-                        modal2.style.display = "block";
 
-                    }
-
-                    span2.onclick = function() {
-                        console.log("cp hide")
-                        modal2.style.display = "none";
-                    }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-
-                        }
-                    }
-                </script>
                 <script>
                     var modal1 = document.getElementById("login");
 

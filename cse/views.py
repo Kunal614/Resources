@@ -337,5 +337,9 @@ def deV(request):
     return render(request , 'dev.html' , {'msg':msg , 'alldata':zip(resource , obj)})
 
 
-
+def problemsets(request):
+    obj = problemset.objects.all()
+    prblm = problemofday.objects.all()
+    prblm = prblm[0].problem_of_the_day
+    return render(request , 'problemset.html' , {'obj':obj , 'msg':'' , 'problem':prblm})
     

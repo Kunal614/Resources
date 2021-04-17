@@ -22,4 +22,5 @@ urlpatterns = [
     path('cp' ,cP, name='cp' ),
     path('edit/<int:id>' ,edit, name='edit' ),
     path('dev' ,deV, name='dev' ),
+    path('problemset' ,problemsets, name='problemset' ),
 ]
