@@ -28,5 +28,8 @@ def problem_of_the_Day(request):  # every day night 12'0 clock
                 problem_data = problemset(url= question , date_of_problem = datetime.today() , tags = prblm_tag , ratings = str(result['rating']) , name = str(result['name']))
                 problem_data.save()
                 # print(question)
+                break
         except:
             continue
+
+        

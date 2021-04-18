@@ -38,7 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cse',
+    'base',
+    'cp',
+    'dev',
+    'django_crontab',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,6 +133,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+# 0 0 * * *
+CRONJOBS = [
+    ('0 0 * * *','cp.cron.problem_of_the_Day'), #python3 manage.py crontab add
+]
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media'),

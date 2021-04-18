@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>CSE Resources</title>
+    <title>DEV</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -186,24 +186,16 @@
         }
         
         #loginbtn:hover,
-        #cpdata:hover {
+        #devdata:hover {
             cursor: pointer;
         }
         
-        #cpdata {
+        #devdata {
             color: #111;
             margin-left: 20px;
             font-style: italic;
             font-family: serif;
             font-weight: bold;
-        }
-        
-        #the-final-countdown {
-            font-family: 'Lato', sans-serif;
-            text-align: center;
-            color: blue;
-            padding: 1rem 0;
-            font-size: 2rem;
         }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -232,7 +224,7 @@
             <div id="content">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
 
-                    <a href="/"><strong>CSE RESOURCES</strong></a>
+                    <a href="/dev"><strong>DEV</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -260,8 +252,14 @@
 
                                 </div>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/problemset">Problemset <span class="sr-only">(current)</span></a>
+                            <li>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Branch
+                                  </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/cse">CSE</a>
+
+                                </div>
                             </li>
                         </ul>
 
@@ -296,17 +294,17 @@
                                     <input type='hidden' name='type' id='data' value='data'>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="title">Name</label>
-                                            <input type="text" name="title" placeholder="Topic Name">
+                                            <label for="title">Topic</label>
+                                            <input type="text" name="topic" placeholder="Topic Name">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="data">Data</label>
-                                            <input type="text" name="data" placeholder="link1,link2,link3">
+                                            <label for="data">Session</label>
+                                            <input type="text" name="session" placeholder="link">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="question">Questions</label>
-                                        <input type="text" name="question" placeholder="link1,link2,link3">
+                                        <label for="resource">Resource</label>
+                                        <input type="text" name="resource" placeholder="link1,link2,link3">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
@@ -413,12 +411,11 @@
 
 
                 </div>
-                <h1 class="bg-light text-center shadow" style="font-family: serif;"><a href="{{problem}}" style="color:grey;">Problem of the day</a> <span id="the-final-countdown">   </span></h1>
-                <div class="container-fluid" style="width:200%;">
 
+                <div class="container-fluid" style="width:200%;">
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
-                            <h1 style="font-style: italic;font-family:serif;">Books</h1>
+                            <h1 style="font-style: italic;font-family:serif; ">Books</h1>
                             {% for books in book%} {% for key2 , value2 in books.items%}
                             <div class="row" style="margin-left: 50px;">
                                 <div class='row'>
@@ -452,6 +449,14 @@
                         </div>
 
 
+
+
+
+
+
+
+
+
                     </div>
 
 
@@ -468,6 +473,9 @@
                         </div>
 
                     </footer>
+
+
+
                     {% if request.user.is_authenticated%}
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
@@ -477,7 +485,7 @@
 
                 </div>
                 <div>
-                    <p id="cpdata">More in Cp <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
+                    <p id="devdata">More in Dev <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
                 </div>
                 <div class="main-content" id="datas" style="display: none;">
                     <div class="section__content section__content--p30">
@@ -507,25 +515,25 @@
 
 
                                                     <th></th>
-                                                    <th>Title</th>
+                                                    <th>Topic</th>
 
+                                                    <th>Session</th>
                                                     <th>Resources</th>
-                                                    <th>Questions</th>
                                                     {% if request.user.is_authenticated%}
                                                     <th>Edit</th>
                                                     {%endif%}
                                                 </tr>
                                             </thead>
                                             <tbody id="tabletoshow">
-                                                {%for title , data , question , obj in alldata%}
+                                                {%for res , obj in alldata%}
                                                 <tr class="tr-shadow bg-dark shadow" style="height:50px ;">
 
                                                     <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
-                                                    <td style="color: white; "><strong>{{title|title}}</strong></td>
+                                                    <td style="color: white; "><strong>{{obj.topic|title}}</strong></td>
 
-                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;" class="btn btn-warning">Link{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc"> <a href='{{obj.session}}' style="color: white;" class="btn btn-primary">Session</a> </td>
 
-                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;" class="btn btn-primary"> Ques{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc">{%for val in res%}<a href='{{val}}' style="color: white;" class="btn btn-secondary"> Res{{forloop.counter }}</a> {%endfor%}</td>
                                                     <!-- <td class="desc">{{ camp.shorturl }}</td> -->
 
 
@@ -533,7 +541,7 @@
 
                                                     {% if request.user.is_authenticated%}
                                                     <td>
-                                                        <a href='edit/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
+                                                        <a href='edit_dev/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
                                                     </td>
                                                     {%endif%}
 
@@ -559,6 +567,10 @@
                 </div>
 
 
+
+
+
+
                 <a class="scroll-to-top rounded" href="#page-top">
                     <i class="fas fa-angle-up"></i>
                 </a>
@@ -568,24 +580,10 @@
 
                 </div>
                 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-
                 <script>
-                    setInterval(function time() {
-                        var d = new Date();
-                        var hours = 24 - d.getHours();
-                        var min = 60 - d.getMinutes();
-                        if ((min + '').length == 1) {
-                            min = '0' + min;
-                        }
-                        var sec = 60 - d.getSeconds();
-                        if ((sec + '').length == 1) {
-                            sec = '0' + sec;
-                        }
-                        jQuery('#the-final-countdown').html(hours + ':' + min + ':' + sec)
-                    }, 1000);
                     $(document).ready(function() {
                         var flag = 0;
-                        $('#cpdata').click(function() {
+                        $('#devdata').click(function() {
                             if (flag == 0) {
                                 $('#datas').slideDown("slow");
                                 flag = 1;
@@ -640,6 +638,7 @@
                         }
                     }
                 </script>
+
                 <script>
                     var modal1 = document.getElementById("login");
 
