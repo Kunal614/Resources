@@ -7,7 +7,8 @@ from django.http import HttpResponseRedirect
 from .models import *
 from django.http import HttpResponse
 from datetime import datetime
-
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 def get_access_token():
     url = 'https://oauth2.googleapis.com/token'
@@ -96,6 +97,8 @@ def problemsets(request):
     obj = problemset.objects.all()
     prblm = problemofday.objects.all()
     prblm = prblm[0].problem_of_the_day
+    obj = list(obj)
+    obj.reverse()
     return render(request , 'problemset.html' , {'obj':obj , 'msg':'' , 'problem':prblm})
     
-
+    

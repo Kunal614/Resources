@@ -1,8 +1,13 @@
 from .models import *
 import requests
-from datetime import datetime
+from django.conf import settings
+from datetime import date
 
-def problem_of_the_Day(request):  # every day night 12'0 clock 
+
+
+
+def problem_of_the_Day():  # every day night 12'0 clock 
+    # send_mail('Responses', "hello",'coolalo010@gmail.com',['papertronic272@gmail.com'], fail_silently = False)
     obj = problemofday.objects.all()[0]
     tag = obj.tags
     url = "https://codeforces.com/api/problemset.problems?tags="+str(tag)
@@ -25,7 +30,7 @@ def problem_of_the_Day(request):  # every day night 12'0 clock
                 for tags in result['tags']:
                     prblm_tag+=tags+','
                 # print(question , datetime.today() , prblm_tag , result['rating'] , result['name'])
-                problem_data = problemset(url= question , date_of_problem = datetime.today() , tags = prblm_tag , ratings = str(result['rating']) , name = str(result['name']))
+                problem_data = problemset(url= question , date_of_problem = date.today() , tags = prblm_tag , ratings = str(result['rating']) , name = str(result['name']))
                 problem_data.save()
                 # print(question)
                 break
