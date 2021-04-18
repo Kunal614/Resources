@@ -9,7 +9,19 @@ from .models import *
 from django.http import HttpResponse
 from datetime import datetime
 
-headers = {"Authorization": "Bearer ya29.a0AfH6SMDocF56q1ihTzPj98e2gezJ8Gp0pS1CrxkgQGMv6ZJlq7gd9_ypLYutSOvnhuRp7A3eXfDhCtOZFbsC0QwOW1myw2PJdsGa6UhZ5RR-1ONxGCCSQBASuqVX5kIxOsKRh-ZsOalcg4pPNGFUGnTjbcy7"}
+# headers = {"Authorization": "Bearer ya29.a0AfH6SMCPUInnjHmPzT_vUgKYDt2g2cLivHp76eplwAuBktAE4arb5AEyhcAa-_Lan0pdw4XEgZ5vxPiQJ7ftPSscYJaePATyEbw5YROkPTrZnIQAf_twrsd9Y_31gPBMYJuMgitdJiXjkqwZm9WPT8LUZG0V"}
+
+def get_access_token():
+    url = 'https://oauth2.googleapis.com/token'
+    data = {
+        "client_id": "1091937598228-5aan4ts4lm6u28r38q29926b81jatcts.apps.googleusercontent.com",
+        "client_secret": "ZkzCCfgnau4hEhaH__PYflke",
+        "refresh_token": "1//04vfemCPfDdMICgYIARAAGAQSNwF-L9IrHy8vb_Pzgf6eV6wZyf7mVaHDkZCF_AJnsGFDgyjtwuv28D34Z7TcJW7YK2uZzIQSusU",
+        "grant_type": "refresh_token"
+    }
+
+    res  = requests.post(url ,  data=data)
+    return res.json()['access_token']
 def cse(request):
     msg = ''
     if request.method == 'POST':
@@ -163,6 +175,9 @@ def ec1(request):
                 'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
                 'file':infile
             }
+            token = get_access_token()
+            token = "Bearer "+token
+            headers = {"Authorization": token}
             print(type(files))
             r = requests.post(
                 "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
