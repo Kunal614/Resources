@@ -10,3 +10,14 @@ data = {
 
 res  = requests.post(url ,  data=data)
 print(res.json()['access_token'])
+
+'''
+Refrence
+https://stackoverflow.com/questions/10631042/how-to-generate-access-token-using-refresh-token-through-google-drive-api
+https://stackoverflow.com/questions/13871982/unable-to-refresh-access-token-response-is-unauthorized-client
+https://stackoverflow.com/questions/13871982/unable-to-refresh-access-token-response-is-unauthorized-client
+
+
+for token
+https://developers.google.com/oauthplayground/?code=4/0AY0e-g6optOZBEIdTUNcWc7hTEUREJcaO1AjtTWpdoHs3WfC6ipHnUfO_s8HawEPLUnbmg&scope=https://www.googleapis.com/auth/drive
+'''

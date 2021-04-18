@@ -34,7 +34,7 @@ def cP(request):
             infile = request.FILES["name"].read()
             para = {
             "name": str(file_name),
-            "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+            "parents":["14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD"]
             }
             files = {
                 'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
