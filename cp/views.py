@@ -102,3 +102,12 @@ def problemsets(request):
     return render(request , 'problemset.html' , {'obj':obj , 'msg':'' , 'problem':prblm})
     
     
+def clist(request):
+    async def refresh_clist_events():
+    utcnow = datetime.utcnow()
+    utcnext = utcnow + datetime.timedelta(days=1)
+    url = 'https://clist.by/api/v1/json/contest/?username=sayanmedya&api_key=4b7854b5911aba11abe63cc8cf64a8fc928a55d3' + '&start__gt=' + utcnow.isoformat() + '&start__lt=' + utcnext.isoformat() + '&duration__lte=864000&filtered=true&order_by=start'
+  
+    res = requests.get(url)
+   
+    events = res.json().get('objects', [])

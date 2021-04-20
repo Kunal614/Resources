@@ -21,7 +21,68 @@ https://stackoverflow.com/questions/13871982/unable-to-refresh-access-token-resp
 for token
 https://developers.google.com/oauthplayground/?code=4/0AY0e-g6optOZBEIdTUNcWc7hTEUREJcaO1AjtTWpdoHs3WfC6ipHnUfO_s8HawEPLUnbmg&scope=https://www.googleapis.com/auth/drive
 '''
-url = 'https://clist.by/api/v2/resource/?username=resource&api_key=431aa1f9405dea2cdf8965b6aca897557f3f4217'
+# url = 'https://clist.by/api/v2/resource/?username=resource&api_key=431aa1f9405dea2cdf8965b6aca897557f3f4217'
 
+# res = requests.get(url)
+# print(res)
+from pytz import timezone
+from datetime import timezone as tz
+import datetime
+utcnow = datetime.datetime.utcnow()
+print(utcnow)
+utcnext = utcnow + datetime.timedelta(days=1)
+url = 'https://clist.by/api/v1/json/contest/?username=resource&api_key=431aa1f9405dea2cdf8965b6aca897557f3f4217' + '&start__gt=' + utcnow.isoformat() + '&start__lt=' + utcnext.isoformat() + '&duration__lte=864000&filtered=true&order_by=start'
 res = requests.get(url)
-print(res)
+event = res.json().get('objects', [])
+print(event)
+name_list = ['codeforces' , 'codechef' , 'atcoder' , 'hackerearth' , 'hackerrank' , 'codingcompetitions.withgoogle' ,'topcoder' , 'binarysearch' , 'leetcode']
+
+duration=[]
+name=[]
+href=[]
+start_end_time=[]
+event_name = []
+icon = []
+
+from dateutil.parser import parse
+
+dta = parse("2021-04-21T15:35:00", fuzzy=True)
+
+strt_format = "%H:%M %m-%d"
+end_format = "%H:%M"
+# Current time in UTC
+# now_utc = dta.replace(tzinfo=tz.utc)
+# print(now_utc.strftime(strt_format))
+# # Convert to Asia/Kolkata time zone
+# now_asia = now_utc.astimezone(timezone('Asia/Kolkata'))
+# print(now_asia.strftime(end_format))
+
+for data in event:
+    platform = str(data['resource']['name']).split('.')[0]
+    print(platform)
+    if platform  in name_list:
+        y = int(data['duration']/3600)
+        z = data['duration'] - y*3600
+        dur = str("{0:0=2d}".format(y))+':'+str("{0:0=2d}".format(z))+' hr'
+        duration.append(dur)
+        event_name.append(data['event'])
+        href.append(data['href'])
+        name.append(platform)
+        icon.append(data['resource']['icon'])
+        st = data['start']
+        ed = data['ed']
+        dt_st = parse(st, fuzzy=True)
+        dt_ed = parse(ed, fuzzy=True)
+        st_utc = dt_st.replace(tzinfo=tz.utc)
+        ed_utc = dt_ed.replace(tzinfo=tz.utc)
+        st_asia = st_utc.astimezone(timezone('Asia/Kolkata'))
+        ed_asia = ed_utc.astimezone(timezone('Asia/Kolkata'))
+        time = st_asia.strftime(strt_format) + '  '+ed_asia.strftime(end_format)
+        start_end_time.append(time)
+
+
+
+print(event_name , duration , href , name , icon , start_end_time)
+
+
+
