@@ -6,5 +6,6 @@ urlpatterns = [
     path('cp' ,cP, name='cp' ),
     path('edit/<int:id>' ,edit, name='edit' ),
     path('problemset' ,problemsets, name='problemset' ),
+    path('clist' , clist , name='clist'),
     
 ]

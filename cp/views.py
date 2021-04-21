@@ -6,10 +6,13 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from .models import *
 from django.http import HttpResponse
-from datetime import datetime
+# from datetime import datetime
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
-
+from pytz import timezone
+from datetime import timezone as tz
+import datetime
+from dateutil.parser import parse
 def get_access_token():
     url = 'https://oauth2.googleapis.com/token'
     data = {
@@ -103,11 +106,56 @@ def problemsets(request):
     
     
 def clist(request):
-    async def refresh_clist_events():
-    utcnow = datetime.utcnow()
-    utcnext = utcnow + datetime.timedelta(days=1)
-    url = 'https://clist.by/api/v1/json/contest/?username=sayanmedya&api_key=4b7854b5911aba11abe63cc8cf64a8fc928a55d3' + '&start__gt=' + utcnow.isoformat() + '&start__lt=' + utcnext.isoformat() + '&duration__lte=864000&filtered=true&order_by=start'
-  
+    utcnow = datetime.datetime.utcnow()
+    utcnext = utcnow + datetime.timedelta(days=10)
+    username = 'resource'
+    api_key = '431aa1f9405dea2cdf8965b6aca897557f3f4217'
+    url = 'https://clist.by/api/v1/json/contest/?username='+username+'&api_key='+api_key + '&start__gt=' + utcnow.isoformat() + '&start__lt=' + utcnext.isoformat() + '&duration__lte=864000&filtered=true&order_by=start'
     res = requests.get(url)
-   
-    events = res.json().get('objects', [])
+    if res.status_code != 200:
+        return HttpResponseRedirect('/cp')
+
+    event = res.json().get('objects', [])
+    name_list = ['codeforces' , 'codechef' , 'atcoder' , 'hackerearth' , 'hackerrank' , 'codingcompetitions.withgoogle' ,'topcoder' , 'binarysearch' , 'leetcode']
+
+    duration=[]
+    name=[]
+    href=[]
+    start_end_time=[]
+    event_name = []
+    pltform = []
+    strt_format = "%H:%M %m-%d"
+    end_format = "%H:%M"
+    for data in event:
+        platform = str(data['resource']['name']).split('.')[0]
+        # print(platform)
+        if platform  in name_list:
+            pltform.append(data['resource']['name'])
+            y = int(data['duration']/3600)
+            z = int((data['duration'] - y*3600)/60)
+            if y > 24:
+                p = y
+                y = int(y/24)
+                dur = str("{0:0=2d}".format(y))+' days'
+            else:
+                dur = str("{0:0=2d}".format(y))+':'+str("{0:0=2d}".format(z))+' hr'
+            duration.append(dur)
+            event_name.append(data['event'])
+            href.append(data['href'])
+            name.append(platform)
+            # icon.append(data['resource']['icon'])
+            st = data['start']
+            ed = data['end']
+            dt_st = parse(st, fuzzy=True)
+            dt_ed = parse(ed, fuzzy=True)
+            st_utc = dt_st.replace(tzinfo=tz.utc)
+            ed_utc = dt_ed.replace(tzinfo=tz.utc)
+            st_asia = st_utc.astimezone(timezone('Asia/Kolkata'))
+            ed_asia = ed_utc.astimezone(timezone('Asia/Kolkata'))
+            time = st_asia.strftime(strt_format) + ' '+ed_asia.strftime(end_format)
+            start_end_time.append(time)
+    # print(type(event_name) , type(duration) , type(href) , type(name) ,type(icon) , type(start_end_time))
+    return render(request ,'clist.html', {'all_data':zip(name , duration , start_end_time , event_name ,pltform , href) , 'msg':''})
+
+
+    

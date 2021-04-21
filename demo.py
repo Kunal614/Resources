@@ -30,11 +30,12 @@ from datetime import timezone as tz
 import datetime
 utcnow = datetime.datetime.utcnow()
 print(utcnow)
-utcnext = utcnow + datetime.timedelta(days=1)
+utcnext = utcnow + datetime.timedelta(days=10)
 url = 'https://clist.by/api/v1/json/contest/?username=resource&api_key=431aa1f9405dea2cdf8965b6aca897557f3f4217' + '&start__gt=' + utcnow.isoformat() + '&start__lt=' + utcnext.isoformat() + '&duration__lte=864000&filtered=true&order_by=start'
 res = requests.get(url)
+print(res.status_code)
 event = res.json().get('objects', [])
-print(event)
+# print(event)
 name_list = ['codeforces' , 'codechef' , 'atcoder' , 'hackerearth' , 'hackerrank' , 'codingcompetitions.withgoogle' ,'topcoder' , 'binarysearch' , 'leetcode']
 
 duration=[]
@@ -59,7 +60,7 @@ end_format = "%H:%M"
 
 for data in event:
     platform = str(data['resource']['name']).split('.')[0]
-    print(platform)
+    # print(platform)
     if platform  in name_list:
         y = int(data['duration']/3600)
         z = data['duration'] - y*3600
@@ -70,14 +71,14 @@ for data in event:
         name.append(platform)
         icon.append(data['resource']['icon'])
         st = data['start']
-        ed = data['ed']
+        ed = data['end']
         dt_st = parse(st, fuzzy=True)
         dt_ed = parse(ed, fuzzy=True)
         st_utc = dt_st.replace(tzinfo=tz.utc)
         ed_utc = dt_ed.replace(tzinfo=tz.utc)
         st_asia = st_utc.astimezone(timezone('Asia/Kolkata'))
         ed_asia = ed_utc.astimezone(timezone('Asia/Kolkata'))
-        time = st_asia.strftime(strt_format) + '  '+ed_asia.strftime(end_format)
+        time = st_asia.strftime(strt_format) + ' '+ed_asia.strftime(end_format)
         start_end_time.append(time)
 
 

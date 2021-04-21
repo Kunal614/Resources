@@ -241,6 +241,12 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/problemset">Problemset <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/clist">Contest List <span class="sr-only">(current)</span></a>
+                            </li>
                             {% if not request.user.is_authenticated%}
                             <li class="nav-item active" style="margin-top: 10px;">
                                 <p class="nav-link" id="loginbtn">Login <span class="sr-only">(current)</span></p>
@@ -442,7 +448,9 @@
                                                     </td>
 
                                                 </tr>
+                                                <td>
 
+                                                </td>
                                                 <tr class="spacer shadow"></tr>
 
                                                 {%endfor%}
@@ -495,7 +503,7 @@
                 <script>
                     setInterval(function time() {
                         var d = new Date();
-                        var hours = 24 - d.getHours();
+                        var hours = 23 - d.getHours();
                         var min = 60 - d.getMinutes();
                         if ((min + '').length == 1) {
                             min = '0' + min;
