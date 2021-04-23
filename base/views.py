@@ -28,7 +28,14 @@ def Login(request):
             login(request , user)   
         print(request.path_info) 
         send = res['url']
-        send = '/'+send.split('?')[0]
+        y  = send.split('?')[0]
+        send='/'
+        if y =='problemset' or y== 'cp' or y == 'clist':
+            send+='cp'
+        if y =='year' or y== 'sem' or y == 'cse':
+            send+='cse'
+        if y =='dev':
+            send+='dev'
         if user == None:
             return HttpResponseRedirect(send+"?res=0")
         else: 

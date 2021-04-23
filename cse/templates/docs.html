@@ -241,7 +241,7 @@
 
 
                 </nav>
-
+                <p style="font-family: serif; color:red; font-size:30px; margin-left:10px;"><span class='shadow'>{{subject|title}}</span></p>
 
 
                 <div class="container-fluid">
@@ -313,6 +313,7 @@
                                 <div class="loginmodal-container">
                                     <h1>Submit Query</h1><br>
                                     <input type="hidden" value="query" name="type">
+                                    <input type='hidden' value='{{subject}}' name='subject'>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="name">Name</label>
@@ -338,6 +339,7 @@
                 </div>
 
                 <div class="container-fluid" style="width:200%;">
+
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-6">
                             <h1 style="font-style: italic;font-family:serif;">Books</h1>
@@ -364,6 +366,7 @@
                                 <form method="POST" enctype="multipart/form-data">
                                     {%csrf_token%}
                                     <input type="hidden" value="doc" name="type">
+                                    <input type='hidden' value='{{subject}}' name='subject'>
                                     <input type='file' name='name'>
                                     <input type="hidden" name='doc' value='books'>
                                     <br>
@@ -390,7 +393,7 @@
 
 
                         <div class="col-xl-3 col-md-6 mb-6">
-                            <h1 style="font-style: italic;font-family:serif;">HandWritten Notes</h1>
+                            <h1 style="font-style: italic;font-family:serif;">Other Stuffs</h1>
                             {% for books in copy%} {% for key2 , value2 in books.items%}
                             <div class="row" style="margin-left: 50px;">
                                 <div class='row'>
@@ -419,6 +422,7 @@
                                     <input type='file' name='name'>
                                     <input type="hidden" value="doc" name="type">
                                     <input type="hidden" name='doc' value='copy'>
+                                    <input type='hidden' value='{{subject}}' name='subject'>
                                     <br>
                                     <input type="submit" class="btn btn-success" value="Upload" style="width: 80px;">
                                 </form>

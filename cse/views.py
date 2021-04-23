@@ -7,21 +7,40 @@ from django.contrib.auth import login , authenticate , logout
 from django.http import HttpResponseRedirect
 from .models import *
 from django.http import HttpResponse
-from datetime import datetime
+import datetime
+from base.models import *
+from dateutil.parser import parse
 
 # headers = {"Authorization": "Bearer ya29.a0AfH6SMCPUInnjHmPzT_vUgKYDt2g2cLivHp76eplwAuBktAE4arb5AEyhcAa-_Lan0pdw4XEgZ5vxPiQJ7ftPSscYJaePATyEbw5YROkPTrZnIQAf_twrsd9Y_31gPBMYJuMgitdJiXjkqwZm9WPT8LUZG0V"}
 
 def get_access_token():
-    url = 'https://oauth2.googleapis.com/token'
-    data = {
-        "client_id": "1091937598228-5aan4ts4lm6u28r38q29926b81jatcts.apps.googleusercontent.com",
-        "client_secret": "ZkzCCfgnau4hEhaH__PYflke",
-        "refresh_token": "1//04vfemCPfDdMICgYIARAAGAQSNwF-L9IrHy8vb_Pzgf6eV6wZyf7mVaHDkZCF_AJnsGFDgyjtwuv28D34Z7TcJW7YK2uZzIQSusU",
-        "grant_type": "refresh_token"
-    }
-
-    res  = requests.post(url ,  data=data)
-    return res.json()['access_token']
+    token_obj = tokenStuff.objects.all()[0]
+    access_token = token_obj.access_token
+    refresh_token = token_obj.refresh_token
+    token_time = token_obj.time
+    print(token_time , "CDDDDDDDDDDDd", datetime.datetime.now().time())
+    comp_time = token_time.hour *60 + token_time.minute
+    curr_time = datetime.datetime.now().time().hour *60 + datetime.datetime.now().time().minute
+    curr_date = datetime.datetime.now().date()
+    token_date = token_obj.date
+    print(curr_time  , comp_time , curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
+    if curr_date == token_date and curr_time - comp_time <= 60: #by using old token
+        return access_token
+    else:
+        url = 'https://oauth2.googleapis.com/token'
+        data = {
+            "client_id": "1091937598228-5aan4ts4lm6u28r38q29926b81jatcts.apps.googleusercontent.com",
+            "client_secret": "ZkzCCfgnau4hEhaH__PYflke",
+            "refresh_token": refresh_token,
+            "grant_type": "refresh_token"
+        }
+        res  = requests.post(url ,  data=data)
+        obj = tokenStuff.objects.all()[0]
+        obj.time = datetime.datetime.now().time()
+        obj.date = datetime.datetime.now().date()
+        obj.access_token = res.json()['access_token']
+        obj.save()
+        return res.json()['access_token']
 def cse(request):
     msg = ''
     if request.method == 'POST':
@@ -86,72 +105,24 @@ def cse(request):
 
 
 
-
-def first_sem(request):
-    print(request.user.is_authenticated , "cdcddcc" , request.user.username)
+def sem(request):
     msg = ''
     if request.method == 'POST':
         msg = "Thanks for submitting query"
-    sub = ['ec1', 'c-c++' , 'linear_algebra' , 'physics' , 'english']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
+        res = request.POST
+        print(res)
+    else:     
+        res = request.GET
+    res = res['semester']
+    res = semester.objects.filter(sem=res)
+    print(res , "%%%%%%%%%%%%%%%%%")
+    sub = str(res[0].subjects).split(',')
+    return render(request , 'sem.html' , {'msg':msg , 'sub':sub , 'name':res[0].sem})
 
-def second_sem(request):
+
+def sub(request):
     msg = ''
     if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['ec2', 'dsa1' , 'discrete_maths' , 'probablity_stats' , 'econimocs']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-
-def third_sem(request):
-    msg = ''
-    if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['dsa2', 'calculus' , 'python' , 'automata_theory' , 'COA' ,'psychology']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-
-def fourth_sem(request):
-    msg = ''
-    if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['ec3', 'data-science' , 'os' , 'java']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-
-def fifth_sem(request):
-    msg = ''
-    if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['ai', 'compiler_design' , 'processor_controler' , 'computer_graphics' , 'business_management']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-
-def sixth_sem(request):
-    msg = ''
-    if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['ml', 'computer_networking','dbms' , 'computer_vision' , 'cognitive_science' ]
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-   
-
-def seventh_sem(request):
-    msg = ''
-    if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['ec', 'c-c++' , 'linear_algebra' , 'physics' , 'english']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-   
-
-def eight_sem(request):
-    msg = ''
-    if request.method == 'POST':
-        msg = "Thanks for submitting query"
-    sub = ['ec', 'c-c++' , 'linear_algebra' , 'physics' , 'english']
-    return render(request , 'sem.html' , {'msg':msg , 'sub':sub})
-   
-
-
-def ec1(request):
-    msg = ''
-    if request.method == 'POST':
-
         res = request.POST
         print(res)
         if res['type'] == 'doc':
@@ -159,7 +130,10 @@ def ec1(request):
             print(res , file)
             file_name = str(file)
             infile = request.FILES["name"].read()
-
+            subj = res['subject']
+            subj = subject.objects.filter(name=subj)[0]
+            book = subj.book
+            other = subj.other
             if res['doc'] == 'books':
                 para = {
                 "name": str(file_name),
@@ -187,7 +161,9 @@ def ec1(request):
             print(r.text)
         else:
             msg = "Thanks for submitting query"
-
+    else:
+        print(request.GET)
+        res = request.GET
 
     #book
     print(msg)
@@ -216,5 +192,5 @@ def ec1(request):
     #         'msg':msg
     #     }
 
-    return render(request , 'docs.html')
+    return render(request , 'docs.html' , {'msg':msg , 'subject':res['subject']})
 

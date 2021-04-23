@@ -297,7 +297,7 @@
                                 <div class="loginmodal-container">
                                     <h1>Submit Query</h1><br>
                                     <input type="hidden" value="all" name="year">
-
+                                    <input type="hidden" value='{{name}}' name='semester'>
                                     <input type="hidden" value="query" name="type">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -340,8 +340,9 @@
                                                 {{subject}}</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
 
-                                                <form action="/{{subject}}">
+                                                <form action="/sub">
                                                     {%csrf_token%}
+                                                    <input type='hidden' value='{{subject}}' name='subject'>
                                                     <input type="submit" value="Resources" id='first' style="background: none!important;
                                                     border: none;
                                                     padding: 0!important;

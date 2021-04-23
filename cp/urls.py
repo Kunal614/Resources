@@ -7,5 +7,6 @@ urlpatterns = [
     path('edit/<int:id>' ,edit, name='edit' ),
     path('problemset' ,problemsets, name='problemset' ),
     path('clist' , clist , name='clist'),
+    # path('pr' , problem_of_the_Day , name='pr')
     
 ]

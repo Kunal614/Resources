@@ -136,9 +136,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # 0 0 * * *
 CRONJOBS = [
-    ('1 0 * * *','cp.cron.problem_of_the_Day'), #python3 manage.py crontab add
+    ('0 0 * * *','cp.cron.problem_of_the_Day'), #python3 manage.py crontab add
 ]
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'coolalo010@gmail.com'
+EMAIL_HOST_PASSWORD = 'kunalka@1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

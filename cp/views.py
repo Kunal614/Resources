@@ -178,4 +178,3 @@ def clist(request):
     return render(request ,'clist.html', {'all_data':zip(name , duration , start_end_time , event_name ,pltform , href) , 'msg':''})
 
 
-    
