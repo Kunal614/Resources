@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(about)
 admin.site.register(details)
 admin.site.register(tokenStuff)
+admin.site.register(notification)
