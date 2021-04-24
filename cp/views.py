@@ -13,8 +13,11 @@ from django.core.mail import EmailMessage
 from pytz import timezone
 from datetime import timezone as tz
 import datetime
-
+from django.conf import settings
 from dateutil.parser import parse
+
+
+
 def get_access_token():
     token_obj = tokenStuff.objects.all()[0]
     access_token = token_obj.access_token
@@ -75,6 +78,13 @@ def cP(request):
             )
             print(r.text)
         else:
+            name = res['name']
+            name+=" Made Query"
+            body = "My Mail Id : " + res['email']+"\n"
+            body+= res['description']
+            send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+            obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+            obj.save()
             msg = 'Thanks For submitting Query'
     obj = cp.objects.all()
     title = []
@@ -117,15 +127,37 @@ def edit(request , id):
     
 
 def problemsets(request):
+    msg = ''
+    if request.method == 'POST':
+        res = request.POST
+        name = res['name']
+        name+=" Made Query"
+        body = "My Mail Id : " + res['email']+"\n"
+        body+= res['description']
+        send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+        obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+        obj.save()
+        msg='Thanks for Submitting Query'
     obj = problemset.objects.all()
     prblm = problemofday.objects.all()
     prblm = prblm[0].problem_of_the_day
     obj = list(obj)
     obj.reverse()
-    return render(request , 'problemset.html' , {'obj':obj , 'msg':'' , 'problem':prblm})
+    return render(request , 'problemset.html' , {'obj':obj , 'msg':msg , 'problem':prblm})
     
     
 def clist(request):
+    msg = ''
+    if request.method == 'POST':
+        res = request.POST
+        name = res['name']
+        name+=" Made Query"
+        body = "My Mail Id : " + res['email']+"\n"
+        body+= res['description']
+        send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+        obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+        obj.save()
+        msg='Thanks for Submitting Query'
     utcnow = datetime.datetime.utcnow()
     utcnext = utcnow + datetime.timedelta(days=10)
     username = 'resource'
@@ -175,6 +207,6 @@ def clist(request):
             time = st_asia.strftime(strt_format) + ' '+ed_asia.strftime(end_format)
             start_end_time.append(time)
     # print(type(event_name) , type(duration) , type(href) , type(name) ,type(icon) , type(start_end_time))
-    return render(request ,'clist.html', {'all_data':zip(name , duration , start_end_time , event_name ,pltform , href) , 'msg':''})
+    return render(request ,'clist.html', {'all_data':zip(name , duration , start_end_time , event_name ,pltform , href) , 'msg':msg})
 
 

@@ -9,6 +9,8 @@ from .models import dev
 from django.http import HttpResponse
 import datetime
 from base.models import *
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 # 
 # headers = {"Authorization": "Bearer ya29.a0AfH6SMDocF56q1ihTzPj98e2gezJ8Gp0pS1CrxkgQGMv6ZJlq7gd9_ypLYutSOvnhuRp7A3eXfDhCtOZFbsC0QwOW1myw2PJdsGa6UhZ5RR-1ONxGCCSQBASuqVX5kIxOsKRh-ZsOalcg4pPNGFUGnTjbcy7"}
@@ -71,6 +73,13 @@ def deV(request):
             )
             print(r.text)
         else:
+            name = res['name']
+            name+=" Made Query"
+            body = "My Mail Id : " + res['email']+"\n"
+            body+= res['description']
+            send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+            obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+            obj.save()
             msg='Thanks for Submitting Query'
     # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1si7zP4RQa5Lhy0JbEZkgP6ubjGOTrRlK').json()
     # if len(book) > 0:

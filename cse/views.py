@@ -10,7 +10,8 @@ from django.http import HttpResponse
 import datetime
 from base.models import *
 from dateutil.parser import parse
-
+from django.core.mail import send_mail
+from django.conf import settings
 # headers = {"Authorization": "Bearer ya29.a0AfH6SMCPUInnjHmPzT_vUgKYDt2g2cLivHp76eplwAuBktAE4arb5AEyhcAa-_Lan0pdw4XEgZ5vxPiQJ7ftPSscYJaePATyEbw5YROkPTrZnIQAf_twrsd9Y_31gPBMYJuMgitdJiXjkqwZm9WPT8LUZG0V"}
 
 def get_access_token():
@@ -47,8 +48,16 @@ def cse(request):
         res = request.POST
         msg = ''
         if res['type'] == 'query':
-            print(request.POST , "&&&&&&&&&7")
-            msg = "Thanks for submitting query"
+            res = request.POST
+            name = res['name']
+            name+=" Made Query"
+            body = "My Mail Id : " + res['email']+"\n"
+            body+= res['description']
+            send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+            obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+            obj.save()
+            msg='Thanks for Submitting Query'
+            
         
         if res['year'] == 'first': 
 
@@ -108,8 +117,16 @@ def cse(request):
 def sem(request):
     msg = ''
     if request.method == 'POST':
-        msg = "Thanks for submitting query"
         res = request.POST
+        name = res['name']
+        name+=" Made Query"
+        body = "My Mail Id : " + res['email']+"\n"
+        body+= res['description']
+        send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+        obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+        obj.save()
+        msg='Thanks for Submitting Query'
+        
         print(res)
     else:     
         res = request.GET
@@ -160,6 +177,14 @@ def sub(request):
             )
             print(r.text)
         else:
+            name = res['name']
+            name+=" Made Query"
+            body = "My Mail Id : " + res['email']+"\n"
+            body+= res['description']
+            send_mail(name, body,settings.EMAIL_HOST_USER,['iiitk660@gmail.com'], fail_silently = False)
+            obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
+            obj.save()
+           
             msg = "Thanks for submitting query"
     else:
         print(request.GET)

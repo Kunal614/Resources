@@ -8,7 +8,7 @@ from django.core.mail import EmailMessage
 
 
 def problem_of_the_Day():  # every day night 12'0 clock 
-    send_mail('Responses', "Question added",'coolalo010@gmail.com',['papertronic272@gmail.com'], fail_silently = False)
+    send_mail('Responses', "Question added",'iiitk660@gmail.com',['papertronic272@gmail.com'], fail_silently = False)
     obj = problemofday.objects.all()[0]
     tag = obj.tags
     url = "https://codeforces.com/api/problemset.problems?tags="+str(tag)
