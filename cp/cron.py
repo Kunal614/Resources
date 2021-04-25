@@ -15,7 +15,7 @@ def problem_of_the_Day():  # every day night 12'0 clock
     res = requests.get(url).json()
     res = res['result']['problems']
     old = obj.old_questions.split(',')
-    print(type(res[0]['rating']) ,int(obj.ratings))
+    # print(type(res[0]['rating']) ,int(obj.ratings))
     for result in res:
         new = str(result['contestId']) + '/'+result['index']
         try:
