@@ -1,5 +1,8 @@
 require("dotenv").config();
 const redis = require("redis");
+const mongoose = require("mongoose");
+const TokenStore = require("./model/token");
+
 const { promisify } = require("util");
 
 let client = redis.createClient({
@@ -15,6 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const { google } = require("googleapis");
+const { default: axios } = require("axios");
 
 const oacth2client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
@@ -22,15 +26,52 @@ const oacth2client = new google.auth.OAuth2(
   process.env.REDIRECT_URI
 );
 
-oacth2client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
-
 const drive = google.drive({
   version: "v3",
   auth: oacth2client,
 });
 
+async function fetchNewToken(tkn) {
+  const token = await axios.post("https://oauth2.googleapis.com/token", {
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    refresh_token: tkn,
+    grant_type: "refresh_token",
+  });
+
+  return token.data;
+}
+
+async function checkToken() {
+  const data = await TokenStore.findOne({});
+  // console.log(data);
+
+  if (!data || Object.keys(data).length === 0) {
+    const token = await fetchNewToken(process.env.REFRESH_TOKEN);
+
+    let new_token = new TokenStore({
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      expires_in: token.expires_in,
+      refresh_token: token.access_token,
+    });
+
+    await new_token.save();
+  } else if (Date.now() - Date.parse(data.date) > data.expires_in * 1000) {
+    const token = await fetchNewToken(data.refresh_token);
+    data.refresh_token = token.access_token;
+    data.date = Date.now();
+    data.expires_in = token.expires_in;
+    await data.save();
+    oacth2client.setCredentials({ refresh_token: token.access_token });
+  } else {
+    oacth2client.setCredentials({ refresh_token: data.refresh_token });
+  }
+}
+
 app.get("/getfiles/:id", async (req, res) => {
   try {
+    await checkToken();
     var fileId = req.params.id;
 
     const info = await getAsync(fileId);
@@ -61,21 +102,21 @@ app.get("/getfiles/:id", async (req, res) => {
 
       const result = await drive.files.get({
         fileId: fileData.id,
-        fields: "thumbnailLink, webViewLink, webContentLink",
+        fields: "name, webViewLink, webContentLink",
       });
 
       if (Object.keys(result.data).length == 3) {
         data.push({
           downloadUrl: result.data.webContentLink,
           onlineViewLink: result.data.webViewLink,
-          thumbnailLink: result.data.thumbnailLink,
+          name: result.data.name,
         });
       }
     }
     client.set(fileId, JSON.stringify(data));
     res.send(data);
   } catch (error) {
-    res.send(error.message);
+    res.send(error);
   }
 });
 
@@ -85,6 +126,17 @@ app.get("/updatecache/:id", (req, res) => {
   res.send({ success: true });
 });
 
-app.listen("3000", () => {
-  console.log("server on");
-});
+mongoose.connect(
+  process.env.MONGO_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
+  (err, res) => {
+    if (!err) {
+      app.listen("3000", () => {
+        console.log("server on");
+      });
+    }
+  }
+);
