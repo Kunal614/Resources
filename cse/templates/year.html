@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{name}} Year</title>
+    <title>{{name|title}} Year</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -52,6 +52,111 @@
             text-decoration: none;
             cursor: pointer;
         }
+        
+        .close1 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close1:hover,
+        .close1:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        @import url(https://fonts.googleapis.com/css?family=Roboto);
+        /****** LOGIN MODAL ******/
+        
+        .loginmodal-container {
+            padding: 30px;
+            max-width: 350px;
+            width: 100% !important;
+            background-color: #F7F7F7;
+            margin: 0 auto;
+            border-radius: 2px;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            font-family: roboto;
+        }
+        
+        .loginmodal-container h1 {
+            text-align: center;
+            font-size: 1.8em;
+            font-family: roboto;
+        }
+        
+        .loginmodal-container input[type=submit] {
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .loginmodal-container input[type=text],
+        input[type=password] {
+            height: 44px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            -webkit-appearance: none;
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-top: 1px solid #c0c0c0;
+            /* border-radius: 2px; */
+            padding: 0 8px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        
+        .loginmodal-container input[type=text]:hover,
+        input[type=password]:hover {
+            border: 1px solid #b9b9b9;
+            border-top: 1px solid #a0a0a0;
+            -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loginmodal-submit {
+            /* border: 1px solid #3079ed; */
+            border: 0px;
+            color: #fff;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+            background-color: #4d90fe;
+            padding: 17px 0px;
+            font-family: roboto;
+            font-size: 14px;
+            /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
+        }
+        
+        .loginmodal-submit:hover {
+            /* border: 1px solid #2f5bb7; */
+            border: 0px;
+            text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+            background-color: #357ae8;
+            /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
+        }
+        
+        .loginmodal-container a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 400;
+            text-align: center;
+            display: inline-block;
+            opacity: 0.6;
+            transition: opacity ease 0.5s;
+        }
+        
+        .login-help {
+            font-size: 12px;
+        }
+        
+        #loginbtn:hover {
+            cursor: pointer;
+        }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -76,7 +181,7 @@
             <div id="content">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light  bg-white  shadow">
 
-                    <a href="#"><strong>CSE RESOURCES</strong></a>
+                    <a href="/cse"><strong>CSE RESOURCES</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -85,20 +190,79 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
+                            {% if not request.user.is_authenticated%}
+                            <li class="nav-item active" style="margin-top: 10px;">
+                                <p class="nav-link" id="loginbtn">Login <span class="sr-only">(current)</span></p>
+                            </li>
+                            {%endif%} {% if request.user.is_authenticated%}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+                            </li>
+                            {%endif%}
+                            <li>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Resources
+                                  </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/cp">CP</a>
+                                    <a class="dropdown-item" href="/dev">DEV</a>
 
+                                </div>
+                            </li>
 
                         </ul>
 
 
                     </div>
                     <div class="topbar-divider d-none d-sm-block"> </div>
-
+                    {% if request.user.is_authenticated%}
+                    <p>{{request.user.username}}</p>
+                    {%endif%}
 
                 </nav>
 
 
 
 
+
+                <div class="container-fluid">
+                    <!-- The Modal -->
+                    <div id="login" class="modal" style=" width: 40%;
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
+
+                        <!-- Modal content -->
+                        <div class="modal-content" style="background-color: grey;">
+                            <span class="close1">&times;</span>
+                            <form method="POST" action="/login" enctype="multipart/form-data">
+                                {%csrf_token%}
+
+
+                                <div class="loginmodal-container">
+                                    <h1>Login to Your Account</h1><br>
+
+                                    <input type='hidden' name='url' id='url'>
+                                    <input type="text" name="username" placeholder="Username">
+                                    <input type="password" name="pass" placeholder="Password">
+                                    <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+
+
+
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                </div>
 
                 <div class="container-fluid">
                     {%if msg != ''%}
@@ -108,41 +272,46 @@
                         swal(msg);
                     </script>
                     {%endif%}
+
                     <!-- Page Heading -->
 
 
 
                     <!-- The Modal -->
                     <div id="myModal" class="modal" style=" width: 40%;
-                        height: 100%;
-                        left: 30%;
-                        top: 5%; 
-                        width:350px;
-                        border-radius:30px;
-                        ">
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
 
                         <!-- Modal content -->
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
+                        <div class="modal-content" style="background-color: grey;">
+                            <span class="close" id='cl'>&times;</span>
                             <form method="POST" action="" enctype="multipart/form-data">
                                 {%csrf_token%}
-                                <input type="hidden" value="first" name="year">
-                                <input type="hidden" value="query" name="type">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                                <div class="loginmodal-container">
+                                    <h1>Submit Query</h1><br>
+                                    <input type="hidden" value="query" name="type">
+
+                                    <input type="hidden" value="{{name}}" name="year">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="value">Email</label>
+                                            <input type="email" class="form-control" id="value" placeholder="Email" name="email">
+                                        </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="value">Email</label>
-                                        <input type="email" class="form-control" id="value" placeholder="Email" name="email">
+                                    <div class="form-group">
+                                        <label for="desc">Details</label>
+                                        <input type="text" class="form-control" id="desc" name='description'>
                                     </div>
+                                    <button type="submit" class="btn btn-primary">Send</button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="desc">Details</label>
-                                    <input type="text" class="form-control" id="desc" name='description'>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Send</button>
                             </form>
                         </div>
 
@@ -152,20 +321,22 @@
                 </div>
 
 
+
+
                 <div class="container-fluid" style="width:200%;">
                     <div class="row">
                         {%for semester in sem%}
                         <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-success shadow h-100 py-2" style="width: 40%;">
+                            <div class="card border-left-danger shadow h-100 py-2" style="width: 40%;">
                                 <div class="card-body shadow">
                                     <div class="row no-gutters align-items-center" style="margin-left:55px;">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size: 20px;">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 20px;">
                                                 {{semester}} Sem</div>
                                             {% if forloop.counter == 1%}
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="/{{sem1}}">Resoruces </a></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="/sem?semester={{sem1}}">Resoruces </a></div>
                                             {%else%}
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="/{{sem2}}">Resoruces </a></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i> <a href="/sem?semester={{sem2}}">Resoruces </a></div>
                                             {%endif%}
 
                                         </div>
@@ -221,16 +392,64 @@
                 btn.onclick = function() {
                     console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
                     modal.style.display = "block";
+
                 }
+
                 span.onclick = function() {
+                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
                     modal.style.display = "none";
                 }
                 window.onclick = function(event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
+
                     }
                 }
             </script>
+            <script>
+                var modal1 = document.getElementById("login");
+
+                var btn1 = document.getElementById("loginbtn");
+
+                var span1 = document.getElementsByClassName("close1")[0];
+                btn1.onclick = function() {
+                    console.log("cjkdfnjbd")
+                    modal1.style.display = "block";
+                    $('#page-top').css('background-color', 'transparent');
+                }
+
+                span1.onclick = function() {
+                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+
+                    modal1.style.display = "none";
+                    $('#page-top').css('background-color', 'white');
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+
+                        modal1.style.display = "none";
+                        $('#page-top').css('background-color', 'white');
+                    }
+                }
+            </script>
+            <script>
+                console.log(window.location.href, "dscxc dddc");
+                var ur = window.location.href;
+                console.log(ur.split('/'));
+                y = ur.split('/')
+                document.getElementById("url").value = y[3];
+                const urlParams = new URLSearchParams(window.location.search);
+                const myParam = urlParams.get('res');
+                console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
+                if (myParam == '1') {
+                    swal('You are Logged in');
+                    history.pushState({}, null, ur.split('?')[0]);
+                } else if (myParam == '0') {
+                    swal('Wrong Id Or Password');
+                    history.pushState({}, null, ur.split('?')[0]);
+                }
+            </script>
+
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
