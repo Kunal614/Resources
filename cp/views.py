@@ -29,7 +29,8 @@ def get_access_token():
     curr_date = datetime.datetime.now().date()
     token_date = token_obj.date
     print(curr_time  , comp_time , curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
-    if curr_date == token_date and curr_time - comp_time <= 60: #by using old token
+    if curr_date == token_date and curr_time - comp_time <= token_obj.expires_in: #by using old token
+        print("Alreay exist ^^^^^^^^^^^^^^^^")
         return access_token
     else:
         url = 'https://oauth2.googleapis.com/token'
@@ -43,6 +44,7 @@ def get_access_token():
         obj = tokenStuff.objects.all()[0]
         obj.time = datetime.datetime.now().time()
         obj.date = datetime.datetime.now().date()
+        obj.expires_in = res.json()['expires_in']/60
         obj.access_token = res.json()['access_token']
         obj.save()
         return res.json()['access_token']
@@ -98,16 +100,16 @@ def cP(request):
         data.append(objects.data.split(','))
         question.append(objects.question.split(','))
     
-    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
-    # if len(book) > 0:
-    #    context={
-    # #         'book':book,
-    # #         'msg':msg,
-    #           'alldata':zip(title , data , question , obj),
-    #           'prpblem':prblm,
-     # #     }
+    book = requests.get(' https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
+    if len(book) > 0:
+       context={
+            'book':book,
+            'msg':msg,
+            'alldata':zip(title , data , question , obj),
+            'pr0blem':prblm,
+       }
 
-    return render(request , 'cp.html' , {'alldata':zip(title , data , question , obj) , 'msg':msg , 'problem':prblm})
+    return render(request , 'cp.html' , context = context)
 
 
 def edit(request , id):

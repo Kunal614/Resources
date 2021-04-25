@@ -19,6 +19,7 @@ class tokenStuff(models.Model):
     time = models.TimeField(null = True , blank = True)
     date = models.DateField(null = True , blank = True)
     refresh_token = models.TextField(null = True , blank = True)
+    expires_in = models.IntegerField(null = True , blank = True)
 
 
 class notification(models.Model):

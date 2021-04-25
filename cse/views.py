@@ -25,7 +25,8 @@ def get_access_token():
     curr_date = datetime.datetime.now().date()
     token_date = token_obj.date
     print(curr_time  , comp_time , curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
-    if curr_date == token_date and curr_time - comp_time <= 60: #by using old token
+    if curr_date == token_date and curr_time - comp_time <= token_obj.expires_in: #by using old token
+        print("Alreay exist ^^^^^^^^^^^^^^^^")
         return access_token
     else:
         url = 'https://oauth2.googleapis.com/token'
@@ -39,6 +40,7 @@ def get_access_token():
         obj = tokenStuff.objects.all()[0]
         obj.time = datetime.datetime.now().time()
         obj.date = datetime.datetime.now().date()
+        obj.expires_in = res.json()['expires_in']/60
         obj.access_token = res.json()['access_token']
         obj.save()
         return res.json()['access_token']
@@ -154,12 +156,12 @@ def sub(request):
             if res['doc'] == 'books':
                 para = {
                 "name": str(file_name),
-                "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+                "parents":[book]
                 }
             else: 
                 para = {
                 "name": str(file_name),
-                "parents":["10xG9XWg_HjDZj6g9_LDFAofeES9hjerp"]
+                "parents":[other]
                 }   
             print(type(para))
             files = {
@@ -189,33 +191,29 @@ def sub(request):
     else:
         print(request.GET)
         res = request.GET
+        subj = res['subject']
 
     #book
     print(msg)
+    subj = subject.objects.filter(name=subj)[0]
+    books = subj.book
+    others = subj.other
    
+    print(books , others , "cdcjkndfc^^^^^^^^^^^^^^^^^^^^^^")
+    book = {}
+    copy = {}
+    if books != None:
+        book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/'+books).json()
+    if others != None:
+        copy = requests.get('https://iiitkalyani.herokuapp.com/getfiles/'+others).json()
     
-    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s').json()
-    
-       
-    # copy = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/10xG9XWg_HjDZj6g9_LDFAofeES9hjerp').json()
-    
-    
-    # if len(book) > 0 and len(copy)> 0:
-    #     context={
-    #         'book':book,
-    #         'copy':copy,
-    #         'msg':msg
-    #     }
-    # elif len(book) > 0:
-    #     context={
-    #         'book':book,
-    #         'msg':msg
-    #     }
-    # elif len(copy)>0:
-    #     context={
-    #         'copy':copy,
-    #         'msg':msg
-    #     }
+    print(book , copy)
+    context={
+            'book':book,
+            'copy':copy,
+            'msg':msg,
+            'subject':res['subject']
+        }
 
-    return render(request , 'docs.html' , {'msg':msg , 'subject':res['subject']})
+    return render(request , 'docs.html' , context=context)
 

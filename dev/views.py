@@ -25,7 +25,8 @@ def get_access_token():
     curr_date = datetime.datetime.now().date()
     token_date = token_obj.date
     print(curr_time  , comp_time , curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
-    if curr_date == token_date and curr_time - comp_time <= 60: #by using old token
+    if curr_date == token_date and curr_time - comp_time <= token_obj.expires_in: #by using old token
+        print("Alreay exist ^^^^^^^^^^^^^^^^")
         return access_token
     else:
         url = 'https://oauth2.googleapis.com/token'
@@ -39,6 +40,7 @@ def get_access_token():
         obj = tokenStuff.objects.all()[0]
         obj.time = datetime.datetime.now().time()
         obj.date = datetime.datetime.now().date()
+        obj.expires_in = res.json()['expires_in']/60
         obj.access_token = res.json()['access_token']
         obj.save()
         return res.json()['access_token']
@@ -56,7 +58,7 @@ def deV(request):
             infile = request.FILES["name"].read()
             para = {
             "name": str(file_name),
-            "parents":["1Mf3RLjcdplr7r00R12Ep1AgGFGotnP8s"]
+            "parents":["1si7zP4RQa5Lhy0JbEZkgP6ubjGOTrRlK"]
             }
             files = {
                 'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
@@ -81,17 +83,19 @@ def deV(request):
             obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
             obj.save()
             msg='Thanks for Submitting Query'
-    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/1si7zP4RQa5Lhy0JbEZkgP6ubjGOTrRlK').json()
-    # if len(book) > 0:
-    #    context={
-    # #         'book':book,
-    # #         'msg':msg
-    # #     }
+    book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/1si7zP4RQa5Lhy0JbEZkgP6ubjGOTrRlK').json()
+    
+    
     obj = dev.objects.all()
     resource = []
     for objects in obj:
         resource.append(objects.resource.split(','))
-    return render(request , 'dev.html' , {'msg':msg , 'alldata':zip(resource , obj)})
+    context={
+            'book':book,
+            'msg':msg,
+            'alldata':zip(resource , obj)
+        }
+    return render(request , 'dev.html' , context = context)
 
 
 def edit_dev(request , id):
