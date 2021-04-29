@@ -412,7 +412,7 @@
 
                 </div>
 
-                <div class="container-fluid" style="width:200%;">
+                <div class="container-fluid shadow" style="width:300%; background-image: url({%static '/images/grid.jpg'%}); background-attachment: fixed;background-size: cover;">
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
                             <h1 style="font-style: italic;font-family:serif; ">Books</h1>
@@ -421,14 +421,15 @@
                                 <div class='row'>
 
                                     {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}'> Download</a>
+                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
 
                                     <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}'>View</a></div>
+                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
                                     <div class='col-md-2'> {%else%}
-                                        <img src='{{value2}}' style='width:60px;'>
+                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
                                     </div>
                                     {%endif%}
+
 
 
                                 </div>
@@ -465,25 +466,18 @@
 
                     <!-- Footer -->
 
-                    <footer class="sticky-footer bg-white">
-                        <div class="container my-auto">
-                            <div class="copyright text-center my-auto">
-
-                            </div>
-                        </div>
-
-                    </footer>
 
 
 
-                    {% if request.user.is_authenticated%}
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
-
-                    </div>
-                    {%endif%}
 
                 </div>
+
+                {% if request.user.is_authenticated%}
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
+
+                </div>
+                {%endif%}
                 <div>
                     <p id="devdata">More in Dev <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
                 </div>

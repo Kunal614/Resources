@@ -338,22 +338,22 @@
 
                 </div>
 
-                <div class="container-fluid" style="width:200%;">
+                <div class="container-fluid" style="width:300%; background-image: url({%static '/images/grid.jpg'%}); background-attachment: fixed;background-size: cover;">
 
                     <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-6">
+                        <div class="col-xl-2 col-md-5 mb-6">
                             <h1 style="font-style: italic;font-family:serif;">Books</h1>
                             {% for books in book%} {% for key2 , value2 in books.items%}
                             <div class="row" style="margin-left: 50px;">
                                 <div class='row'>
 
                                     {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}'> Download</a>
+                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
 
                                     <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}'>View</a></div>
+                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
                                     <div class='col-md-2'> {%else%}
-                                        <img src='{{value2}}' style='width:60px;'>
+                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
                                     </div>
                                     {%endif%}
 
@@ -399,15 +399,13 @@
                                 <div class='row'>
 
                                     {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}'> Download</a>
+                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
 
                                     <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}'>View</a></div>
+                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
                                     <div class='col-md-2'> {%else%}
-
-                                        <img src='{{value2}}' style='width:60px;'>
+                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
                                     </div>
-
                                     {%endif%}
 
 

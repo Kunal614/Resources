@@ -15,34 +15,40 @@ from datetime import timezone as tz
 import datetime
 from django.conf import settings
 from dateutil.parser import parse
-
+from dotenv import dotenv_values
 
 
 def get_access_token():
+    config = dotenv_values("./.env")
+    print(config , "^^^^^^^^^^^^^")
     token_obj = tokenStuff.objects.all()[0]
     access_token = token_obj.access_token
-    refresh_token = token_obj.refresh_token
     token_time = token_obj.time
     print(token_time , "CDDDDDDDDDDDd", datetime.datetime.now().time())
     comp_time = token_time.hour *60 + token_time.minute
+    comp_time = comp_time*60 + token_time.second
     curr_time = datetime.datetime.now().time().hour *60 + datetime.datetime.now().time().minute
+    curr_time = curr_time *60 + datetime.datetime.now().time().second
     curr_date = datetime.datetime.now().date()
     token_date = token_obj.date
-    print(curr_time  , comp_time , curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
-    if curr_date == token_date and curr_time - comp_time <= 60: #by using old token
+    print(curr_time  , comp_time  , token_obj.expires_in, curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
+    if curr_date == token_date and curr_time - comp_time <= token_obj.expires_in: #by using old token
+        print("Alreay exist ^^^^^^^^^^^^^^^^")
         return access_token
     else:
         url = 'https://oauth2.googleapis.com/token'
         data = {
-            "client_id": "1091937598228-5aan4ts4lm6u28r38q29926b81jatcts.apps.googleusercontent.com",
-            "client_secret": "ZkzCCfgnau4hEhaH__PYflke",
-            "refresh_token": refresh_token,
+            "client_id": config['CLIENT_ID'],
+            "client_secret": config['CLIENT_SECRET'],
+            "refresh_token": config['REFRESH_TOKEN'],
             "grant_type": "refresh_token"
         }
         res  = requests.post(url ,  data=data)
+        print(res , "&&&&&&&&&&&&&&&&&")
         obj = tokenStuff.objects.all()[0]
         obj.time = datetime.datetime.now().time()
         obj.date = datetime.datetime.now().date()
+        obj.expires_in = res.json()['expires_in']
         obj.access_token = res.json()['access_token']
         obj.save()
         return res.json()['access_token']
@@ -76,6 +82,7 @@ def cP(request):
                 headers=headers,
                 files=files
             )
+            refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
             print(r.text)
         else:
             name = res['name']
@@ -97,17 +104,18 @@ def cP(request):
         title.append(objects.title)
         data.append(objects.data.split(','))
         question.append(objects.question.split(','))
-    
-    # book = requests.get(' http://6cf7a3821881.ngrok.io/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
-    # if len(book) > 0:
-    #    context={
-    # #         'book':book,
-    # #         'msg':msg,
-    #           'alldata':zip(title , data , question , obj),
-    #           'prpblem':prblm,
-     # #     }
+    # refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
+    book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
 
-    return render(request , 'cp.html' , {'alldata':zip(title , data , question , obj) , 'msg':msg , 'problem':prblm})
+    if len(book) > 0:
+       context={
+            'book':book,
+            'msg':msg,
+            'alldata':zip(title , data , question , obj),
+            'pr0blem':prblm,
+       }
+
+    return render(request , 'cp.html' , context = context)
 
 
 def edit(request , id):

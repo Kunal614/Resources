@@ -432,22 +432,22 @@
 
                 </div>
                 <h1 class="bg-light text-center shadow" style="font-family: serif;"><a href="{{problem}}" style="color:grey;">Problem of the day</a> <span id="the-final-countdown">   </span></h1>
-                <div class="container-fluid" style="width:200%;">
+                <div class="container-fluid shadow" style="width:300%; ">
 
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
+                    <div class="row" style="display:inline;">
+                        <div class="col-xl-3 col-md-6 mb-6">
                             <h1 style="font-style: italic;font-family:serif;">Books</h1>
                             {% for books in book%} {% for key2 , value2 in books.items%}
                             <div class="row" style="margin-left: 50px;">
                                 <div class='row'>
 
                                     {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}'> Download</a>
+                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
 
                                     <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}'>View</a></div>
+                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
                                     <div class='col-md-2'> {%else%}
-                                        <img src='{{value2}}' style='width:60px;'>
+                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
                                     </div>
                                     {%endif%}
 
@@ -478,23 +478,16 @@
 
                     <!-- Footer -->
 
-                    <footer class="sticky-footer bg-white">
-                        <div class="container my-auto">
-                            <div class="copyright text-center my-auto">
 
-                            </div>
-                        </div>
-
-                    </footer>
+                </div>
+                <div>
                     {% if request.user.is_authenticated%}
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px; margin-left:10px;">Add Data</button></div>
 
                     </div>
                     {%endif%}
 
-                </div>
-                <div>
                     <p id="cpdata">More in Cp <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
                 </div>
                 <div class="main-content" id="datas" style="display: none;">
@@ -541,9 +534,9 @@
                                                     <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
                                                     <td style="color: white; "><strong>{{title|title}}</strong></td>
 
-                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;" class="btn btn-warning">Link{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc"> {%for val in data%}<a href='{{val}}' style="color: white;" class="btn btn-primary">Link{{forloop.counter }}</a> {%endfor%}</td>
 
-                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;" class="btn btn-primary"> Ques{{forloop.counter }}</a> {%endfor%}</td>
+                                                    <td class="desc">{%for val in question%}<a href='{{val}}' style="color: white;" class="btn btn-secondary"> Ques{{forloop.counter }}</a> {%endfor%}</td>
                                                     <!-- <td class="desc">{{ camp.shorturl }}</td> -->
 
 
@@ -608,6 +601,8 @@
                         $('#cpdata').click(function() {
                             if (flag == 0) {
                                 $('#datas').slideDown("slow");
+
+
                                 flag = 1;
                             } else {
                                 $('#datas').slideUp("slow");

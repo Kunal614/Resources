@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from dotenv import dotenv_values
+config = dotenv_values("./.env")
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -89,10 +90,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         "CLIENT": {
-           "name": 'myFirstDatabase',
-           "host": 'mongodb+srv://iiitkalyani:mongodbkapassword@cluster0.hatca.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-           "username": 'iiitkalyani',
-           "password": 'mongodbkapassword',
+           "name": config['name'],
+           "host": config['host'],
+           "username": config['username'],
+           "password": config['password'],
            "authMechanism": "SCRAM-SHA-1",
         }, 
     }
@@ -144,7 +145,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'iiitk660@gmail.com'
-EMAIL_HOST_PASSWORD = 'asghasgh'
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
