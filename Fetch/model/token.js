@@ -5,6 +5,8 @@ const schema = mongoose.Schema({
   client_secret: { type: String },
   date: { type: Date, default: Date.now() },
   expires_in: { type: Number },
+},{
+  collection:'base_tokenstuff'
 });
 
 const model = mongoose.model("token_store", schema);
