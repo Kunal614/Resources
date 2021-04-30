@@ -68,6 +68,10 @@ def get_access_token():
         return res.json()['access_token']
 def cse(request):
     msg = ''
+    noti = notification.objects.all()
+    notific = ""
+    if len(noti) > 0:
+        notific  = noti[0].notify
     if request.method == 'POST':
         res = request.POST
         msg = ''
@@ -93,7 +97,7 @@ def cse(request):
                 'msg':msg,
                 'sem':sem,
                 'sem1':sem1,
-                'sem2':sem2
+                'sem2':sem2,
             }
             return render(request , 'year.html' , context=context)
         elif res['year'] == 'second':
@@ -134,7 +138,7 @@ def cse(request):
             return render(request , 'year.html' , context=context)
         else:
             return render(request , 'dashboard.html', {'msg':msg})
-    return render(request , 'dashboard.html' , {'msg':msg})
+    return render(request , 'dashboard.html' , {'msg':msg , 'notification':notific})
 
 
 

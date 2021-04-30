@@ -68,7 +68,7 @@ def get_access_token():
         obj.expires_in = res.json()['expires_in']
         obj.access_token = res.json()['access_token']
         obj.save()
-        return "res.json()['access_token']"
+        return res.json()['access_token']
 
 def cP(request):
     msg= ''
@@ -120,7 +120,7 @@ def cP(request):
     noti = notification.objects.all()
     notific = ""
     if len(noti) > 0:
-        notific  = noti.notify
+        notific  = noti[0].notify
     
     print(notific, "cdslkcmdklf%%%%%%%%%%%%%%%%%")
     for objects in obj:
@@ -135,7 +135,8 @@ def cP(request):
         'book':book,
         'msg':msg,
         'alldata':zip(title , data , question , obj),
-        'pr0blem':prblm,
+        'problem':prblm,
+        'notification':notific,
     }
     
 

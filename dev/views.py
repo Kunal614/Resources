@@ -113,13 +113,18 @@ def deV(request):
     
     
     obj = dev.objects.all()
+    noti = notification.objects.all()
+    notific = ""
+    if len(noti) > 0:
+        notific  = noti[0].notify
     resource = []
     for objects in obj:
         resource.append(objects.resource.split(','))
     context={
             'book':book,
             'msg':msg,
-            'alldata':zip(resource , obj)
+            'alldata':zip(resource , obj),
+            'notification':notific,
         }
     return render(request , 'dev.html' , context = context)
 

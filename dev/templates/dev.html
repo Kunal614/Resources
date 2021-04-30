@@ -81,6 +81,20 @@
             cursor: pointer;
         }
         
+        .close4 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close4:hover,
+        .close4:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
         @import url(https://fonts.googleapis.com/css?family=Roboto);
         /****** LOGIN MODAL ******/
         
@@ -272,10 +286,34 @@
 
 
                 </nav>
-
                 <div class="container-fluid">
                     <!-- The Modal -->
-                    <div id="cp" class="modal" style=" width: 40%;
+                    <div id="notification" class="modal" style=" width: 40%;
+                    height: 5%;
+                    margin-left:30%;
+                    margin-top:5%; 
+                    width:400px;
+                    border:none;
+                    ">
+
+
+                        <div class="modal-content" style="background-color: transparent; margin-top: -80px; border:none; font-family:serif">
+                            <span class="close4">&times;</span>
+                            <p>{{notification|title}}</p><br>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="container-fluid">
+                <!-- The Modal -->
+                <div id="cp" class="modal" style=" width: 40%;
                     height: 100%;
                     left: 30%;
                     top: 5%; 
@@ -283,403 +321,422 @@
                     border-radius:30px;
                     ">
 
-                        <!-- Modal content -->
-                        <div class="modal-content" style="background-color: grey;">
-                            <span class="close2">&times;</span>
-                            <form method="POST" action="">
-                                {%csrf_token%}
+                    <!-- Modal content -->
+                    <div class="modal-content" style="background-color: grey;">
+                        <span class="close2">&times;</span>
+                        <form method="POST" action="">
+                            {%csrf_token%}
 
-                                <div class="loginmodal-container">
-                                    <h1>Upload Data</h1><br>
-                                    <input type='hidden' name='type' id='data' value='data'>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="title">Topic</label>
-                                            <input type="text" name="topic" placeholder="Topic Name">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="data">Session</label>
-                                            <input type="text" name="session" placeholder="link">
-                                        </div>
+                            <div class="loginmodal-container">
+                                <h1>Upload Data</h1><br>
+                                <input type='hidden' name='type' id='data' value='data'>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="title">Topic</label>
+                                        <input type="text" name="topic" placeholder="Topic Name">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="resource">Resource</label>
-                                        <input type="text" name="resource" placeholder="link1,link2,link3">
+                                    <div class="form-group col-md-6">
+                                        <label for="data">Session</label>
+                                        <input type="text" name="session" placeholder="link">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Add</button>
                                 </div>
-
-
-
-                            </form>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <div class="container-fluid">
-                    <!-- The Modal -->
-                    <div id="login" class="modal" style=" width: 40%;
-                    height: 100%;
-                    left: 30%;
-                    top: 5%; 
-                    width:350px;
-                    border-radius:30px;
-                    ">
-
-                        <!-- Modal content -->
-                        <div class="modal-content" style="background-color: grey;">
-                            <span class="close1">&times;</span>
-                            <form method="POST" action="/login" enctype="multipart/form-data">
-                                {%csrf_token%}
-
-
-                                <div class="loginmodal-container">
-                                    <h1>Login to Your Account</h1><br>
-
-                                    <input type='hidden' name='url' id='url'>
-                                    <input type="text" name="username" placeholder="Username">
-                                    <input type="password" name="pass" placeholder="Password">
-                                    <input type="submit" name="login" class="login loginmodal-submit" value="Login">
-
-
-
+                                <div class="form-group">
+                                    <label for="resource">Resource</label>
+                                    <input type="text" name="resource" placeholder="link1,link2,link3">
                                 </div>
-
-
-
-                            </form>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <div class="container-fluid">
-                    {%if msg != ''%}
-                    <script>
-                        console.log("Scx")
-                        var msg = '{{msg}}'
-                        swal(msg);
-                    </script>
-                    {%endif%}
-
-                    <!-- Page Heading -->
-
-
-
-                    <!-- The Modal -->
-                    <div id="myModal" class="modal" style=" width: 40%;
-                    height: 100%;
-                    left: 30%;
-                    top: 5%; 
-                    width:350px;
-                    border-radius:30px;
-                    ">
-
-                        <!-- Modal content -->
-                        <div class="modal-content" style="background-color: grey;">
-                            <span class="close" id='cl'>&times;</span>
-                            <form method="POST" action="" enctype="multipart/form-data">
-                                {%csrf_token%}
-                                <div class="loginmodal-container">
-                                    <h1>Submit Query</h1><br>
-                                    <input type="hidden" value="query" name="type">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="name">Name</label>
-                                            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="value">Email</label>
-                                            <input type="email" class="form-control" id="value" placeholder="Email" name="email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="desc">Details</label>
-                                        <input type="text" class="form-control" id="desc" name='description'>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Send</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <div class="container-fluid shadow" style="width:300%; background-image: url({%static '/images/grid.jpg'%}); background-attachment: fixed;background-size: cover;">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
-                            <h1 style="font-style: italic;font-family:serif; ">Books</h1>
-                            {% for books in book%} {% for key2 , value2 in books.items%}
-                            <div class="row" style="margin-left: 50px;">
-                                <div class='row'>
-
-                                    {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
-
-                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
-                                    <div class='col-md-2'> {%else%}
-                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
-                                    </div>
-                                    {%endif%}
-
-
-
-                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
                             </div>
-                            {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
-                            <div class="row" style="margin-left: 10px;">
-
-                                <form method="POST" enctype="multipart/form-data">
-                                    {%csrf_token%}
-                                    <input type="hidden" value="doc" name="type">
-                                    <input type='file' name='name'>
-
-                                    <br>
-                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
-                                </form>
-                            </div>
-                            <small>Please Only Upload Valuabe Things</small> {%endif%}
-                        </div>
 
 
 
-
-
-
-
-
-
-
+                        </form>
                     </div>
 
+                </div>
+
+
+            </div>
+
+            <div class="container-fluid">
+                <!-- The Modal -->
+                <div id="login" class="modal" style=" width: 40%;
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
+
+                    <!-- Modal content -->
+                    <div class="modal-content" style="background-color: grey;">
+                        <span class="close1">&times;</span>
+                        <form method="POST" action="/login" enctype="multipart/form-data">
+                            {%csrf_token%}
+
+
+                            <div class="loginmodal-container">
+                                <h1>Login to Your Account</h1><br>
+
+                                <input type='hidden' name='url' id='url'>
+                                <input type="text" name="username" placeholder="Username">
+                                <input type="password" name="pass" placeholder="Password">
+                                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
 
 
 
-
-                    <!-- Footer -->
-
+                            </div>
 
 
 
+                        </form>
+                    </div>
 
                 </div>
 
-                {% if request.user.is_authenticated%}
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
 
-                </div>
+            </div>
+
+            <div class="container-fluid">
+                {%if msg != ''%}
+                <script>
+                    console.log("Scx")
+                    var msg = '{{msg}}'
+                    swal(msg);
+                </script>
                 {%endif%}
-                <div>
-                    <p id="devdata">More in Dev <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
-                </div>
-                <div class="main-content" id="datas" style="display: none;">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
 
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- DATA TABLE -->
-
-
-                                    <div class="table-data__tool">
-                                        <div class="table-data__tool-left">
+                <!-- Page Heading -->
 
 
 
-                                        </div>
+                <!-- The Modal -->
+                <div id="myModal" class="modal" style=" width: 40%;
+                    height: 100%;
+                    left: 30%;
+                    top: 5%; 
+                    width:350px;
+                    border-radius:30px;
+                    ">
 
+                    <!-- Modal content -->
+                    <div class="modal-content" style="background-color: grey;">
+                        <span class="close" id='cl'>&times;</span>
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {%csrf_token%}
+                            <div class="loginmodal-container">
+                                <h1>Submit Query</h1><br>
+                                <input type="hidden" value="query" name="type">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
                                     </div>
-
-
-
-                                    <div class="table-responsive table-responsive-data2">
-                                        <table class="table table-data2">
-                                            <thead>
-                                                <tr style="color: black;">
-
-
-                                                    <th></th>
-                                                    <th>Topic</th>
-
-                                                    <th>Session</th>
-                                                    <th>Resources</th>
-                                                    {% if request.user.is_authenticated%}
-                                                    <th>Edit</th>
-                                                    {%endif%}
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tabletoshow">
-                                                {%for res , obj in alldata%}
-                                                <tr class="tr-shadow bg-dark shadow" style="height:50px ;">
-
-                                                    <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
-                                                    <td style="color: white; "><strong>{{obj.topic|title}}</strong></td>
-
-                                                    <td class="desc"> <a href='{{obj.session}}' style="color: white;" class="btn btn-primary">Session</a> </td>
-
-                                                    <td class="desc">{%for val in res%}<a href='{{val}}' style="color: white;" class="btn btn-secondary"> Res{{forloop.counter }}</a> {%endfor%}</td>
-                                                    <!-- <td class="desc">{{ camp.shorturl }}</td> -->
-
-
-                                                    <!-- <td>$679.00</td> -->
-
-                                                    {% if request.user.is_authenticated%}
-                                                    <td>
-                                                        <a href='edit_dev/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
-                                                    </td>
-                                                    {%endif%}
-
-                                                </tr>
-                                                <td>
-
-                                                </td>
-                                                <tr class="spacer shadow"></tr>
-
-                                                {%endfor%}
-
-                                            </tbody>
-                                        </table>
+                                    <div class="form-group col-md-6">
+                                        <label for="value">Email</label>
+                                        <input type="email" class="form-control" id="value" placeholder="Email" name="email">
                                     </div>
-                                    <!-- END DATA TABLE -->
                                 </div>
+                                <div class="form-group">
+                                    <label for="desc">Details</label>
+                                    <input type="text" class="form-control" id="desc" name='description'>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send</button>
                             </div>
+                        </form>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="container-fluid shadow" style="width:300%;">
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
+                        <h1 style="font-style: italic;font-family:serif; ">Books</h1>
+                        {% for books in book%} {% for key2 , value2 in books.items%}
+                        <div class="row" style="margin-left: 50px;">
+                            <div class='row'>
+
+                                {% if key2 == 'downloadUrl'%}
+                                <a href='{{value2}}' class="btn btn-primary"> Download</a>
+
+                                <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                    <a href='{{value2}}' class="btn btn-secondary">View</a></div>
+                                <div class='col-md-2'> {%else%}
+                                    <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                </div>
+                                {%endif%}
 
 
 
-
-
+                            </div>
                         </div>
+                        {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+                        <div class="row" style="margin-left: 10px;">
+
+                            <form method="POST" enctype="multipart/form-data">
+                                {%csrf_token%}
+                                <input type="hidden" value="doc" name="type">
+                                <input type='file' name='name'>
+
+                                <br>
+                                <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
+                            </form>
+                        </div>
+                        <small>Please Only Upload Valuabe Things</small> {%endif%}
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+                <!-- Footer -->
+
+
+
+
+
+            </div>
+
+            {% if request.user.is_authenticated%}
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
+
+            </div>
+            {%endif%}
+            <div>
+                <p id="devdata">More in Dev <span class="iconify" data-icon="zmdi-mail-send" data-inline="false"></span></p>
+            </div>
+            <div class="main-content" id="datas" style="display: none;">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DATA TABLE -->
+
+
+                                <div class="table-data__tool">
+                                    <div class="table-data__tool-left">
+
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="table-responsive table-responsive-data2">
+                                    <table class="table table-data2">
+                                        <thead>
+                                            <tr style="color: black;">
+
+
+                                                <th></th>
+                                                <th>Topic</th>
+
+                                                <th>Session</th>
+                                                <th>Resources</th>
+                                                {% if request.user.is_authenticated%}
+                                                <th>Edit</th>
+                                                {%endif%}
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabletoshow">
+                                            {%for res , obj in alldata%}
+                                            <tr class="tr-shadow bg-dark shadow" style="height:50px ;">
+
+                                                <td> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: black;"></span></td>
+                                                <td style="color: white; "><strong>{{obj.topic|title}}</strong></td>
+
+                                                <td class="desc"> <a href='{{obj.session}}' style="color: white;" class="btn btn-primary">Session</a> </td>
+
+                                                <td class="desc">{%for val in res%}<a href='{{val}}' style="color: white;" class="btn btn-secondary"> Res{{forloop.counter }}</a> {%endfor%}</td>
+                                                <!-- <td class="desc">{{ camp.shorturl }}</td> -->
+
+
+                                                <!-- <td>$679.00</td> -->
+
+                                                {% if request.user.is_authenticated%}
+                                                <td>
+                                                    <a href='edit_dev/{{obj.id}}'> <span class="iconify" data-icon="zmdi-mail-send" data-inline="false" style="color: grey;"></span></a>
+                                                </td>
+                                                {%endif%}
+
+                                            </tr>
+                                            <td>
+
+                                            </td>
+                                            <tr class="spacer shadow"></tr>
+
+                                            {%endfor%}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END DATA TABLE -->
+                            </div>
+                        </div>
+
+
+
+
+
                     </div>
                 </div>
+            </div>
 
 
 
 
 
 
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
 
-                <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
 
-                </div>
-                <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-                <script>
-                    $(document).ready(function() {
-                        var flag = 0;
-                        $('#devdata').click(function() {
-                            if (flag == 0) {
-                                $('#datas').slideDown("slow");
-                                flag = 1;
-                            } else {
-                                $('#datas').slideUp("slow");
-                                flag = 0;
-                            }
+            </div>
+            <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    var flag = 0;
+                    $('#devdata').click(function() {
+                        if (flag == 0) {
+                            $('#datas').slideDown("slow");
+                            flag = 1;
+                        } else {
+                            $('#datas').slideUp("slow");
+                            flag = 0;
+                        }
 
 
-                        });
                     });
-                </script>
-                <script>
-                    var modal = document.getElementById("myModal");
-                    var btn = document.getElementById("myBtn");
-                    var span = document.getElementsByClassName("close")[0];
-                    btn.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555", modal)
-                        modal.style.display = "block";
+                });
+            </script>
+            <script>
+                var modal = document.getElementById("myModal");
+                var btn = document.getElementById("myBtn");
+                var span = document.getElementsByClassName("close")[0];
+                btn.onclick = function() {
+                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555", modal)
+                    modal.style.display = "block";
 
-                    }
+                }
 
-                    span.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                span.onclick = function() {
+                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                    modal.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
                         modal.style.display = "none";
-                    }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-
-                        }
-                    }
-                </script>
-                <script>
-                    var modal2 = document.getElementById("cp");
-                    var btn2 = document.getElementById("myBtn2");
-                    var span2 = document.getElementsByClassName("close2")[0];
-                    btn2.onclick = function() {
-                        console.log("cp send")
-                        modal2.style.display = "block";
 
                     }
-
-                    span2.onclick = function() {
-                        console.log("cp hide")
-                        modal2.style.display = "none";
-                    }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-
-                        }
-                    }
-                </script>
-
-                <script>
-                    var modal1 = document.getElementById("login");
-
-                    var btn1 = document.getElementById("loginbtn");
-
-                    var span1 = document.getElementsByClassName("close1")[0];
-                    btn1.onclick = function() {
-                        console.log("cjkdfnjbd")
-                        modal1.style.display = "block";
+                }
+            </script>
+            {%if not notification == ''%}
+            <script>
+                console.log("dsmcnd%%%%notification^^^^^^^^^^^^^^^^^")
+                var modal5 = document.getElementById("notification");
+                var span5 = document.getElementsByClassName("close4")[0];
+                console.log(modal5)
+                modal5.style.display = "block";
+                span5.onclick = function() {
+                    console.log("cp hide")
+                    modal5.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal5) {
+                        modal5.style.display = "none";
 
                     }
+                }
+            </script>
+            {%endif%}
+            <script>
+                var modal2 = document.getElementById("cp");
+                var btn2 = document.getElementById("myBtn2");
+                var span2 = document.getElementsByClassName("close2")[0];
+                btn2.onclick = function() {
+                    console.log("cp send")
+                    modal2.style.display = "block";
 
-                    span1.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                }
+
+                span2.onclick = function() {
+                    console.log("cp hide")
+                    modal2.style.display = "none";
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+
+                    }
+                }
+            </script>
+
+            <script>
+                var modal1 = document.getElementById("login");
+
+                var btn1 = document.getElementById("loginbtn");
+
+                var span1 = document.getElementsByClassName("close1")[0];
+                btn1.onclick = function() {
+                    console.log("cjkdfnjbd")
+                    modal1.style.display = "block";
+
+                }
+
+                span1.onclick = function() {
+                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+
+                    modal1.style.display = "none";
+
+                }
+                window.onclick = function(event) {
+                    if (event.target == modal) {
 
                         modal1.style.display = "none";
 
                     }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
+                }
+            </script>
+            <script>
+                console.log(window.location.href, "dscxc dddc");
+                var ur = window.location.href;
+                console.log(ur.split('/'));
+                y = ur.split('/')
+                document.getElementById("url").value = y[3];
+                const urlParams = new URLSearchParams(window.location.search);
+                const myParam = urlParams.get('res');
+                console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
+                if (myParam == '1') {
+                    swal('You are Logged in');
+                    history.pushState({}, null, ur.split('?')[0]);
+                } else if (myParam == '0') {
+                    swal('Wrong Id Or Password');
+                    history.pushState({}, null, ur.split('?')[0]);
+                }
+            </script>
 
-                            modal1.style.display = "none";
-
-                        }
-                    }
-                </script>
-                <script>
-                    console.log(window.location.href, "dscxc dddc");
-                    var ur = window.location.href;
-                    console.log(ur.split('/'));
-                    y = ur.split('/')
-                    document.getElementById("url").value = y[3];
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const myParam = urlParams.get('res');
-                    console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
-                    if (myParam == '1') {
-                        swal('You are Logged in');
-                        history.pushState({}, null, ur.split('?')[0]);
-                    } else if (myParam == '0') {
-                        swal('Wrong Id Or Password');
-                        history.pushState({}, null, ur.split('?')[0]);
-                    }
-                </script>
-
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
 
