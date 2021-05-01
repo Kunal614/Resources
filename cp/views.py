@@ -21,18 +21,36 @@ from dotenv import dotenv_values
 def get_access_token():
     config = dotenv_values("./.env")
     print(config , "^^^^^^^^^^^^^")
-    token_obj = tokenStuff.objects.all()[0]
+    token_obj = tokenStuff.objects.all()
+    
+    if len(token_obj) == 0:
+        url = 'https://oauth2.googleapis.com/token'
+        data = {
+            "client_id": config['CLIENT_ID'],
+            "client_secret": config['CLIENT_SECRET'],
+            "refresh_token": config['REFRESH_TOKEN'],
+            "grant_type": "refresh_token"
+        }
+        res  = requests.post(url ,  data=data)
+        print(res , "&&&&&&&&&&&&&&&&&")
+        obj = tokenStuff(access_token = res.json()['access_token'] , time = datetime.datetime.now() , expires_in = res.json()['expires_in'])
+        obj.save()
+        return res.json()['access_token']
+    token_obj = token_obj[0]
     access_token = token_obj.access_token
     token_time = token_obj.time
+    
+    y = parse(str(token_time))
+
+    t1 = y.astimezone(timezone('Asia/Kolkata'))
+
     print(token_time , "CDDDDDDDDDDDd", datetime.datetime.now().time())
-    comp_time = token_time.hour *60 + token_time.minute
-    comp_time = comp_time*60 + token_time.second
-    curr_time = datetime.datetime.now().time().hour *60 + datetime.datetime.now().time().minute
-    curr_time = curr_time *60 + datetime.datetime.now().time().second
-    curr_date = datetime.datetime.now().date()
-    token_date = token_obj.date
-    print(curr_time  , comp_time  , token_obj.expires_in, curr_date == token_date  , "&&&&&&&&&&&&&&&&&&&&&&&")
-    if curr_date == token_date and curr_time - comp_time <= token_obj.expires_in: #by using old token
+    t1 = t1.replace(microsecond=0)
+    t1 = t1.replace(tzinfo=None)
+    print(t1 , y  , "%%%%%%%%%%%%%%%%%%%%%%")
+    now = datetime.datetime.now().replace(microsecond=0)
+    print((now - t1).total_seconds(), token_obj.expires_in , "&&&&&&&&&&&&&&&&&&&&&&&")
+    if int((now - t1).total_seconds()) <= int(token_obj.expires_in): #by using old token
         print("Alreay exist ^^^^^^^^^^^^^^^^")
         return access_token
     else:
@@ -46,8 +64,7 @@ def get_access_token():
         res  = requests.post(url ,  data=data)
         print(res , "&&&&&&&&&&&&&&&&&")
         obj = tokenStuff.objects.all()[0]
-        obj.time = datetime.datetime.now().time()
-        obj.date = datetime.datetime.now().date()
+        obj.time = datetime.datetime.now()
         obj.expires_in = res.json()['expires_in']
         obj.access_token = res.json()['access_token']
         obj.save()
@@ -100,6 +117,12 @@ def cP(request):
     prblm = problemofday.objects.all()
     prblm = prblm[0].problem_of_the_day
 
+    noti = notification.objects.all()
+    notific = ""
+    if len(noti) > 0:
+        notific  = noti[0].notify
+    
+    print(notific, "cdslkcmdklf%%%%%%%%%%%%%%%%%")
     for objects in obj:
         title.append(objects.title)
         data.append(objects.data.split(','))
@@ -107,13 +130,15 @@ def cP(request):
     # refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
     book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
 
-    if len(book) > 0:
-       context={
-            'book':book,
-            'msg':msg,
-            'alldata':zip(title , data , question , obj),
-            'pr0blem':prblm,
-       }
+    
+    context={
+        'book':book,
+        'msg':msg,
+        'alldata':zip(title , data , question , obj),
+        'problem':prblm,
+        'notification':notific,
+    }
+    
 
     return render(request , 'cp.html' , context = context)
 

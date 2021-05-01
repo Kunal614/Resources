@@ -16,10 +16,11 @@ class details(models.Model):
 
 class tokenStuff(models.Model):
     access_token = models.TextField(null=True , blank = True)
-    time = models.TimeField(null = True , blank = True)
-    date = models.DateField(null = True , blank = True)
+    # time = models.TimeField(null = True , blank = True)
+    # date = models.DateField(null = True , blank = True)
+    time = models.DateTimeField(null = True , blank = True)
     refresh_token = models.TextField(null = True , blank = True)
-    expires_in = models.IntegerField(null = True , blank = True)
+    expires_in = models.TextField(null = True , blank = True)
 
 
 class notification(models.Model):

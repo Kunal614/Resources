@@ -87,6 +87,20 @@
             cursor: pointer;
         }
         
+        .close4 {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close4:hover,
+        .close4:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
         @import url(https://fonts.googleapis.com/css?family=Roboto);
         /****** LOGIN MODAL ******/
         
@@ -253,12 +267,35 @@
                 </nav>
 
 
-
-
-
                 <div class="container-fluid">
                     <!-- The Modal -->
-                    <div id="login" class="modal" style=" width: 40%;
+                    <div id="notification" class="modal" style=" width: 40%;
+                    height: 5%;
+                    margin-left:30%;
+                    margin-top:10%; 
+                    width:400px;
+                    border:none;
+                    ">
+
+
+                        <div class="modal-content" style="background-color: transparent; margin-top: -100px; border:none; font-family:serif">
+                            <span class="close4">&times;</span>
+                            <p style="color: black;">{{notification|title}}</p><br>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="container-fluid">
+                <!-- The Modal -->
+                <div id="login" class="modal" style=" width: 40%;
                     height: 100%;
                     left: 30%;
                     top: 5%; 
@@ -266,50 +303,50 @@
                     border-radius:30px;
                     ">
 
-                        <!-- Modal content -->
-                        <div class="modal-content" style="background-color: grey;">
-                            <span class="close1">&times;</span>
-                            <form method="POST" action="/login" enctype="multipart/form-data">
-                                {%csrf_token%}
+                    <!-- Modal content -->
+                    <div class="modal-content" style="background-color: grey;">
+                        <span class="close1">&times;</span>
+                        <form method="POST" action="/login" enctype="multipart/form-data">
+                            {%csrf_token%}
 
 
-                                <div class="loginmodal-container">
-                                    <h1>Login to Your Account</h1><br>
+                            <div class="loginmodal-container">
+                                <h1>Login to Your Account</h1><br>
 
-                                    <input type='hidden' name='url' id='url'>
-                                    <input type="text" name="username" placeholder="Username">
-                                    <input type="password" name="pass" placeholder="Password">
-                                    <input type="submit" name="login" class="login loginmodal-submit" value="Login">
-
-
-
-                                </div>
+                                <input type='hidden' name='url' id='url'>
+                                <input type="text" name="username" placeholder="Username">
+                                <input type="password" name="pass" placeholder="Password">
+                                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
 
 
 
-                            </form>
-                        </div>
+                            </div>
 
+
+
+                        </form>
                     </div>
-
 
                 </div>
 
-                <div class="container-fluid">
-                    {%if msg != ''%}
-                    <script>
-                        console.log("Scx")
-                        var msg = '{{msg}}'
-                        swal(msg);
-                    </script>
-                    {%endif%}
 
-                    <!-- Page Heading -->
+            </div>
+
+            <div class="container-fluid">
+                {%if msg != ''%}
+                <script>
+                    console.log("Scx")
+                    var msg = '{{msg}}'
+                    swal(msg);
+                </script>
+                {%endif%}
+
+                <!-- Page Heading -->
 
 
 
-                    <!-- The Modal -->
-                    <div id="myModal" class="modal" style=" width: 40%;
+                <!-- The Modal -->
+                <div id="myModal" class="modal" style=" width: 40%;
                     height: 100%;
                     left: 30%;
                     top: 5%; 
@@ -317,59 +354,59 @@
                     border-radius:30px;
                     ">
 
-                        <!-- Modal content -->
-                        <div class="modal-content" style="background-color: grey;">
-                            <span class="close" id='cl'>&times;</span>
-                            <form method="POST" action="" enctype="multipart/form-data">
-                                {%csrf_token%}
-                                <div class="loginmodal-container">
-                                    <input type="hidden" value="all" name="year">
-                                    <input type="hidden" value="query" name="type">
-                                    <h1>Submit Query</h1><br>
-                                    <input type="hidden" value="query" name="type">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="name">Name</label>
-                                            <input type="text" class="form-control" id="name" placeholder="Name" name="name">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="value">Email</label>
-                                            <input type="email" class="form-control" id="value" placeholder="Email" name="email">
-                                        </div>
+                    <!-- Modal content -->
+                    <div class="modal-content" style="background-color: grey;">
+                        <span class="close" id='cl'>&times;</span>
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {%csrf_token%}
+                            <div class="loginmodal-container">
+                                <input type="hidden" value="all" name="year">
+                                <input type="hidden" value="query" name="type">
+                                <h1>Submit Query</h1><br>
+                                <input type="hidden" value="query" name="type">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="desc">Details</label>
-                                        <input type="text" class="form-control" id="desc" name='description'>
+                                    <div class="form-group col-md-6">
+                                        <label for="value">Email</label>
+                                        <input type="email" class="form-control" id="value" placeholder="Email" name="email">
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Send</button>
                                 </div>
-                            </form>
-                        </div>
-
+                                <div class="form-group">
+                                    <label for="desc">Details</label>
+                                    <input type="text" class="form-control" id="desc" name='description'>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
                     </div>
-
 
                 </div>
 
 
+            </div>
 
 
 
-                <div class="container-fluid" style="width:200%;">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-success shadow h-100 py-2" style="width: 40%;">
-                                <div class="card-body shadow">
-                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size: 20px;">
-                                                1st Year</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
-                                                <form method="POST">
-                                                    {%csrf_token%}
-                                                    <input type="hidden" value="first" name="year">
-                                                    <input type="hidden" value="year" name="type">
-                                                    <input type="submit" value="Resources" style="background: none!important;
+
+
+            <div class="container-fluid" style="width:200%;">
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-6">
+                        <div class="card border-left-success shadow h-100 py-2" style="width: 40%;">
+                            <div class="card-body shadow">
+                                <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size: 20px;">
+                                            1st Year</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
+                                            <form method="POST">
+                                                {%csrf_token%}
+                                                <input type="hidden" value="first" name="year">
+                                                <input type="hidden" value="year" name="type">
+                                                <input type="submit" value="Resources" style="background: none!important;
                                                 border: none;
                                                 padding: 0!important;
                                                 /*optional*/
@@ -378,29 +415,29 @@
                                                 color: #069;
                                                 text-decoration: underline;
                                                 cursor: pointer;">
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <span><br>
+
+                    </div>
+                    <span><br>
     <br></span>
-                        <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-warning shadow h-100 py-2" style="width: 40%; ">
-                                <div class="card-body shadow">
-                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 20px;">
-                                                2nd Year</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
-                                                <form method="POST">
-                                                    {%csrf_token%}
-                                                    <input type="hidden" value="second" name="year">
-                                                    <input type="hidden" value="year" name="type">
-                                                    <input type="submit" value="Resources" style="background: none!important;
+                    <div class="col-xl-3 col-md-6 mb-6">
+                        <div class="card border-left-warning shadow h-100 py-2" style="width: 40%; ">
+                            <div class="card-body shadow">
+                                <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 20px;">
+                                            2nd Year</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
+                                            <form method="POST">
+                                                {%csrf_token%}
+                                                <input type="hidden" value="second" name="year">
+                                                <input type="hidden" value="year" name="type">
+                                                <input type="submit" value="Resources" style="background: none!important;
                                             border: none;
                                             padding: 0!important;
                                             /*optional*/
@@ -409,17 +446,17 @@
                                             color: #069;
                                             text-decoration: underline;
                                             cursor: pointer;">
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
-                    <span>
+
+                </div>
+                <span>
                             <br>
                             <br>
                             <br>
@@ -427,20 +464,20 @@
                             <br>
                             <br>
                         </span>
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-primary shadow h-100 py-2" style="width: 40%;">
-                                <div class="card-body shadow">
-                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size: 20px;">
-                                                3rd Year</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
-                                                <form method="POST">
-                                                    {%csrf_token%}
-                                                    <input type="hidden" value="third" name="year">
-                                                    <input type="hidden" value="year" name="type">
-                                                    <input type="submit" value="Resources" style="background: none!important;
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-6">
+                        <div class="card border-left-primary shadow h-100 py-2" style="width: 40%;">
+                            <div class="card-body shadow">
+                                <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size: 20px;">
+                                            3rd Year</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
+                                            <form method="POST">
+                                                {%csrf_token%}
+                                                <input type="hidden" value="third" name="year">
+                                                <input type="hidden" value="year" name="type">
+                                                <input type="submit" value="Resources" style="background: none!important;
                                             border: none;
                                             padding: 0!important;
                                             /*optional*/
@@ -449,29 +486,29 @@
                                             color: #069;
                                             text-decoration: underline;
                                             cursor: pointer;">
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <span><br>
+
+                    </div>
+                    <span><br>
                                 <br></span>
-                        <div class="col-xl-3 col-md-6 mb-6">
-                            <div class="card border-left-danger shadow h-100 py-2" style="width: 40%; ">
-                                <div class="card-body shadow">
-                                    <div class="row no-gutters align-items-center" style="margin-left:55px;">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 20px;">
-                                                4th Year</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
-                                                <form method="POST">
-                                                    {%csrf_token%}
-                                                    <input type="hidden" value="fourth" name="year">
-                                                    <input type="hidden" value="year" name="type">
-                                                    <input type="submit" value="Resources" style="background: none!important;
+                    <div class="col-xl-3 col-md-6 mb-6">
+                        <div class="card border-left-danger shadow h-100 py-2" style="width: 40%; ">
+                            <div class="card-body shadow">
+                                <div class="row no-gutters align-items-center" style="margin-left:55px;">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 20px;">
+                                            4th Year</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><i class="fas fa-book"></i>
+                                            <form method="POST">
+                                                {%csrf_token%}
+                                                <input type="hidden" value="fourth" name="year">
+                                                <input type="hidden" value="year" name="type">
+                                                <input type="submit" value="Resources" style="background: none!important;
                                             border: none;
                                             padding: 0!important;
                                             /*optional*/
@@ -480,179 +517,198 @@
                                             color: #069;
                                             text-decoration: underline;
                                             cursor: pointer;">
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
-                    </div>
-
-
-                </div>
-
-                <!-- Footer -->
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-
-                        </div>
-                    </div>
-                </footer>
-                <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
-
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-
-                        <button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button>
                     </div>
 
                 </div>
 
 
             </div>
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fas fa-angle-up"></i>
-            </a>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+
+                    </div>
+                </div>
+            </footer>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
+
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+                    <button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button>
+                </div>
+
+            </div>
 
 
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-            <script>
-                var modal = document.getElementById("myModal");
-                var btn = document.getElementById("myBtn");
-                var span = document.getElementsByClassName("close")[0];
-                btn.onclick = function() {
-                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                    modal.style.display = "block";
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-                }
 
-                span.onclick = function() {
-                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script>
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("myBtn");
+            var span = document.getElementsByClassName("close")[0];
+            btn.onclick = function() {
+                console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                modal.style.display = "block";
+
+            }
+
+            span.onclick = function() {
+                console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
                     modal.style.display = "none";
+
                 }
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
+            }
+        </script>
+        {%if not notification == ''%}
+        <script>
+            console.log("dsmcnd%%%%notification^^^^^^^^^^^^^^^^^")
+            var modal5 = document.getElementById("notification");
+            var span5 = document.getElementsByClassName("close4")[0];
+            console.log(modal5)
+            modal5.style.display = "block";
+            span5.onclick = function() {
+                console.log("cp hide")
+                modal5.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal5) {
+                    modal5.style.display = "none";
 
-                    }
                 }
-            </script>
-            <script>
-                var modal1 = document.getElementById("login");
+            }
+        </script>
+        {%endif%}
+        <script>
+            var modal1 = document.getElementById("login");
 
-                var btn1 = document.getElementById("loginbtn");
+            var btn1 = document.getElementById("loginbtn");
 
-                var span1 = document.getElementsByClassName("close1")[0];
-                btn1.onclick = function() {
-                    console.log("cjkdfnjbd")
-                    modal1.style.display = "block";
-                    $('#page-top').css('background-color', 'transparent');
-                }
+            var span1 = document.getElementsByClassName("close1")[0];
+            btn1.onclick = function() {
+                console.log("cjkdfnjbd")
+                modal1.style.display = "block";
+                $('#page-top').css('background-color', 'transparent');
+            }
 
-                span1.onclick = function() {
-                    console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+            span1.onclick = function() {
+                console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+
+                modal1.style.display = "none";
+
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
 
                     modal1.style.display = "none";
 
                 }
-                window.onclick = function(event) {
-                    if (event.target == modal) {
+            }
+        </script>
+        <script>
+            console.log(window.location.href, "dscxc dddc");
+            var ur = window.location.href;
+            console.log(ur.split('/'));
+            y = ur.split('/')
+            document.getElementById("url").value = y[3];
+            const urlParams = new URLSearchParams(window.location.search);
+            const myParam = urlParams.get('res');
+            console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
+            if (myParam == '1') {
+                swal('You are Logged in');
+                history.pushState({}, null, ur.split('?')[0]);
+            } else if (myParam == '0') {
+                swal('Wrong Id Or Password');
+                history.pushState({}, null, ur.split('?')[0]);
+            }
+        </script>
 
-                        modal1.style.display = "none";
+        <script>
+            const canvasEl = document.querySelector('#canvas');
 
-                    }
+            const w = canvasEl.width = window.innerWidth;
+            const h = canvasEl.height = window.innerHeight * 2;
+
+            function loop() {
+                requestAnimationFrame(loop);
+                ctx.clearRect(0, 0, w, h);
+
+                confs.forEach((conf) => {
+                    conf.update();
+                    conf.draw();
+                })
+            }
+
+            function Confetti() {
+                //construct confetti
+                const colours = ['#fde132', '#009bde', '#ff6b00'];
+
+                this.x = Math.round(Math.random() * w);
+                this.y = Math.round(Math.random() * h) - (h / 2);
+                this.rotation = Math.random() * 360;
+
+                const size = Math.random() * (w / 60);
+                this.size = size < 15 ? 15 : size;
+
+                this.color = colours[Math.floor(colours.length * Math.random())];
+
+                this.speed = this.size / 7;
+
+                this.opacity = Math.random();
+
+                this.shiftDirection = Math.random() > 0.5 ? 1 : -1;
+            }
+
+            Confetti.prototype.border = function() {
+                if (this.y >= h) {
+                    this.y = h;
                 }
-            </script>
-            <script>
-                console.log(window.location.href, "dscxc dddc");
-                var ur = window.location.href;
-                console.log(ur.split('/'));
-                y = ur.split('/')
-                document.getElementById("url").value = y[3];
-                const urlParams = new URLSearchParams(window.location.search);
-                const myParam = urlParams.get('res');
-                console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
-                if (myParam == '1') {
-                    swal('You are Logged in');
-                    history.pushState({}, null, ur.split('?')[0]);
-                } else if (myParam == '0') {
-                    swal('Wrong Id Or Password');
-                    history.pushState({}, null, ur.split('?')[0]);
-                }
-            </script>
+            }
 
-            <script>
-                const canvasEl = document.querySelector('#canvas');
+            Confetti.prototype.update = function() {
+                this.y += this.speed;
 
-                const w = canvasEl.width = window.innerWidth;
-                const h = canvasEl.height = window.innerHeight * 2;
-
-                function loop() {
-                    requestAnimationFrame(loop);
-                    ctx.clearRect(0, 0, w, h);
-
-                    confs.forEach((conf) => {
-                        conf.update();
-                        conf.draw();
-                    })
+                if (this.y <= h) {
+                    this.x += this.shiftDirection / 3;
+                    this.rotation += this.shiftDirection * this.speed / 100;
                 }
 
-                function Confetti() {
-                    //construct confetti
-                    const colours = ['#fde132', '#009bde', '#ff6b00'];
+                if (this.y > h) this.border();
+            };
 
-                    this.x = Math.round(Math.random() * w);
-                    this.y = Math.round(Math.random() * h) - (h / 2);
-                    this.rotation = Math.random() * 360;
+            Confetti.prototype.draw = function() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, this.rotation, this.rotation + (Math.PI / 2));
+                ctx.lineTo(this.x, this.y);
+                ctx.closePath();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            };
 
-                    const size = Math.random() * (w / 60);
-                    this.size = size < 15 ? 15 : size;
+            const ctx = canvasEl.getContext('2d');
+            const confNum = Math.floor(w / 4);
+            const confs = new Array(confNum).fill().map(_ => new Confetti());
 
-                    this.color = colours[Math.floor(colours.length * Math.random())];
-
-                    this.speed = this.size / 7;
-
-                    this.opacity = Math.random();
-
-                    this.shiftDirection = Math.random() > 0.5 ? 1 : -1;
-                }
-
-                Confetti.prototype.border = function() {
-                    if (this.y >= h) {
-                        this.y = h;
-                    }
-                }
-
-                Confetti.prototype.update = function() {
-                    this.y += this.speed;
-
-                    if (this.y <= h) {
-                        this.x += this.shiftDirection / 3;
-                        this.rotation += this.shiftDirection * this.speed / 100;
-                    }
-
-                    if (this.y > h) this.border();
-                };
-
-                Confetti.prototype.draw = function() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, this.rotation, this.rotation + (Math.PI / 2));
-                    ctx.lineTo(this.x, this.y);
-                    ctx.closePath();
-                    ctx.globalAlpha = this.opacity;
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                };
-
-                const ctx = canvasEl.getContext('2d');
-                const confNum = Math.floor(w / 4);
-                const confs = new Array(confNum).fill().map(_ => new Confetti());
-
-                loop();
-            </script>
+            loop();
+        </script>
 
 
 </body>

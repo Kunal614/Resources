@@ -78,11 +78,19 @@ https://developers.google.com/oauthplayground/?code=4/0AY0e-g6optOZBEIdTUNcWc7hT
 # print(event_name , duration , href , name , icon , start_end_time)
 
 from datetime import datetime
-curr = datetime.now()
-print(curr.date())
-hr  = datetime.now().time().hour
-mn = datetime.now().time().minute
-print(hr*60+mn)
+from dateutil.parser import parse
+import time
+# curr = datetime.now()
+# print(curr.date())
+# hr  = datetime.now().time().hour
+# mn = datetime.now().time().minute
+# print(hr*60+mn)
 
+y = parse(str(datetime.now()))
 
+print(y)
 
+t1 = datetime.now().replace(microsecond=0)
+time.sleep(3)
+now = datetime.now().replace(microsecond=0)
+print((now - t1).total_seconds())
