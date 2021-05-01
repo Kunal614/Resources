@@ -91,6 +91,6 @@ y = parse(str(datetime.now()))
 print(y)
 
 t1 = datetime.now().replace(microsecond=0)
-time.sleep(3)
+
 now = datetime.now().replace(microsecond=0)
 print((now - t1).total_seconds())

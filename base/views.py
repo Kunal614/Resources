@@ -8,11 +8,16 @@ from django.http import HttpResponseRedirect
 from .models import *
 from django.http import HttpResponse
 from datetime import datetime
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 
 def home(request):
-    return render(request , 'home.html')
+    abt = about.objects.all()
+    data = ''
+    if len(abt) > 0:
+        data = abt[0].data
+    return render(request , 'home.html' , {'about':data})
 
 
 

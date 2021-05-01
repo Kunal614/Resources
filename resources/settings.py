@@ -49,12 +49,15 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'resources.urls'
 
@@ -99,6 +102,7 @@ DATABASES = {
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -142,7 +146,13 @@ CRONJOBS = [
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+# CACHES_MIDDLEWARE_SECONDS = 60
+# CACHES = {
+#    'default': {
+#       'BACKEND': 'django_mongodb_cache.MongoDBCache',
+#       'LOCATION': 'mongodb+srv://iiitkalyani:mongodbkapassword@cluster0.hatca.mongodb.net/myFirstDatabase/my_cache?retryWrites=true&w=majority',
+#    }
+# }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config['EMAIL_HOST_USER']
