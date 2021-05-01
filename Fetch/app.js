@@ -51,22 +51,21 @@ async function checkToken() {
     const token = await fetchNewToken(process.env.REFRESH_TOKEN);
 
     let new_token = new TokenStore({
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      refresh_token:process.env.REFRESH_TOKEN,
       expires_in: token.expires_in,
-      refresh_token: token.access_token,
+      access_token: token.access_token,
     });
 
     await new_token.save();
-  } else if (Date.now() - Date.parse(data.date) > data.expires_in * 1000) {
+  } else if (Date.now() - Date.parse(data.time) > data.expires_in * 1000) {
     const token = await fetchNewToken(process.env.REFRESH_TOKEN);
-    data.refresh_token = token.access_token;
-    data.date = Date.now();
+    data.access_token = token.access_token;
+    data.time = Date.now();
     data.expires_in = token.expires_in;
     await data.save();
-    oacth2client.setCredentials({ refresh_token: token.access_token });
+    oacth2client.setCredentials({ access_token: token.access_token });
   } else {
-    oacth2client.setCredentials({ refresh_token: data.refresh_token });
+    oacth2client.setCredentials({ access_token: data.access_token });
   }
 }
 
@@ -75,14 +74,14 @@ app.get("/getfiles/:id", async (req, res) => {
     var fileId = req.params.id;
 
     const info = await getAsync(fileId);
-
+    await checkToken();
     if (info) {
       res.send(JSON.parse(info));
       return;
     }
 
     console.log("here");
-    await checkToken();
+    
 
     const response = await drive.files.list({
       includeRemoved: false,
