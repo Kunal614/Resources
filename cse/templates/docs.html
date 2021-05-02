@@ -183,7 +183,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{%static '/css/sb-admin-2.min.css'%}" rel="stylesheet">
+    <link href="{%static './css/sb-admin-2.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -201,7 +201,7 @@
             <div id="content">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light  bg-white  shadow">
 
-                    <a href="/cse"><strong>CSE RESOURCES</strong></a>
+                    <a href="/cse"><strong > CSE RESOURCES</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -338,206 +338,317 @@
 
                 </div>
 
-                <div class="container-fluid" style="width:300%;">
+                <div class="container-fluid" id="data">
 
-                    <div class="row">
-                        <div class="col-xl-2 col-md-5 mb-6">
-                            <h1 style="font-style: italic;font-family:serif;">Books</h1>
-                            {% for books in book%} {% for key2 , value2 in books.items%}
-                            <div class="row" style="margin-left: 50px;">
-                                <div class='row'>
+                    <div class="col-md-12">
 
-                                    {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
 
-                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
-                                    <div class='col-md-2'> {%else%}
-                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                        <div class="row m-t-30">
+                            <div class="col-md-6">
+                                <h1 style="font-style: italic;font-family:serif;">Books</h1>
+                                {% for books in book%} {% for key2 , value2 in books.items%}
+                                <div class="row" style="margin-left: 50px;">
+                                    <div class='row'>
+
+                                        {% if key2 == 'downloadUrl'%}
+                                        <a href='{{value2}}' class="btn btn-primary"> Download</a>
+
+                                        <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                            <a href='{{value2}}' class="btn btn-secondary">View</a></div>
+                                        <div class='col-md-2'> {%else%}
+                                            <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                        </div>
+                                        {%endif%}
+
+
                                     </div>
-                                    {%endif%}
+                                </div>
+                                {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+                                <div class="row" style="margin-left: 10px;">
 
+                                    <form method="POST" enctype="multipart/form-data">
+                                        {%csrf_token%}
+                                        <input type="hidden" value="doc" name="type">
+                                        <input type='hidden' value='{{subject}}' name='subject'>
+                                        <input type='file' name='name'>
+                                        <input type="hidden" name='doc' value='books'>
+                                        <br>
+                                        <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
+                                    </form>
+                                </div>
+                                <small>Please Only Upload Valuabe Things</small> {%else%}
+                                <div class="row" style="margin-left: 10px;">
+
+                                    <form id="shw">
+                                        {%csrf_token%}
+
+                                        <input type='file' name='name' disabled>
+
+                                        <br>
+                                        <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                        <span class="tooltiptext">Log In First</span>
+                                    </form>
 
                                 </div>
+                                {%endif%}
+
+
                             </div>
-                            {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+                            <div class="col-md-6">
+                                <h1 style="font-style: italic;font-family:serif;">Other Stuffs</h1>
+                                {% for books in copy%} {% for key2 , value2 in books.items%}
+                                <div class="row" style="margin-left: 50px;">
+                                    <div class='row'>
+
+                                        {% if key2 == 'downloadUrl'%}
+                                        <a href='{{value2}}' class="btn btn-primary"> Download</a>
+
+                                        <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                            <a href='{{value2}}' class="btn btn-secondary">View</a></div>
+                                        <div class='col-md-2'> {%else%}
+                                            <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                        </div>
+                                        {%endif%}
+
+
+                                    </div>
+                                </div>
+                                {%endfor%} <span> <br><br></span> {%endfor%}
+                                <div class="row">
+                                    {%if request.user.is_authenticated%}
+
+                                    <form method="POST" enctype="multipart/form-data">
+                                        {%csrf_token%}
+                                        <input type='file' name='name'>
+                                        <input type="hidden" value="doc" name="type">
+                                        <input type="hidden" name='doc' value='copy'>
+                                        <input type='hidden' value='{{subject}}' name='subject'>
+                                        <br>
+                                        <input type="submit" class="btn btn-success" value="Upload" style="width: 80px;">
+                                    </form>
+                                </div>
+                                <small>Please Only Upload Valuabe Things</small>
+
+                            </div>
+                            {%else%}
                             <div class="row" style="margin-left: 10px;">
 
-                                <form method="POST" enctype="multipart/form-data">
-                                    {%csrf_token%}
-                                    <input type="hidden" value="doc" name="type">
-                                    <input type='hidden' value='{{subject}}' name='subject'>
-                                    <input type='file' name='name'>
-                                    <input type="hidden" name='doc' value='books'>
-                                    <br>
-                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
-                                </form>
-                            </div>
-                            <small>Please Only Upload Valuabe Things</small> {%else%}
-                            <div class="row" style="margin-left: 10px;">
-
-                                <form id="shw">
-                                    {%csrf_token%}
+                                <form id='shw'>
 
                                     <input type='file' name='name' disabled>
-
                                     <br>
                                     <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
                                     <span class="tooltiptext">Log In First</span>
                                 </form>
-
                             </div>
                             {%endif%}
-                        </div>
-
-
-
-                        <div class="col-xl-3 col-md-6 mb-6">
-                            <h1 style="font-style: italic;font-family:serif;">Other Stuffs</h1>
-                            {% for books in copy%} {% for key2 , value2 in books.items%}
-                            <div class="row" style="margin-left: 50px;">
-                                <div class='row'>
-
-                                    {% if key2 == 'downloadUrl'%}
-                                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
-
-                                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
-                                    <div class='col-md-2'> {%else%}
-                                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
-                                    </div>
-                                    {%endif%}
-
-
-                                </div>
-                            </div>
-                            {%endfor%} <span> <br><br></span> {%endfor%}
-                            <div class="row">
-                                {%if request.user.is_authenticated%}
-
-                                <form method="POST" enctype="multipart/form-data">
-                                    {%csrf_token%}
-                                    <input type='file' name='name'>
-                                    <input type="hidden" value="doc" name="type">
-                                    <input type="hidden" name='doc' value='copy'>
-                                    <input type='hidden' value='{{subject}}' name='subject'>
-                                    <br>
-                                    <input type="submit" class="btn btn-success" value="Upload" style="width: 80px;">
-                                </form>
-                            </div>
-                            <small>Please Only Upload Valuabe Things</small>
 
                         </div>
-                        {%else%}
-                        <div class="row" style="margin-left: 10px;">
-
-                            <form id='shw'>
-
-                                <input type='file' name='name' disabled>
-                                <br>
-                                <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
-                                <span class="tooltiptext">Log In First</span>
-                            </form>
-                        </div>
-                        {%endif%}
-
-
-
-
-
-
-
                     </div>
 
 
 
 
-                    <!-- Footer -->
-                    <footer class="sticky-footer bg-white">
-                        <div class="container my-auto">
-                            <div class="copyright text-center my-auto">
+                </div>
+
+                <!-- <div class="row">
+                    <div class="col-xl-2 col-md-5 mb-6">
+                        <h1 style="font-style: italic;font-family:serif;">Books</h1>
+                        {% for books in book%} {% for key2 , value2 in books.items%}
+                        <div class="row" style="margin-left: 50px;">
+                            <div class='row'>
+
+                                {% if key2 == 'downloadUrl'%}
+                                <a href='{{value2}}' class="btn btn-primary"> Download</a>
+
+                                <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                    <a href='{{value2}}' class="btn btn-secondary">View</a></div>
+                                <div class='col-md-2'> {%else%}
+                                    <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                </div>
+                                {%endif%}
+
 
                             </div>
                         </div>
+                        {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+                        <div class="row" style="margin-left: 10px;">
 
-                    </footer>
+                            <form method="POST" enctype="multipart/form-data">
+                                {%csrf_token%}
+                                <input type="hidden" value="doc" name="type">
+                                <input type='hidden' value='{{subject}}' name='subject'>
+                                <input type='file' name='name'>
+                                <input type="hidden" name='doc' value='books'>
+                                <br>
+                                <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
+                            </form>
+                        </div>
+                        <small>Please Only Upload Valuabe Things</small> {%else%}
+                        <div class="row" style="margin-left: 10px;">
+
+                            <form id="shw">
+                                {%csrf_token%}
+
+                                <input type='file' name='name' disabled>
+
+                                <br>
+                                <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                <span class="tooltiptext">Log In First</span>
+                            </form>
+
+                        </div>
+                        {%endif%}
+                    </div>
 
 
+
+                    <div class="col-xl-3 col-md-6 mb-6">
+                        <h1 style="font-style: italic;font-family:serif;">Other Stuffs</h1>
+                        {% for books in copy%} {% for key2 , value2 in books.items%}
+                        <div class="row" style="margin-left: 50px;">
+                            <div class='row'>
+
+                                {% if key2 == 'downloadUrl'%}
+                                <a href='{{value2}}' class="btn btn-primary"> Download</a>
+
+                                <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                                    <a href='{{value2}}' class="btn btn-secondary">View</a></div>
+                                <div class='col-md-2'> {%else%}
+                                    <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                </div>
+                                {%endif%}
+
+
+                            </div>
+                        </div>
+                        {%endfor%} <span> <br><br></span> {%endfor%}
+                        <div class="row">
+                            {%if request.user.is_authenticated%}
+
+                            <form method="POST" enctype="multipart/form-data">
+                                {%csrf_token%}
+                                <input type='file' name='name'>
+                                <input type="hidden" value="doc" name="type">
+                                <input type="hidden" name='doc' value='copy'>
+                                <input type='hidden' value='{{subject}}' name='subject'>
+                                <br>
+                                <input type="submit" class="btn btn-success" value="Upload" style="width: 80px;">
+                            </form>
+                        </div>
+                        <small>Please Only Upload Valuabe Things</small>
+
+                    </div>
+                    {%else%}
+                    <div class="row" style="margin-left: 10px;">
+
+                        <form id='shw'>
+
+                            <input type='file' name='name' disabled>
+                            <br>
+                            <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                            <span class="tooltiptext">Log In First</span>
+                        </form>
+                    </div>
+                    {%endif%} -->
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+
+                    </div>
                 </div>
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
 
-                <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
-                    <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
+            </footer>
 
-                </div>
-                <script>
-                    var modal = document.getElementById("myModal");
-                    var btn = document.getElementById("myBtn");
-                    var span = document.getElementsByClassName("close")[0];
-                    btn.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                        modal.style.display = "block";
 
-                    }
+        </div>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-                    span.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
-                        modal.style.display = "none";
-                    }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
+        <div class="d-sm-flex align-items-center justify-content-between mb-4" style="position: absolute;right: 0;bottom:0;margin-right:15px;">
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn" class="btn btn-danger card" style="border-radius: 120px;">Send Query</button></div>
 
-                        }
-                    }
-                </script>
-                <script>
-                    var modal1 = document.getElementById("login");
+        </div>
+        <script>
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("myBtn");
+            var span = document.getElementsByClassName("close")[0];
+            btn.onclick = function() {
+                console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                modal.style.display = "block";
 
-                    var btn1 = document.getElementById("loginbtn");
+            }
 
-                    var span1 = document.getElementsByClassName("close1")[0];
-                    btn1.onclick = function() {
-                        console.log("cjkdfnjbd")
-                        modal1.style.display = "block";
-                        $('#page-top').css('background-color', 'transparent');
-                    }
+            span.onclick = function() {
+                console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
 
-                    span1.onclick = function() {
-                        console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+                }
+            }
+        </script>
+        <script>
+            var modal1 = document.getElementById("login");
 
-                        modal1.style.display = "none";
-                        $('#page-top').css('background-color', 'white');
-                    }
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
+            var btn1 = document.getElementById("loginbtn");
 
-                            modal1.style.display = "none";
-                            $('#page-top').css('background-color', 'white');
-                        }
-                    }
-                </script>
-                <script>
-                    console.log(window.location.href, "dscxc dddc");
-                    var ur = window.location.href;
-                    console.log(ur.split('/'));
-                    y = ur.split('/')
-                    document.getElementById("url").value = y[3];
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const myParam = urlParams.get('res');
-                    console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
-                    if (myParam == '1') {
-                        swal('You are Logged in');
-                        history.pushState({}, null, ur.split('?')[0]);
-                    } else if (myParam == '0') {
-                        swal('Wrong Id Or Password');
-                        history.pushState({}, null, ur.split('?')[0]);
-                    }
-                </script>
+            var span1 = document.getElementsByClassName("close1")[0];
+            btn1.onclick = function() {
+                console.log("cjkdfnjbd")
+                modal1.style.display = "block";
+                $('#page-top').css('background-color', 'transparent');
+            }
 
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+            span1.onclick = function() {
+                console.log("cjkdfnjbd vhjbvhjf%%%%%%%%%%%%%%%%%%%%5555")
+
+                modal1.style.display = "none";
+                $('#page-top').css('background-color', 'white');
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+
+                    modal1.style.display = "none";
+                    $('#page-top').css('background-color', 'white');
+                }
+            }
+        </script>
+        <script>
+            console.log(window.location.href, "dscxc dddc");
+            var ur = window.location.href;
+            console.log(ur.split('/'));
+            y = ur.split('/')
+            document.getElementById("url").value = y[3];
+            const urlParams = new URLSearchParams(window.location.search);
+            const myParam = urlParams.get('res');
+            console.log(myParam, "ewdckjrvnhjdbfvhjvfd%%%%%%%%%")
+            if (myParam == '1') {
+                swal('You are Logged in');
+                history.pushState({}, null, ur.split('?')[0]);
+            } else if (myParam == '0') {
+                swal('Wrong Id Or Password');
+                history.pushState({}, null, ur.split('?')[0]);
+            }
+        </script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 
 

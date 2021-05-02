@@ -220,7 +220,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{%static '/css/sb-admin-2.min.css'%}" rel="stylesheet">
+    <link href="{%static './css/sb-admin-2.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -238,7 +238,7 @@
             <div id="content">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
 
-                    <a href="/dev"><strong>DEV</strong></a>
+                    <a href="/dev"><strong style="color: yellow;"> DEV</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
@@ -286,6 +286,8 @@
 
 
                 </nav>
+
+
                 <div class="container-fluid">
                     <!-- The Modal -->
                     <div id="notification" class="modal" style=" width: 40%;
@@ -450,65 +452,64 @@
 
             </div>
 
-            <div class="container-fluid shadow" style="width:300%;">
-                <div class="row">
-                    <div class="col-xl-3 col-md-6 mb-6" style="display:inline;">
-                        <h1 style="font-style: italic;font-family:serif; ">Books</h1>
-                        {% for books in book%} {% for key2 , value2 in books.items%}
-                        <div class="row" style="margin-left: 50px;">
-                            <div class='row'>
-
-                                {% if key2 == 'downloadUrl'%}
-                                <a href='{{value2}}' class="btn btn-primary"> Download</a>
-
-                                <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                    <a href='{{value2}}' class="btn btn-secondary">View</a></div>
-                                <div class='col-md-2'> {%else%}
-                                    <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
-                                </div>
-                                {%endif%}
 
 
 
-                            </div>
-                        </div>
-                        {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
-                        <div class="row" style="margin-left: 10px;">
+            <h1 style="font-style: italic;font-family:serif; ">Books</h1>
+            {% for books in book%} {% for key2 , value2 in books.items%}
+            <div class="row" style="margin-left: 50px;">
+                <div class='row'>
 
-                            <form method="POST" enctype="multipart/form-data">
-                                {%csrf_token%}
-                                <input type="hidden" value="doc" name="type">
-                                <input type='file' name='name'>
+                    {% if key2 == 'downloadUrl'%}
+                    <a href='{{value2}}' class="btn btn-primary"> Download</a>
 
-                                <br>
-                                <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
-                            </form>
-                        </div>
-                        <small>Please Only Upload Valuabe Things</small> {%endif%}
+                    <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
+                        <a href='{{value2}}' class="btn btn-secondary">View</a></div>
+                    <div class='col-md-2'> {%else%}
+                        <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
                     </div>
-
-
-
-
-
-
-
+                    {%endif%}
 
 
 
                 </div>
-
-
-
-
-
-                <!-- Footer -->
-
-
-
-
-
             </div>
+            {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+            <div class="row" style="margin-left: 10px;">
+
+                <form method="POST" enctype="multipart/form-data">
+                    {%csrf_token%}
+                    <input type="hidden" value="doc" name="type">
+                    <input type='file' name='name'>
+
+                    <br>
+                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
+                </form>
+            </div>
+            <small>Please Only Upload Valuabe Things</small> {%endif%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Footer -->
+
+
+
+
+
+
 
             {% if request.user.is_authenticated%}
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
