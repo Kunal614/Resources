@@ -35,9 +35,10 @@ def Login(request):
         send = res['url']
         y  = send.split('?')[0]
         send='/'
+        print(y)
         if y =='problemset' or y== 'cp' or y == 'clist':
             send+='cp'
-        if y =='year' or y== 'sem' or y == 'cse':
+        if y =='year' or y== 'sem' or y == 'cse' or y == 'sub' :
             send+='cse'
         if y =='dev':
             send+='dev'
