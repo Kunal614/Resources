@@ -9,14 +9,27 @@ from .models import *
 from django.http import HttpResponse
 from datetime import datetime
 from django.views.decorators.cache import cache_page
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
+
 
 # Create your views here.
-
+CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
+@cache_page(CACHE_TTL)
 def home(request):
-    abt = about.objects.all()
-    data = ''
-    if len(abt) > 0:
-        data = abt[0].data
+    print("hbdxhschdcnb ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+    if cache.get('data'):
+        print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
+        data = cache.get('data')
+    else:
+        abt = about.objects.all()
+        data = ''
+        if len(abt) > 0:
+            data = abt[0].data
+        cache.set('data' , data)
+        print(data)
+        print("Used database &&&&&&&&&&&&&&&&&&&&&&&&")
     return render(request , 'home.html' , {'about':data})
 
 

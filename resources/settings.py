@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cp',
     'dev',
     'django_crontab',
+    
 ]
 
 
@@ -83,24 +84,38 @@ WSGI_APPLICATION = 'resources.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        "CLIENT": {
-           "name": config['name'],
-           "host": config['host'],
-           "username": config['username'],
-           "password": config['password'],
-           "authMechanism": "SCRAM-SHA-1",
-        }, 
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         "CLIENT": {
+#            "name": config['name'],
+#            "host": config['host'],
+#            "username": config['username'],
+#            "password": config['password'],
+#            "authMechanism": "SCRAM-SHA-1",
+#         }, 
+#     }
+# }
+CACHE_TTL_CSE = 60*60
+CACHE_TTL_CP = 60*10
+CACHE_TTL = 60*60
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
+    }
+}
+
 
 
 # Password validation
@@ -144,13 +159,15 @@ CRONJOBS = [
     ('0 0 * * *','cp.cron.problem_of_the_Day'), #python3 manage.py crontab add
 ]
 
+
+
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # CACHES_MIDDLEWARE_SECONDS = 60
 # CACHES = {
 #    'default': {
 #       'BACKEND': 'django_mongodb_cache.MongoDBCache',
-#       'LOCATION': 'mongodb+srv://iiitkalyani:mongodbkapassword@cluster0.hatca.mongodb.net/myFirstDatabase/my_cache?retryWrites=true&w=majority',
+#       'LOCATION': 'mongodb+srv://iiitkalyani:mongodbkapassword@clusteRr0.hatca.mongodb.net/myFirstDatabase/my_cache?retryWrites=true&w=majority',
 #    }
 # }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -14,6 +14,10 @@ from django.conf import settings
 from dotenv import dotenv_values
 from pytz import timezone
 from dateutil.parser import parse
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
 # Create your views here.
 # 
 # headers = {"Authorization": "Bearer ya29.a0AfH6SMDocF56q1ihTzPj98e2gezJ8Gp0pS1CrxkgQGMv6ZJlq7gd9_ypLYutSOvnhuRp7A3eXfDhCtOZFbsC0QwOW1myw2PJdsGa6UhZ5RR-1ONxGCCSQBASuqVX5kIxOsKRh-ZsOalcg4pPNGFUGnTjbcy7"}
@@ -70,6 +74,7 @@ def get_access_token():
         obj.save()
         return res.json()['access_token']
 def deV(request):
+    print("tm to bta from where coming &&&&&&&&&")
     msg =''
     if request.method == 'POST':
         res= request.POST
@@ -98,6 +103,7 @@ def deV(request):
                 headers=headers,
                 files=files
             )
+            refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/1si7zP4RQa5Lhy0JbEZkgP6ubjGOTrRlK')
             print(r.text)
         else:
             name = res['name']

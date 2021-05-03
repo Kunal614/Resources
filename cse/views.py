@@ -14,6 +14,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from dotenv import dotenv_values
 from pytz import timezone
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
+
 
 def get_access_token():
     config = dotenv_values("./.env")
@@ -142,6 +147,8 @@ def cse(request):
 
 
 
+CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
+@cache_page(CACHE_TTL)
 def sem(request):
     msg = ''
     if request.method == 'POST':
@@ -159,7 +166,14 @@ def sem(request):
     else:     
         res = request.GET
     res = res['semester']
-    res = semester.objects.filter(sem=res)
+    semes = res
+    if cache.get(semes):
+        print("Used redis cache ^^^^^^^^^^^^^^^^^^^")
+        res = cache.get(semes)
+    else:
+        res = semester.objects.filter(sem=res)
+        cache.set(semes , res)
+        print("USED DATABASE")
     print(res , "%%%%%%%%%%%%%%%%%")
     sub = str(res[0].subjects).split(',')
     return render(request , 'sem.html' , {'msg':msg , 'sub':sub , 'name':res[0].sem})

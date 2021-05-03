@@ -16,6 +16,10 @@ import datetime
 from django.conf import settings
 from dateutil.parser import parse
 from dotenv import dotenv_values
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
 
 
 def get_access_token():
@@ -71,6 +75,7 @@ def get_access_token():
         return res.json()['access_token']
 
 def cP(request):
+    print("Kuch to bta ... from where it is comoing from")
     msg= ''
     if request.method == 'POST':
         res = request.POST
@@ -130,7 +135,7 @@ def cP(request):
     # refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
     book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
 
-    
+    print(book)
     context={
         'book':book,
         'msg':msg,
@@ -158,8 +163,10 @@ def edit(request , id):
     
     return render(request , 'edit_cp.html' , {'obj':obj})
     
-
+CACHE_TTL = getattr(settings , 'CACHE_TTL_CP' , DEFAULT_TIMEOUT)
+@cache_page(CACHE_TTL)
 def problemsets(request):
+    print("cdjncj , r$$$$$$$$$$$$$$$$$$$$$$")
     msg = ''
     if request.method == 'POST':
         res = request.POST
@@ -171,15 +178,25 @@ def problemsets(request):
         obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
         obj.save()
         msg='Thanks for Submitting Query'
-    obj = problemset.objects.all()
-    prblm = problemofday.objects.all()
-    prblm = prblm[0].problem_of_the_day
-    obj = list(obj)
-    obj.reverse()
+    if cache.get('prblm'):
+        print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
+        prblm = cache.get('prblm')
+    if cache.get('obj'):
+        obj = cache.get('obj')
+    else:
+        print("UESE Database , %%%%%%%%%%%%%%%%%%%%")
+        obj = problemset.objects.all()
+        prblm = problemofday.objects.all()
+        prblm = prblm[0].problem_of_the_day
+        obj = list(obj)
+        obj.reverse()
+        cache.set('obj' , obj)
+        cache.set('prblm' , prblm)
     return render(request , 'problemset.html' , {'obj':obj , 'msg':msg , 'problem':prblm})
     
-    
+@cache_page(CACHE_TTL)   
 def clist(request):
+    print("cfjn , %%%%%%%%%%%%%%%%%%%%%%%%%5")
     msg = ''
     if request.method == 'POST':
         res = request.POST
@@ -200,7 +217,14 @@ def clist(request):
     if res.status_code != 200:
         return HttpResponseRedirect('/cp')
 
-    event = res.json().get('objects', [])
+    # event = res.json().get('objects', [])
+    if cache.get('event'):
+        print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
+        event = cache.get('event')
+    else:
+        print("UESE Database , %%%%%%%%%%%%%%%%%%%%")
+        event = res.json().get('objects', [])
+        cache.set('event' , event)
     name_list = ['codeforces' , 'codechef' , 'atcoder' , 'hackerearth' , 'hackerrank' , 'codingcompetitions.withgoogle' ,'topcoder' , 'binarysearch' , 'leetcode']
 
     duration=[]
