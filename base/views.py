@@ -22,13 +22,14 @@ def home(request):
     if cache.get('data'):
         print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
         data = cache.get('data')
+        
     else:
         abt = about.objects.all()
         data = ''
         if len(abt) > 0:
             data = abt[0].data
         cache.set('data' , data)
-        print(data)
+        print(cache.get('data') , "fghjkl;kjhbgf")
         print("Used database &&&&&&&&&&&&&&&&&&&&&&&&")
     return render(request , 'home.html' , {'about':data})
 

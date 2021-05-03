@@ -102,7 +102,7 @@ DATABASES = {
 #         }, 
 #     }
 # }
-CACHE_TTL_CSE = 60*60
+CACHE_TTL_Prblm = 60*60*10
 CACHE_TTL_CP = 60*10
 CACHE_TTL = 60*60
 CACHES = {
@@ -163,7 +163,13 @@ CRONJOBS = [
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+# CACHES_MIDDLEWARE_SECONDS = 60
+# CACHES = {
+#    'default': {
+#       'BACKEND': 'django_mongodb_cache.MongoDBCache',
+#       'LOCATION': 'mongodb+srv://iiitkalyani:mongodbkapassword@clusteRr0.hatca.mongodb.net/myFirstDatabase/my_cache?retryWrites=true&w=majority',
+#    }
+# }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config['EMAIL_HOST_USER']

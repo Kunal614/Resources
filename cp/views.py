@@ -163,7 +163,7 @@ def edit(request , id):
     
     return render(request , 'edit_cp.html' , {'obj':obj})
     
-CACHE_TTL = getattr(settings , 'CACHE_TTL_CP' , DEFAULT_TIMEOUT)
+CACHE_TTL = getattr(settings , 'CACHE_TTL_Prblm' , DEFAULT_TIMEOUT)
 @cache_page(CACHE_TTL)
 def problemsets(request):
     
@@ -184,7 +184,7 @@ def problemsets(request):
     if cache.get('obj'):
         obj = cache.get('obj')
     else:
-        print("UESE Database , %%%%%%%%%%%%%%%%%%%%")
+        print("USE Database , %%%%%%%%%%%%%%%%%%%%")
         obj = problemset.objects.all()
         prblm = problemofday.objects.all()
         prblm = prblm[0].problem_of_the_day
@@ -193,7 +193,8 @@ def problemsets(request):
         cache.set('obj' , obj)
         cache.set('prblm' , prblm)
     return render(request , 'problemset.html' , {'obj':obj , 'msg':msg , 'problem':prblm})
-    
+
+CACHE_TTL = getattr(settings , 'CACHE_TTL_CP' , DEFAULT_TIMEOUT)    
 @cache_page(CACHE_TTL)   
 def clist(request):
     print("cfjn , %%%%%%%%%%%%%%%%%%%%%%%%%5")
@@ -222,7 +223,7 @@ def clist(request):
         print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
         event = cache.get('event')
     else:
-        print("UESE Database , %%%%%%%%%%%%%%%%%%%%")
+        print("USE Database , %%%%%%%%%%%%%%%%%%%%")
         event = res.json().get('objects', [])
         cache.set('event' , event)
     name_list = ['codeforces' , 'codechef' , 'atcoder' , 'hackerearth' , 'hackerrank' , 'codingcompetitions.withgoogle' ,'topcoder' , 'binarysearch' , 'leetcode']
