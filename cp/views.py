@@ -75,7 +75,7 @@ def get_access_token():
         return res.json()['access_token']
 
 def cP(request):
-    print("Kuch to bta ... from where it is comoing from")
+    
     msg= ''
     if request.method == 'POST':
         res = request.POST
@@ -166,7 +166,7 @@ def edit(request , id):
 CACHE_TTL = getattr(settings , 'CACHE_TTL_CP' , DEFAULT_TIMEOUT)
 @cache_page(CACHE_TTL)
 def problemsets(request):
-    print("cdjncj , r$$$$$$$$$$$$$$$$$$$$$$")
+    
     msg = ''
     if request.method == 'POST':
         res = request.POST
