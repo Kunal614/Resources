@@ -23,12 +23,14 @@ class subject(models.Model):
 
 class books(models.Model):
     sub = models.ForeignKey(subject, on_delete=models.CASCADE)
+    book_name = models.CharField(max_length = 200 , default="NA")
     view_down = models.TextField(null=True , blank=True)
     def __str__(self):
         return self.sub.name
 
 class other_stuff(models.Model):
     sub = models.ForeignKey(subject, on_delete=models.CASCADE)
+    other_name = models.CharField(max_length = 200 , default="NA")
     view_down = models.TextField(null=True , blank=True)
     def __str__(self):
         return self.sub.name
