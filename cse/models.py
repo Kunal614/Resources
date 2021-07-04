@@ -19,3 +19,11 @@ class subject(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class books(models.Model):
+    sub = models.ForeignKey(subject, on_delete=models.CASCADE)
+    view_down = models.TextField(null=True , blank=True)
+
+    def __str__(self):
+        return self.sub.name
