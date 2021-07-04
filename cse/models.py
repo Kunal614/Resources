@@ -24,6 +24,11 @@ class subject(models.Model):
 class books(models.Model):
     sub = models.ForeignKey(subject, on_delete=models.CASCADE)
     view_down = models.TextField(null=True , blank=True)
+    def __str__(self):
+        return self.sub.name
 
+class other_stuff(models.Model):
+    sub = models.ForeignKey(subject, on_delete=models.CASCADE)
+    view_down = models.TextField(null=True , blank=True)
     def __str__(self):
         return self.sub.name
