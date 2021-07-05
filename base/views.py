@@ -15,22 +15,22 @@ from django.core.cache import cache
 
 
 # Create your views here.
-CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
-@cache_page(CACHE_TTL)
+# CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
+# @cache_page(CACHE_TTL)
 def home(request):
     print("hbdxhschdcnb ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-    if cache.get('data'):
-        print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
-        data = cache.get('data')
+    # if cache.get('data'):
+    #     print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
+    #     data = cache.get('data')
         
-    else:
-        abt = about.objects.all()
-        data = ''
-        if len(abt) > 0:
-            data = abt[0].data
-        cache.set('data' , data)
-        print(cache.get('data') , "fghjkl;kjhbgf")
-        print("Used database &&&&&&&&&&&&&&&&&&&&&&&&")
+    # else:
+    abt = about.objects.all()
+    data = ''
+    if len(abt) > 0:
+        data = abt[0].data
+    # cache.set('data' , data)
+    # print(cache.get('data') , "fghjkl;kjhbgf")
+    # print("Used database &&&&&&&&&&&&&&&&&&&&&&&&")
     return render(request , 'home.html' , {'about':data})
 
 

@@ -102,9 +102,9 @@ DATABASES = {
         }, 
     }
 }
-CACHE_TTL_Prblm = 60*60*10
-CACHE_TTL_CP = 60*10
-CACHE_TTL = 60*60
+# CACHE_TTL_Prblm = 60*60*10
+# CACHE_TTL_CP = 60*10
+# CACHE_TTL = 60*60
 # CACHES = {
 #     "default": {
 #         "BACKEND": "django_redis.cache.RedisCache",

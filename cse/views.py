@@ -147,8 +147,8 @@ def cse(request):
 
 
 
-CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
-@cache_page(CACHE_TTL)
+# CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
+# @cache_page(CACHE_TTL)
 def sem(request):
     msg = ''
     if request.method == 'POST':
@@ -237,11 +237,22 @@ def sub(request):
         subj = res['subject']
 
     #book
-    print(msg)
-    subj = subject.objects.filter(name=subj)[0]
-    books = subj.book
-    others = subj.other
-   
+    # print(msg)
+    sub = subject.objects.filter(name=subj)
+    if len(sub) == 0:
+        subj = subject(name = subj) 
+        subj.save()
+        subj = subject.objects.filter(name=sub)[0]
+    else:
+        subj = sub[0]
+    print(subj.id , "Mai hu Id ")
+    book = Books.objects.filter(subj = subj)
+    print(book)
+    other  = Other_stuff.objects.filter(subj = subj)
+    # books = subj.book
+    # others = subj.other
+    
+    '''
     print(books , others , "cdcjkndfc^^^^^^^^^^^^^^^^^^^^^^")
     book = {}
     copy = {}
@@ -253,12 +264,13 @@ def sub(request):
         # refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/'+others)
     
     print(book , copy)
+    '''
     context={
             'book':book,
-            'copy':copy,
+            'other':other,
             'msg':msg,
             'subject':res['subject']
         }
-
+    
     return render(request , 'docs.html' , context=context)
 

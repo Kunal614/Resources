@@ -346,24 +346,23 @@
                         <div class="row m-t-30">
                             <div class="col-md-6">
                                 <h1 style="font-style: italic;font-family:serif;">Books</h1>
-                                {% for books in book%} {% for key2 , value2 in books.items%}
+                                {% for books in book%}
                                 <div class="row" style="margin-left: 50px;">
                                     <div class='row'>
 
-                                        {% if key2 == 'downloadUrl'%}
-                                        <a href='{{value2}}' class="btn btn-primary"> Download</a>
+                                        <a href='{{books.view_down}}' class="btn btn-primary" > Download/View</a>
 
-                                        <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                            <a href='{{value2}}' class="btn btn-secondary">View</a></div>
-                                        <div class='col-md-2'> {%else%}
-                                            <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                       
+                                        <div class='col-md-2'>
+                                            <p><strong style="font-family: serif; font-size: 20px;">{{books.book_name|title}}</strong></p>
+                                           
                                         </div>
-                                        {%endif%}
+                                   
 
 
                                     </div>
                                 </div>
-                                {%endfor%} <span> <br><br></span> {%endfor%} {%if request.user.is_authenticated%}
+                                {%endfor%} <span> <br><br></span>  {%if request.user.is_authenticated%}
                                 <div class="row" style="margin-left: 10px;">
 
                                     <form method="POST" enctype="multipart/form-data">
@@ -396,24 +395,23 @@
                             </div>
                             <div class="col-md-6">
                                 <h1 style="font-style: italic;font-family:serif;">Other Stuffs</h1>
-                                {% for books in copy%} {% for key2 , value2 in books.items%}
+                                {% for books in other%} 
                                 <div class="row" style="margin-left: 50px;">
                                     <div class='row'>
 
-                                        {% if key2 == 'downloadUrl'%}
-                                        <a href='{{value2}}' class="btn btn-primary"> Download</a>
+                                      
 
-                                        <div class='col-md-2'> {%elif key2 == 'onlineViewLink'%}
-                                            <a href='{{value2}}' class="btn btn-secondary">View</a></div>
-                                        <div class='col-md-2'> {%else%}
-                                            <p><strong style="font-family: serif;">{{value2|title}}</strong></p>
+                                        
+                                            <a href='{{books.view_down}}' class="btn btn-secondary">Download/View</a>
+                                        <div class='col-md-2'> 
+                                            <p><strong style="font-family: serif; font-size: 20px;">{{books.other_name|title}}</strong></p>
                                         </div>
-                                        {%endif%}
+                                    
 
 
                                     </div>
                                 </div>
-                                {%endfor%} <span> <br><br></span> {%endfor%}
+                                {%endfor%} <span> <br><br></span> 
                                 <div class="row">
                                     {%if request.user.is_authenticated%}
 
