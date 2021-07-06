@@ -365,14 +365,12 @@
                                 {%endfor%} <span> <br><br></span>  {%if request.user.is_authenticated%}
                                 <div class="row" style="margin-left: 10px;">
 
-                                    <form method="POST" enctype="multipart/form-data">
+                                    <form method="GET" action="/addCseRecord" enctype="multipart/form-data">
                                         {%csrf_token%}
-                                        <input type="hidden" value="doc" name="type">
+                                        <input type="hidden" value="book" name="type">
                                         <input type='hidden' value='{{subject}}' name='subject'>
-                                        <input type='file' name='name'>
-                                        <input type="hidden" name='doc' value='books'>
                                         <br>
-                                        <input type="submit" class="btn btn-success" value="upload" style="width: 80px;">
+                                        <input type="submit" class="btn btn-success" value="ADD" style="width: 80px;">
                                     </form>
                                 </div>
                                 <small>Please Only Upload Valuabe Things</small> {%else%}
@@ -380,11 +378,8 @@
 
                                     <form id="shw">
                                         {%csrf_token%}
-
-                                        <input type='file' name='name' disabled>
-
                                         <br>
-                                        <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                        <input type="submit" class="btn btn-success" value="Add" style="width: 80px;" disabled>
                                         <span class="tooltiptext">Log In First</span>
                                     </form>
 
@@ -415,14 +410,14 @@
                                 <div class="row">
                                     {%if request.user.is_authenticated%}
 
-                                    <form method="POST" enctype="multipart/form-data">
+                                    <form method="GET"  action="/addCseRecord" enctype="multipart/form-data">
                                         {%csrf_token%}
                                         <input type='file' name='name'>
-                                        <input type="hidden" value="doc" name="type">
-                                        <input type="hidden" name='doc' value='copy'>
+                                        <input type="hidden" value="other" name="type">
+                                        
                                         <input type='hidden' value='{{subject}}' name='subject'>
                                         <br>
-                                        <input type="submit" class="btn btn-success" value="Upload" style="width: 80px;">
+                                        <input type="submit" class="btn btn-success" value="ADD" style="width: 80px;">
                                     </form>
                                 </div>
                                 <small>Please Only Upload Valuabe Things</small>
@@ -433,9 +428,8 @@
 
                                 <form id='shw'>
 
-                                    <input type='file' name='name' disabled>
                                     <br>
-                                    <input type="submit" class="btn btn-success" value="upload" style="width: 80px;" disabled>
+                                    <input type="submit" class="btn btn-success" value="Add" style="width: 80px;" disabled>
                                     <span class="tooltiptext">Log In First</span>
                                 </form>
                             </div>
