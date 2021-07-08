@@ -22,57 +22,57 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.core.cache import cache
 
 
-def get_access_token():
-    config = dotenv_values("./.env")
-    print(config , "^^^^^^^^^^^^^")
-    token_obj = tokenStuff.objects.all()
+# def get_access_token():
+#     config = dotenv_values("./.env")
+#     print(config , "^^^^^^^^^^^^^")
+#     token_obj = tokenStuff.objects.all()
     
-    if len(token_obj) == 0:
-        url = 'https://oauth2.googleapis.com/token'
-        data = {
-            "client_id": config['CLIENT_ID'],
-            "client_secret": config['CLIENT_SECRET'],
-            "refresh_token": config['REFRESH_TOKEN'],
-            "grant_type": "refresh_token"
-        }
-        res  = requests.post(url ,  data=data)
-        print(res , "&&&&&&&&&&&&&&&&&")
-        obj = tokenStuff(access_token = res.json()['access_token'] , time = datetime.datetime.now() , expires_in = res.json()['expires_in'])
-        obj.save()
-        return res.json()['access_token']
-    token_obj = token_obj[0]
-    access_token = token_obj.access_token
-    token_time = token_obj.time
+#     if len(token_obj) == 0:
+#         url = 'https://oauth2.googleapis.com/token'
+#         data = {
+#             "client_id": config['CLIENT_ID'],
+#             "client_secret": config['CLIENT_SECRET'],
+#             "refresh_token": config['REFRESH_TOKEN'],
+#             "grant_type": "refresh_token"
+#         }
+#         res  = requests.post(url ,  data=data)
+#         print(res , "&&&&&&&&&&&&&&&&&")
+#         obj = tokenStuff(access_token = res.json()['access_token'] , time = datetime.datetime.now() , expires_in = res.json()['expires_in'])
+#         obj.save()
+#         return res.json()['access_token']
+#     token_obj = token_obj[0]
+#     access_token = token_obj.access_token
+#     token_time = token_obj.time
     
-    y = parse(str(token_time))
+#     y = parse(str(token_time))
 
-    t1 = y.astimezone(timezone('Asia/Kolkata'))
+#     t1 = y.astimezone(timezone('Asia/Kolkata'))
 
-    print(token_time , "CDDDDDDDDDDDd", datetime.datetime.now().time())
-    t1 = t1.replace(microsecond=0)
-    t1 = t1.replace(tzinfo=None)
-    print(t1 , y  , "%%%%%%%%%%%%%%%%%%%%%%")
-    now = datetime.datetime.now().replace(microsecond=0)
-    print((now - t1).total_seconds(), token_obj.expires_in , "&&&&&&&&&&&&&&&&&&&&&&&")
-    if int((now - t1).total_seconds()) <= int(token_obj.expires_in): #by using old token
-        print("Alreay exist ^^^^^^^^^^^^^^^^")
-        return access_token
-    else:
-        url = 'https://oauth2.googleapis.com/token'
-        data = {
-            "client_id": config['CLIENT_ID'],
-            "client_secret": config['CLIENT_SECRET'],
-            "refresh_token": config['REFRESH_TOKEN'],
-            "grant_type": "refresh_token"
-        }
-        res  = requests.post(url ,  data=data)
-        print(res , "&&&&&&&&&&&&&&&&&")
-        obj = tokenStuff.objects.all()[0]
-        obj.time = datetime.datetime.now()
-        obj.expires_in = res.json()['expires_in']
-        obj.access_token = res.json()['access_token']
-        obj.save()
-        return res.json()['access_token']
+#     print(token_time , "CDDDDDDDDDDDd", datetime.datetime.now().time())
+#     t1 = t1.replace(microsecond=0)
+#     t1 = t1.replace(tzinfo=None)
+#     print(t1 , y  , "%%%%%%%%%%%%%%%%%%%%%%")
+#     now = datetime.datetime.now().replace(microsecond=0)
+#     print((now - t1).total_seconds(), token_obj.expires_in , "&&&&&&&&&&&&&&&&&&&&&&&")
+#     if int((now - t1).total_seconds()) <= int(token_obj.expires_in): #by using old token
+#         print("Alreay exist ^^^^^^^^^^^^^^^^")
+#         return access_token
+#     else:
+#         url = 'https://oauth2.googleapis.com/token'
+#         data = {
+#             "client_id": config['CLIENT_ID'],
+#             "client_secret": config['CLIENT_SECRET'],
+#             "refresh_token": config['REFRESH_TOKEN'],
+#             "grant_type": "refresh_token"
+#         }
+#         res  = requests.post(url ,  data=data)
+#         print(res , "&&&&&&&&&&&&&&&&&")
+#         obj = tokenStuff.objects.all()[0]
+#         obj.time = datetime.datetime.now()
+#         obj.expires_in = res.json()['expires_in']
+#         obj.access_token = res.json()['access_token']
+#         obj.save()
+#         return res.json()['access_token']
 
 def cP(request):
     
@@ -82,30 +82,30 @@ def cP(request):
         if res['type'] == 'data':
             obj = cp(title=res['title'] , data=res['data'] , question=res['question'])
             obj.save()
-        elif res['type'] == 'doc':
-            file = request.FILES.get('name' , False)
-            print(res , file)
-            file_name = str(file)
-            infile = request.FILES["name"].read()
-            para = {
-            "name": str(file_name),
-            "parents":["14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD"]
-            }
-            files = {
-                'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
-                'file':infile
-            }
-            token = get_access_token()
-            token = "Bearer "+token
-            headers = {"Authorization": token}
-            print(type(files))
-            r = requests.post(
-                "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-                headers=headers,
-                files=files
-            )
-            refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
-            print(r.text)
+        # elif res['type'] == 'doc':
+        #     file = request.FILES.get('name' , False)
+        #     print(res , file)
+        #     file_name = str(file)
+        #     infile = request.FILES["name"].read()
+        #     para = {
+        #     "name": str(file_name),
+        #     "parents":["14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD"]
+        #     }
+        #     files = {
+        #         'data': ('metadata',json.dumps(para), 'application/json; charset=UTF-8'),
+        #         'file':infile
+        #     }
+        #     token = get_access_token()
+        #     token = "Bearer "+token
+        #     headers = {"Authorization": token}
+        #     print(type(files))
+        #     r = requests.post(
+        #         "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+        #         headers=headers,
+        #         files=files
+        #     )
+        #     refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
+        #     print(r.text)
         else:
             name = res['name']
             name+=" Made Query"
@@ -133,8 +133,8 @@ def cP(request):
         data.append(objects.data.split(','))
         question.append(objects.question.split(','))
     # refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
-    book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
-
+    # book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
+    book = CpBooks.objects.all()
     print(book)
     context={
         'book':book,
@@ -163,8 +163,8 @@ def edit(request , id):
     
     return render(request , 'edit_cp.html' , {'obj':obj})
     
-CACHE_TTL = getattr(settings , 'CACHE_TTL_Prblm' , DEFAULT_TIMEOUT)
-@cache_page(CACHE_TTL)
+# CACHE_TTL = getattr(settings , 'CACHE_TTL_Prblm' , DEFAULT_TIMEOUT)
+# @cache_page(CACHE_TTL)
 def problemsets(request):
     
     msg = ''
@@ -178,24 +178,24 @@ def problemsets(request):
         obj  = details(name=res['name'] , email = res['email'] , description = res['description'] , date= datetime.datetime.now().date())
         obj.save()
         msg='Thanks for Submitting Query'
-    if cache.get('prblm'):
-        print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
-        prblm = cache.get('prblm')
-    if cache.get('obj'):
-        obj = cache.get('obj')
-    else:
-        print("USE Database , %%%%%%%%%%%%%%%%%%%%")
-        obj = problemset.objects.all()
-        prblm = problemofday.objects.all()
-        prblm = prblm[0].problem_of_the_day
-        obj = list(obj)
-        obj.reverse()
-        cache.set('obj' , obj)
-        cache.set('prblm' , prblm)
+    # if cache.get('prblm'):
+    #     print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
+    #     prblm = cache.get('prblm')
+    # if cache.get('obj'):
+    #     obj = cache.get('obj')
+    # else:
+    print("USE Database , %%%%%%%%%%%%%%%%%%%%")
+    obj = problemset.objects.all()
+    prblm = problemofday.objects.all()
+    prblm = prblm[0].problem_of_the_day
+    obj = list(obj)
+    obj.reverse()
+    cache.set('obj' , obj)
+    cache.set('prblm' , prblm)
     return render(request , 'problemset.html' , {'obj':obj , 'msg':msg , 'problem':prblm})
 
-CACHE_TTL = getattr(settings , 'CACHE_TTL_CP' , DEFAULT_TIMEOUT)    
-@cache_page(CACHE_TTL)   
+# CACHE_TTL = getattr(settings , 'CACHE_TTL_CP' , DEFAULT_TIMEOUT)    
+# @cache_page(CACHE_TTL)   
 def clist(request):
     print("cfjn , %%%%%%%%%%%%%%%%%%%%%%%%%5")
     msg = ''
@@ -219,13 +219,13 @@ def clist(request):
         return HttpResponseRedirect('/cp')
 
     # event = res.json().get('objects', [])
-    if cache.get('event'):
-        print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
-        event = cache.get('event')
-    else:
-        print("USE Database , %%%%%%%%%%%%%%%%%%%%")
-        event = res.json().get('objects', [])
-        cache.set('event' , event)
+    # if cache.get('event'):
+    #     print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
+    #     event = cache.get('event')
+    # else:
+    # print("USE Database , %%%%%%%%%%%%%%%%%%%%")
+    event = res.json().get('objects', [])
+    # cache.set('event' , event)
     name_list = ['codeforces' , 'codechef' , 'atcoder' , 'hackerearth' , 'hackerrank' , 'codingcompetitions.withgoogle' ,'topcoder' , 'binarysearch' , 'leetcode']
 
     duration=[]
@@ -268,3 +268,17 @@ def clist(request):
     return render(request ,'clist.html', {'all_data':zip(name , duration , start_end_time , event_name ,pltform , href) , 'msg':msg})
 
 
+
+def addCseRecord(request):
+    if request.method == 'POST':
+        res = request.POST
+        name = res['name']
+        url = res['url']
+        if res['type'] == 'Book':
+            add_book = CpBooks(book_name = name , down_view = url)
+            add_book.save()
+        else:
+            add_other = Other_stuff(subj = subj , other_name = name , down_view = url)
+            add_other.save()
+        return HttpResponseRedirect('/cp')
+    return render(request , 'addotherRecord.html')

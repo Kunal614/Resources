@@ -26,6 +26,5 @@ class tokenStuff(models.Model):
 class notification(models.Model):
     notify = models.TextField(null = True , blank =True)
 
-class books(models.Model):
-    name=models.TextField(null=True , blank=True)
-    view_down = models.TextField(null=True , blank=True)
+
+

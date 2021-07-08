@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(cp)
 admin.site.register(problemofday)
 admin.site.register(problemset)
+admin.site.register(CpBooks)

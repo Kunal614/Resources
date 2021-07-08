@@ -9,3 +9,9 @@ class dev(models.Model):
 
     def __str__(self):
         return self.topic
+
+class DevBooks(models.Model):
+    book_name = models.CharField(max_length = 200 , default="NA")
+    view_down = models.URLField(max_length = 200 , null=True , blank = True)
+    def __str__(self):
+        return self.book_name
