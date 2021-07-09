@@ -135,7 +135,7 @@ def cP(request):
     # refresh = requests.get('https://iiitkalyani.herokuapp.com/updatecache/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD')
     # book = requests.get('https://iiitkalyani.herokuapp.com/getfiles/14MBVQyZ6NtKVFHCBJMVsNRWoWFWQpntD').json()
     book = CpBooks.objects.all()
-    print(book)
+    print(book  ,"Alllllllll bookssssssssssssss")
     context={
         'book':book,
         'msg':msg,
@@ -269,16 +269,12 @@ def clist(request):
 
 
 
-def addCseRecord(request):
+def addCpRecord(request):
     if request.method == 'POST':
         res = request.POST
         name = res['name']
         url = res['url']
-        if res['type'] == 'Book':
-            add_book = CpBooks(book_name = name , down_view = url)
-            add_book.save()
-        else:
-            add_other = Other_stuff(subj = subj , other_name = name , down_view = url)
-            add_other.save()
+        add_book = CpBooks(book_name = name , view_down = url)
+        add_book.save()
         return HttpResponseRedirect('/cp')
     return render(request , 'addotherRecord.html')

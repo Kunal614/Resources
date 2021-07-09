@@ -18,6 +18,7 @@ from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.core.cache import cache
+
 # Create your views here.
 # 
 # headers = {"Authorization": "Bearer ya29.a0AfH6SMDocF56q1ihTzPj98e2gezJ8Gp0pS1CrxkgQGMv6ZJlq7gd9_ypLYutSOvnhuRp7A3eXfDhCtOZFbsC0QwOW1myw2PJdsGa6UhZ5RR-1ONxGCCSQBASuqVX5kIxOsKRh-ZsOalcg4pPNGFUGnTjbcy7"}
@@ -150,12 +151,13 @@ def edit_dev(request , id):
     return render(request , 'edit_dev.html' , {'obj':obj})
     
 
-def addCseRecord(request):
+def addDevRecord(request):
     if request.method == 'POST':
         res = request.POST
         name = res['name']
         url = res['url']
-        add_book = DevBooks(book_name = name , down_view = url)
+        add_book = DevBooks(book_name = name , view_down = url)
         add_book.save()
         return HttpResponseRedirect('/dev')
-    return render(request , 'addotherRecord.html')
+    print(settings.BASE_DIR, "^^^^^^^^")
+    return render(request , settings.BASE_DIR+'/cp/templates/addotherRecord.html')

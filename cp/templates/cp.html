@@ -475,8 +475,8 @@
 
             <h1 style="font-style: italic;font-family:serif;">Books</h1>
             {% for books in book%}
-            <div class="row" style="margin-left: 50px;">
-                <div class='row' style="width: 100%;">
+            
+                <div class='row' style="width: 100%; margin-left: 10px;">
 
                     <a href='{{books.view_down}}' class="btn btn-primary"  style="font-size: 20px; height: 40px;"> Download/View</a>
 
@@ -486,7 +486,8 @@
                        
                     </div>
                 </div>
-            </div>
+            
+            <span><br></span>
             {%endfor%} <span> <br><br></span> {%if request.user.is_authenticated%}
             <div class="row" style="margin-left: 10px;">
                 <form method="GET" action="/addCpRecord">
@@ -497,15 +498,7 @@
             <small>Please Only Upload Valuabe Things</small> {%endif%}
 
 
-
-
-
-
-
-
             <!-- Footer -->
-
-
 
             <div>
                 {% if request.user.is_authenticated%}

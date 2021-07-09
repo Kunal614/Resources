@@ -7,6 +7,7 @@ urlpatterns = [
     path('edit/<int:id>' ,edit, name='edit' ),
     path('problemset' ,problemsets, name='problemset' ),
     path('clist' , clist , name='clist'),
+    path('addCpRecord',addCpRecord , name='addcprecord'),
     # path('pr' , pr, name='pr')
     
 ]

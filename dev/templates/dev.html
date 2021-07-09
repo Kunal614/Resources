@@ -453,8 +453,8 @@
             </div>
             <h1 style="font-style: italic;font-family:serif; margin-left: 20px;">Books</h1>
             {% for books in book%}
-            <div class="row" style="margin-left: 50px;">
-                <div class='row' style="width: 100%;">
+            
+                <div class='row' style="width: 100%; margin-left: 10px;">
 
                     <a href='{{books.view_down}}' class="btn btn-primary"  style="font-size: 20px; height: 40px;"> Download/View</a>
 
@@ -464,7 +464,8 @@
                        
                     </div>
                 </div>
-            </div>
+         
+                <span> <br></span> 
             {%endfor%}<span> <br><br></span> {%if request.user.is_authenticated%}
             <div class="row" style="margin-left: 10px;">
 
@@ -501,7 +502,7 @@
 
             {% if request.user.is_authenticated%}
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px;">Add Data</button></div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><button id="myBtn2" class="btn btn-danger card" style="border-radius: 120px; margin-left: 10px;">Add Data</button></div>
 
             </div>
             {%endif%}

@@ -362,6 +362,7 @@
 
                                     </div>
                                 </div>
+                                <br>
                                 {%endfor%} <span> <br><br></span>  {%if request.user.is_authenticated%}
                                 <div class="row" style="margin-left: 10px;">
 
@@ -406,13 +407,14 @@
 
                                     </div>
                                 </div>
+                                <br>
                                 {%endfor%} <span> <br><br></span> 
                                 <div class="row">
                                     {%if request.user.is_authenticated%}
 
                                     <form method="GET"  action="/addCseRecord" enctype="multipart/form-data">
                                         {%csrf_token%}
-                                        <input type='file' name='name'>
+                                      
                                         <input type="hidden" value="other" name="type">
                                         
                                         <input type='hidden' value='{{subject}}' name='subject'>

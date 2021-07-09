@@ -293,9 +293,10 @@ def addCseRecord(request):
             add_book = Books(subj = subj , book_name = name , down_view = url)
             add_book.save()
         else:
-            add_other = Other_stuff(subj = subj , other_name = name , down_view = url)
+            add_other = Other_stuff(subj = subj , other_name = name , view_down = url)
             add_other.save()
         return HttpResponseRedirect('/cse')
     res = request.GET
     subj = res['subject']
-    return render(request , 'addRecord.html' , {'subject':subj})
+    ty = res['type']
+    return render(request , 'addRecord.html' , {'subject':subj , 'type':ty})
