@@ -1,4 +1,4 @@
-# Rocs - IIIT Kalayni
+# Rocs - IIIT Kalyani
 
 Contributing
 ------------
