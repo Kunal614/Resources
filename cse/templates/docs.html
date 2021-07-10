@@ -314,6 +314,7 @@
                                     <h1>Submit Query</h1><br>
                                     <input type="hidden" value="query" name="type">
                                     <input type='hidden' value='{{subject}}' name='subject'>
+                                    <input type="hidden" value="{{sems}}" name='sems'>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="name">Name</label>
@@ -350,7 +351,7 @@
                                 <div class="row" style="margin-left: 50px;">
                                     <div class='row'>
 
-                                        <a href='{{books.view_down}}' class="btn btn-primary" > Download/View</a>
+                                        <a href='{{books.view_down}}' class="btn btn-primary" style="height: 30px;" > Download/View</a>
 
                                        
                                         <div class='col-md-2'>
@@ -370,6 +371,7 @@
                                         {%csrf_token%}
                                         <input type="hidden" value="book" name="type">
                                         <input type='hidden' value='{{subject}}' name='subject'>
+                                        <input type="hidden" value="{{sems}}" name='sems'>
                                         <br>
                                         <input type="submit" class="btn btn-success" value="ADD" style="width: 80px;">
                                     </form>
@@ -394,11 +396,8 @@
                                 {% for books in other%} 
                                 <div class="row" style="margin-left: 50px;">
                                     <div class='row'>
-
-                                      
-
                                         
-                                            <a href='{{books.view_down}}' class="btn btn-secondary">Download/View</a>
+                                            <a href='{{books.view_down}}' class="btn btn-secondary" style="height: 30px;">Download/View</a>
                                         <div class='col-md-2'> 
                                             <p><strong style="font-family: serif; font-size: 20px;">{{books.other_name|title}}</strong></p>
                                         </div>
@@ -416,7 +415,7 @@
                                         {%csrf_token%}
                                       
                                         <input type="hidden" value="other" name="type">
-                                        
+                                        <input type="hidden" value="{{sems}}" name='sems'>
                                         <input type='hidden' value='{{subject}}' name='subject'>
                                         <br>
                                         <input type="submit" class="btn btn-success" value="ADD" style="width: 80px;">

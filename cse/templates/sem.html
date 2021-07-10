@@ -342,6 +342,7 @@
 
                                                 <form action="/sub">
                                                     {%csrf_token%}
+                                                    <input type="hidden" value="{{name}}" name='sems'>
                                                     <input type='hidden' value='{{subject}}' name='subject'>
                                                     <input type="submit" value="Resources" id='first' style="background: none!important;
                                                     border: none;

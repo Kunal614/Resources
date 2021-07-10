@@ -242,10 +242,12 @@ def sub(request):
     else:
         print(request.GET)
         res = request.GET
-        subj = res['subject']
+        print(res , "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
+    subj = res['subject']
     #book
     # print(msg)
+    sems = res['sems']
     sub = subject.objects.filter(name=subj)
     if len(sub) == 0:
         subj = subject(name = subj) 
@@ -277,7 +279,8 @@ def sub(request):
             'book':book,
             'other':other,
             'msg':msg,
-            'subject':res['subject']
+            'subject':res['subject'],
+            'sems':sems
         }
     
     return render(request , 'docs.html' , context=context)
@@ -286,17 +289,22 @@ def sub(request):
 def addCseRecord(request):
     if request.method == 'POST':
         res = request.POST
+        print(res , "cdcnjdf$$$$$$$$$$$$$$$$")
         subj = res['subject']
         name = res['name']
         url = res['url']
-        if res['type'] == 'Book':
-            add_book = Books(subj = subj , book_name = name , down_view = url)
+        sems = res['sems']
+        subj = subject.objects.filter(name = subj)[0]
+        if res['type'] == 'book':
+            add_book = Books(subj = subj , book_name = name , view_down = url)
             add_book.save()
         else:
             add_other = Other_stuff(subj = subj , other_name = name , view_down = url)
             add_other.save()
-        return HttpResponseRedirect('/cse')
+        return HttpResponseRedirect('/sem?semester='+sems)
     res = request.GET
+    print(res , 'GETTTTTTTTTTTTTTTTTTTTTTIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNGGGGGGGGGGG')
     subj = res['subject']
     ty = res['type']
-    return render(request , 'addRecord.html' , {'subject':subj , 'type':ty})
+    sems = res['sems']
+    return render(request , 'addRecord.html' , {'subject':subj , 'type':ty , 'sems':sems})

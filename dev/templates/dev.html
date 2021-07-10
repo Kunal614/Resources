@@ -451,16 +451,16 @@
 
 
             </div>
-            <h1 style="font-style: italic;font-family:serif; margin-left: 20px;">Books</h1>
+            <h1 style="font-style: italic;font-family:serif; margin-left: 10px;">Books</h1>
             {% for books in book%}
             
                 <div class='row' style="width: 100%; margin-left: 10px;">
 
-                    <a href='{{books.view_down}}' class="btn btn-primary"  style="font-size: 20px; height: 40px;"> Download/View</a>
+                    <a href='{{books.view_down}}' class="btn btn-primary"  style="font-size: 15px; height: 30px;"> Download/View</a>
 
                    
                     <div class='col-md-2'>
-                        <p><strong style="font-family: serif; font-size: 20px;">{{books.book_name|title}}</strong></p>
+                        <p><strong style="font-family: serif; font-size: 15px;">{{books.book_name|title}}</strong></p>
                        
                     </div>
                 </div>
@@ -475,7 +475,7 @@
                     <input type="submit" class="btn btn-success" value="ADD" style="width: 80px;">
                 </form>
             </div>
-            <small>Please Only Upload Valuabe Things</small> {%endif%}
+            <small style="margin-left: 10px;">Please Only Add Valuabe Things</small> {%endif%}
 
 
 

@@ -165,12 +165,15 @@
 
                     <form method="POST" action="" enctype="multipart/form-data">
                         {%csrf_token%}
+                        <input type = "hidden" value = '{{type}}' name='type'>
+                        <input type="hidden" value="{{subject}}" name = 'subject'>
+                        <input type="hidden" value="{{sems}}" name = 'sems'>
                         <div class="loginmodal-container">
-                            <h1>Add Book</h1><br>
+                            <h1>Add{% if type == 'book'%} Book {%else%} Notes/PPT {%endif%}</h1><br>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="title">Subject Name</label>
-                                    <input type="text" name="name" value="{{subject}}" style="width: 60%;" disabled> 
+                                    <input type="text" name="name" value="{{subject|title}}" style="width: 60%; color: white; background-color: grey; height: 30px;" disabled> 
                                 </div>
                             </div>
                             <div class="form-row">
