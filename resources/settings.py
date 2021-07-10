@@ -81,27 +81,27 @@ TEMPLATES = [
 WSGI_APPLICATION = 'resources.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+Database
+https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        "CLIENT": {
-           "name": config['name'],
-           "host": config['host'],
-           "username": config['username'],
-           "password": config['password'],
-           "authMechanism": "SCRAM-SHA-1",
-        }, 
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         "CLIENT": {
+#            "name": config['name'],
+#            "host": config['host'],
+#            "username": config['username'],
+#            "password": config['password'],
+#            "authMechanism": "SCRAM-SHA-1",
+#         }, 
+#     }
+# }
 # CACHE_TTL_Prblm = 60*60*10
 # CACHE_TTL_CP = 60*10
 # CACHE_TTL = 60*60
