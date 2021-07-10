@@ -1,4 +1,4 @@
-# Rocs - IIIT Kalyani [:eyes:](rocsiiitkalyani.herokuapp.com)
+# Rocs - IIIT Kalyani [:eyes:](http://rocsiiitkalyani.herokuapp.com/)
 
 Contributing
 ------------
