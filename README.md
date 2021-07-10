@@ -6,4 +6,4 @@ Contributions, such as typo corrections or bug reports, are very welcome! Feel f
 
 Development
 ------------
-- Use Django Latest version  like [django](https://github.com/django/django), to install **Django Latest Version**. 
+- Use Django Latest version  like [django](https://github.com/django/django), to install **Django Latest Version** , use **pip3 installl django**
