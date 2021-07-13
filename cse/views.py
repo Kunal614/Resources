@@ -165,14 +165,14 @@ def sem(request):
         print(res)
     else:     
         res = request.GET
-    res = res['semester']
-    semes = res
+   
+    semes = res['semester']
     print(semes , "YE loooooooo baccha")
     # if cache.get(semes):
     #     print("Used redis cache ^^^^^^^^^^^^^^^^^^^")
     #     res = cache.get(semes)
     # else:
-    res = semester.objects.filter(sem=res)
+    res = semester.objects.filter(sem=semes)
     # cache.set(semes , res)
     # print("USED DATABASE")
     # print(res , "%%%%%%%%%%%%%%%%%")
@@ -245,8 +245,7 @@ def sub(request):
         print(res , "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
     subj = res['subject']
-    #book
-    # print(msg)
+   
     sems = res['sems']
     sub = subject.objects.filter(name=subj)
     if len(sub) == 0:
