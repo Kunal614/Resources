@@ -156,7 +156,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # 0 0 * * *
 CRONJOBS = [
-    ('0 0 * * *','cp.cron.problem_of_the_Day'), #python3 manage.py crontab add
+    # ('0 0 * * *','cp.cron.problem_of_the_Day'), #python3 manage.py crontab add
+    ('*/25 * * * *','base.req'),
 ]
 
 
