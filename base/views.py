@@ -12,12 +12,15 @@ from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.core.cache import cache
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 
 # Create your views here.
 # CACHE_TTL = getattr(settings , 'CACHE_TTL' , DEFAULT_TIMEOUT)
 # @cache_page(CACHE_TTL)
 def home(request):
+    send_mail('Responses', "Question added",'iiitk660@gmail.com',['papertronic272@gmail.com'], fail_silently = False)
     print("hbdxhschdcnb ^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     # if cache.get('data'):
     #     print("Used redis cache ^^^^^^^^^^^^^^^^^^^6")
